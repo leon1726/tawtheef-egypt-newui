@@ -57,11 +57,11 @@
 
         /* ── NAVBAR ── */
         .nav {
-            background: var(--navy);
+            background: #ffffff;
             position: sticky;
             top: 0;
             z-index: 200;
-            border-bottom: 1px solid var(--navy-3);
+            border-bottom: 1px solid var(--border);
         }
 
         .nav-wrap {
@@ -93,28 +93,28 @@
         }
 
         .logo-words { line-height: 1.15; }
-        .logo-en { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: -0.2px; display: block; }
+        .logo-en { font-size: 20px; font-weight: 800; color: var(--navy); letter-spacing: -0.2px; display: block; }
         .logo-en span { color: var(--gold); }
-        .logo-ar { font-family: var(--font-ar); font-size: 13px; color: rgba(255,255,255,0.4); font-weight: 600; display: block; }
+        .logo-ar { font-family: var(--font-ar); font-size: 13px; color: var(--muted); font-weight: 600; display: block; }
 
         /* Search */
         .nav-form { flex: 1; display: flex; gap: 6px; max-width: 420px; margin-left: auto; }
 
         .nav-form input {
             flex: 1;
-            background: var(--navy-2);
-            border: 1.5px solid var(--navy-3);
+            background: var(--bg);
+            border: 1.5px solid var(--border);
             border-radius: var(--r-sm);
             padding: 8px 13px;
             font-family: var(--font);
             font-size: 13px;
-            color: #fff;
+            color: var(--head);
             outline: none;
             transition: border-color var(--t);
             min-width: 0;
         }
 
-        .nav-form input::placeholder { color: rgba(255,255,255,0.3); }
+         .nav-form input::placeholder { color: var(--muted); }
         .nav-form input:focus { border-color: var(--gold); }
 
         .nav-btn {
@@ -463,11 +463,79 @@
 
         footer .ar { font-family: var(--font-ar); color: var(--gold); font-weight: 700; }
 
-        /* ── MOBILE ── */
-        @media (max-width: 900px) {
-            .grid { grid-template-columns: 1fr; }
-            .sidebar-desktop { display: none; }
+        /* Mobile Category Toggle */
+        .mobile-cat-toggle {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--r-sm);
+            font-family: var(--font);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--navy);
+            cursor: pointer;
+            margin: 0 14px 12px;
+            width: fit-content;
         }
+
+        .mobile-cat-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 300;
+        }
+
+        .mobile-cat-overlay.show { display: block; }
+
+        .mobile-cat-drawer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 280px;
+            background: var(--white);
+            z-index: 400;
+            overflow-y: auto;
+            box-shadow: 4px 0 24px rgba(0,0,0,0.15);
+            transform: translateX(-100%);
+            transition: transform 0.25s ease;
+        }
+
+        .mobile-cat-drawer.show {
+            display: block;
+            transform: translateX(0);
+        }
+
+        .mobile-cat-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 18px;
+            background: var(--navy);
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .mobile-cat-close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+
+        .mobile-cat-list .cat-link {
+            border-bottom: 1px solid var(--bg);
+        }
+
+        /* ── MOBILE ── */
 
         @media (max-width: 640px) {
             .nav-wrap { height: 52px; padding: 0 14px; gap: 10px; }
@@ -529,6 +597,28 @@
     </div>
 </nav>
 
+<!-- Mobile Category Drawer -->
+<div class="mobile-cat-toggle" id="catToggle">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    <span>Categories</span>
+</div>
+
+<div class="mobile-cat-overlay" id="catOverlay"></div>
+<div class="mobile-cat-drawer" id="catDrawer">
+    <div class="mobile-cat-head">
+        <span>Categories</span>
+        <button class="mobile-cat-close" id="catClose">✕</button>
+    </div>
+    <div class="mobile-cat-list">
+        {% for cat in categories %}
+        <a href="/search?category={{ cat.category }}" class="cat-link">
+            <span>{{ cat.category }}</span>
+            <span class="cat-n">{{ cat.count }}</span>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
 {% block hero %}{% endblock %}
 
 <div class="wrap page">
@@ -539,5 +629,26 @@
     <span class="ar">توظيف مصر</span> · Tawtheef Egypt · Data from Wuzzuf.net
 </footer>
 
+<script>
+    const toggle = document.getElementById('catToggle');
+    const drawer = document.getElementById('catDrawer');
+    const overlay = document.getElementById('catOverlay');
+    const close = document.getElementById('catClose');
+
+    toggle.addEventListener('click', () => {
+        drawer.classList.add('show');
+        overlay.classList.add('show');
+    });
+
+    close.addEventListener('click', () => {
+        drawer.classList.remove('show');
+        overlay.classList.remove('show');
+    });
+
+    overlay.addEventListener('click', () => {
+        drawer.classList.remove('show');
+        overlay.classList.remove('show');
+    });
+</script>
 </body>
 </html>
