@@ -1,8 +1,9 @@
-echo "__pycache__/
+__pycache__/
 *.pyc
 *.pyo
 .env
-jobs.db
 *.csv
 .playwright
-" > .gitignore
+check.py
+check_desc.py
+reset.py
