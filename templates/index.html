@@ -25,6 +25,11 @@
 {% block content %}
 <div class="grid">
     <aside class="sidebar sidebar-desktop">
+        <!-- Sidebar Ad 300x250 -->
+        <div style="padding:10px 14px; text-align:center;">
+            <script>atOptions={'key':'b1409f5fdeb6cd8e02d4c96526854341','format':'iframe','height':250,'width':300,'params':{}};</script>
+            <script src="https://www.highperformanceformat.com/b1409f5fdeb6cd8e02d4c96526854341/invoke.js"></script>
+        </div>
         <div class="sidebar-head">Categories <span class="ar">التصنيفات</span></div>
         <div class="cat-list">
             {% for cat in categories %}
@@ -79,7 +84,10 @@
                 </div>
             </div>
             {% if loop.index == 5 %}
-            <div class="ad"><strong>Advertisement · إعلان</strong>Your ad here</div>
+            <div class="ad">
+                <script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script>
+                <script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script>
+            </div>
             {% endif %}
             {% endfor %}
         {% else %}
@@ -134,15 +142,21 @@
                 </div>
             </div>
             {% if loop.index == 5 %}
-            <div class="ad"><strong>Advertisement · إعلان</strong>Your ad here</div>
+            <div class="ad">
+                <script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script>
+                <script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script>
+            </div>
             {% endif %}
             {% endfor %}
         {% else %}
             <div class="empty"><p>No salary data available yet.</p></div>
         {% endif %}
 
-        <!-- Advertisement -->
-        <div class="ad" style="margin-top: 32px;"><strong>Advertisement · إعلان</strong>Your ad here</div>
+        <!-- Leaderboard Ad -->
+        <div class="ad" style="margin-top: 32px;">
+            <script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script>
+            <script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script>
+        </div>
 
         <!-- Latest Openings -->
         <div class="ph" style="margin-top: 32px;">
@@ -187,7 +201,10 @@
             </div>
         </div>
         {% if loop.index == 5 or loop.index == 10 or loop.index == 15 %}
-        <div class="ad"><strong>Advertisement · إعلان</strong>Your ad here</div>
+        <div class="ad">
+            <script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script>
+            <script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script>
+        </div>
         {% endif %}
         {% endfor %}
     </div>

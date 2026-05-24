@@ -14,6 +14,8 @@
     <title>{% block title %}Tawtheef Egypt | توظيف مصر{% endblock %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Adsterra Native Banner -->
+    <script async="async" data-cfasync="false" src="https://pl29543682.effectivecpmnetwork.com/ae6be3a1f64787c0832eb3590e1f5787/invoke.js"></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -289,16 +291,12 @@
         .ad {
             border: 1.5px dashed var(--border-2);
             border-radius: var(--r);
-            padding: 22px;
+            padding: 10px;
             text-align: center;
-            color: var(--muted);
-            font-size: 11px;
-            font-weight: 500;
             margin-bottom: 14px;
             background: var(--white);
+            overflow: hidden;
         }
-
-        .ad strong { display: block; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 2px; }
 
         /* ── SEARCH BAR ── */
         .sbar {
@@ -535,7 +533,7 @@
             border-bottom: 1px solid var(--bg);
         }
 
-                /* Mobile Category Button */
+        /* Mobile Category Button */
         .mobile-cat-btn {
             display: none;
             align-items: center;
@@ -571,9 +569,7 @@
             padding: 20px;
         }
 
-        .cat-overlay.show {
-            display: flex;
-        }
+        .cat-overlay.show { display: flex; }
 
         .cat-overlay-card {
             background: var(--white);
@@ -615,14 +611,15 @@
             border-bottom: 1px solid var(--bg);
         }
 
-        .cat-overlay-item:last-child {
-            border-bottom: none;
-        }
+        .cat-overlay-item:last-child { border-bottom: none; }
+
+        /* ── MOBILE AD ── */
+        .mobile-ad { display: none; text-align: center; margin: 10px 0; }
 
         /* ── MOBILE ── */
+        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .sidebar-desktop { display: none; } .mobile-cat-btn { display: flex; } .mobile-ad { display: block !important; } }
 
         @media (max-width: 640px) {
-              .mobile-cat-btn { display: flex; }
             .nav-wrap { height: 52px; padding: 0 14px; gap: 10px; }
             .logo-icon { width: 30px; height: 30px; }
             .logo-symbol { width: 30px; height: 30px; }
@@ -652,6 +649,7 @@
             .rmeta { flex-direction: column; gap: 3px; font-size: 12px; align-items: flex-start; }
             .bc { font-size: 11.5px; }
             footer { font-size: 11.5px; }
+            .mobile-ad { display: block !important; }
         }
 
         @media (max-width: 380px) {
@@ -715,9 +713,20 @@
     {% block content %}{% endblock %}
 </div>
 
+<!-- Adsterra Mobile Banner -->
+<div class="mobile-ad">
+    <script>
+      atOptions = {'key':'397822ac95e63c1a331926eb353a041a','format':'iframe','height':50,'width':320,'params':{}};
+    </script>
+    <script src="https://www.highperformanceformat.com/397822ac95e63c1a331926eb353a041a/invoke.js"></script>
+</div>
+
 <footer>
     <span class="ar">توظيف مصر</span> · Tawtheef Egypt · Data from Wuzzuf.net
 </footer>
+
+<!-- Adsterra Social Bar -->
+<script src="https://pl29543683.effectivecpmnetwork.com/6c/ab/73/6cab73af5eaa34dde04da1d3b6fca514.js"></script>
 
 <script>
     const catBtn = document.getElementById('catBtn');
@@ -726,20 +735,24 @@
 
     catBtn.addEventListener('click', () => {
         catOverlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
     });
 
     catClose.addEventListener('click', () => {
         catOverlay.classList.remove('show');
+        document.body.style.overflow = '';
     });
 
     catOverlay.addEventListener('click', (e) => {
         if (e.target === catOverlay) {
             catOverlay.classList.remove('show');
+            document.body.style.overflow = '';
         }
     });
 
     function closeOverlay() {
         catOverlay.classList.remove('show');
+        document.body.style.overflow = '';
     }
 </script>
 </body>
