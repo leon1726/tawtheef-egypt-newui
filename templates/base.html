@@ -78,7 +78,7 @@
         .logo { display: flex; align-items: center; gap: 9px; flex-shrink: 0; }
 
         .logo-icon {
-            width: 44px; height: 44px;
+            width: 100px; height: 100px;
             background: transparent;
             border: none;
             border-radius: 0;
@@ -88,7 +88,7 @@
         }
 
         .logo-symbol {
-            width: 44px; height: 44px;
+            width: 100px; height: 100px;
             object-fit: contain;
         }
 
@@ -114,7 +114,7 @@
             min-width: 0;
         }
 
-        .nav-form input::placeholder { color: var(--muted); }
+         .nav-form input::placeholder { color: var(--muted); }
         .nav-form input:focus { border-color: var(--gold); }
 
         .nav-btn {
@@ -463,7 +463,79 @@
 
         footer .ar { font-family: var(--font-ar); color: var(--gold); font-weight: 700; }
 
-        /* Mobile Category Button */
+        /* Mobile Category Toggle */
+        .mobile-cat-toggle {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--r-sm);
+            font-family: var(--font);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--navy);
+            cursor: pointer;
+            margin: 0 14px 12px;
+            width: fit-content;
+        }
+
+        .mobile-cat-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 300;
+        }
+
+        .mobile-cat-overlay.show { display: block; }
+
+        .mobile-cat-drawer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 280px;
+            background: var(--white);
+            z-index: 400;
+            overflow-y: auto;
+            box-shadow: 4px 0 24px rgba(0,0,0,0.15);
+            transform: translateX(-100%);
+            transition: transform 0.25s ease;
+        }
+
+        .mobile-cat-drawer.show {
+            display: block;
+            transform: translateX(0);
+        }
+
+        .mobile-cat-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 18px;
+            background: var(--navy);
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .mobile-cat-close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+
+        .mobile-cat-list .cat-link {
+            border-bottom: 1px solid var(--bg);
+        }
+
+                /* Mobile Category Button */
         .mobile-cat-btn {
             display: none;
             align-items: center;
@@ -548,13 +620,9 @@
         }
 
         /* ── MOBILE ── */
-        @media (max-width: 900px) {
-            .grid { grid-template-columns: 1fr; }
-            .sidebar-desktop { display: none; }
-            .mobile-cat-btn { display: flex; }
-        }
 
         @media (max-width: 640px) {
+              .mobile-cat-btn { display: flex; }
             .nav-wrap { height: 52px; padding: 0 14px; gap: 10px; }
             .logo-icon { width: 30px; height: 30px; }
             .logo-symbol { width: 30px; height: 30px; }
@@ -614,7 +682,32 @@
     </div>
 </nav>
 
+<!-- Mobile Category Button -->
+<button class="mobile-cat-btn" id="catBtn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4h18M3 9h12M3 14h18M3 19h8"/></svg>
+    Browse Categories
+</button>
 
+<!-- Category Overlay -->
+<div class="cat-overlay" id="catOverlay">
+    <div class="cat-overlay-card">
+        <div class="cat-overlay-head">
+            <span>Select a Category</span>
+            <button class="cat-overlay-close" id="catClose">✕</button>
+        </div>
+        <div class="cat-overlay-list">
+            <a href="/search" class="cat-link cat-overlay-item" onclick="closeOverlay()">
+                <span>All Categories</span>
+            </a>
+            {% for cat in categories %}
+            <a href="/search?category={{ cat.category }}" class="cat-link cat-overlay-item" onclick="closeOverlay()">
+                <span>{{ cat.category }}</span>
+                <span class="cat-n">{{ cat.count }}</span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 
 {% block hero %}{% endblock %}
 
@@ -631,28 +724,22 @@
     const catOverlay = document.getElementById('catOverlay');
     const catClose = document.getElementById('catClose');
 
-    if (catBtn) {
-        catBtn.addEventListener('click', () => {
-            catOverlay.classList.add('show');
-            document.body.style.overflow = 'hidden';
-        });
-    }
+    catBtn.addEventListener('click', () => {
+        catOverlay.classList.add('show');
+    });
 
     catClose.addEventListener('click', () => {
         catOverlay.classList.remove('show');
-        document.body.style.overflow = '';
     });
 
     catOverlay.addEventListener('click', (e) => {
         if (e.target === catOverlay) {
             catOverlay.classList.remove('show');
-            document.body.style.overflow = '';
         }
     });
 
     function closeOverlay() {
         catOverlay.classList.remove('show');
-        document.body.style.overflow = '';
     }
 </script>
 </body>
