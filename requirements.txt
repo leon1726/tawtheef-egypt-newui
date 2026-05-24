@@ -1,0 +1,9 @@
+echo "flask==3.0.0
+playwright==1.42.0
+schedule==1.2.0
+psycopg2-binary==2.9.9
+gunicorn==21.2.0" > requirements.txt
+
+git add requirements.txt
+git commit -m "Add requirements"
+git push
