@@ -5,31 +5,23 @@
 <div class="hero">
     <div class="hero-bg"></div>
     <div class="hero-glow"></div>
-    <div class="hero-glow-top-right"></div>
-    <div class="hero-glow-bottom-left"></div>
+    <div class="hero-glow-right"></div>
 
-    <!-- Egypt Skyline SVG -->
-    <svg class="hero-skyline" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <polygon points="80,200 180,40 280,200" fill="rgba(255,255,255,0.06)"/>
-        <polygon points="120,200 200,55 280,200" fill="rgba(255,255,255,0.04)"/>
-        <polygon points="300,200 370,70 440,200" fill="rgba(255,255,255,0.05)"/>
-        <rect x="520" y="60" width="16" height="140" fill="rgba(255,255,255,0.06)" rx="4"/>
-        <ellipse cx="528" cy="55" rx="14" ry="10" fill="rgba(255,255,255,0.07)"/>
-        <rect x="515" y="95" width="26" height="4" fill="rgba(255,255,255,0.06)" rx="2"/>
-        <rect x="515" y="130" width="26" height="4" fill="rgba(255,255,255,0.06)" rx="2"/>
-        <rect x="580" y="110" width="45" height="90" fill="rgba(255,255,255,0.04)" rx="2"/>
-        <rect x="635" y="90" width="40" height="110" fill="rgba(255,255,255,0.05)" rx="2"/>
-        <rect x="685" y="130" width="35" height="70" fill="rgba(255,255,255,0.04)" rx="2"/>
-        <rect x="730" y="100" width="50" height="100" fill="rgba(255,255,255,0.05)" rx="2"/>
-        <rect x="830" y="85" width="45" height="115" fill="rgba(255,255,255,0.06)" rx="2"/>
-        <rect x="900" y="75" width="16" height="125" fill="rgba(255,255,255,0.05)" rx="2"/>
-        <rect x="893" y="68" width="30" height="12" fill="rgba(255,255,255,0.06)" rx="3"/>
-        <circle cx="908" cy="58" r="12" fill="rgba(255,255,255,0.06)"/>
-        <rect x="950" y="115" width="40" height="85" fill="rgba(255,255,255,0.04)" rx="2"/>
-        <rect x="1000" y="95" width="35" height="105" fill="rgba(255,255,255,0.05)" rx="2"/>
-        <rect x="1100" y="80" width="40" height="120" fill="rgba(255,255,255,0.05)" rx="2"/>
-        <rect x="1190" y="100" width="50" height="100" fill="rgba(255,255,255,0.05)" rx="2"/>
-        <rect x="1295" y="90" width="45" height="110" fill="rgba(255,255,255,0.05)" rx="2"/>
+    <!-- Stylized Egypt Skyline (right side only, pyramids + Cairo Tower) -->
+    <svg class="hero-skyline" viewBox="0 0 800 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="50,260 120,80 190,260" fill="rgba(255,255,255,0.05)"/>
+        <polygon points="80,260 140,100 200,260" fill="rgba(255,255,255,0.04)"/>
+        <polygon points="200,260 260,110 320,260" fill="rgba(255,255,255,0.05)"/>
+        <rect x="400" y="90" width="12" height="170" fill="rgba(255,255,255,0.05)" rx="3"/>
+        <ellipse cx="406" cy="80" rx="12" ry="9" fill="rgba(255,255,255,0.06)"/>
+        <rect x="390" y="120" width="20" height="3" fill="rgba(255,255,255,0.05)"/>
+        <rect x="390" y="155" width="20" height="3" fill="rgba(255,255,255,0.05)"/>
+        <rect x="460" y="130" width="40" height="130" fill="rgba(255,255,255,0.04)" rx="2"/>
+        <rect x="510" y="110" width="35" height="150" fill="rgba(255,255,255,0.05)" rx="2"/>
+        <rect x="560" y="140" width="30" height="120" fill="rgba(255,255,255,0.04)" rx="2"/>
+        <rect x="600" y="100" width="45" height="160" fill="rgba(255,255,255,0.05)" rx="2"/>
+        <rect x="660" y="120" width="35" height="140" fill="rgba(255,255,255,0.04)" rx="2"/>
+        <rect x="720" y="95" width="40" height="165" fill="rgba(255,255,255,0.05)" rx="2"/>
     </svg>
 
     <div class="hero-inner">
@@ -38,6 +30,14 @@
         <p class="hero-ar">ابحث عن فرصتك القادمة في مصر</p>
         <p class="hero-sub">Thousands of opportunities. Find the right fit for your career.</p>
 
+        <!-- Feature Badges -->
+        <div class="hero-feature-badges">
+            <div class="hero-feature-badge"><span>●</span> 1,515+ Jobs</div>
+            <div class="hero-feature-badge"><span>●</span> 500+ Companies</div>
+            <div class="hero-feature-badge"><span>●</span> AI Powered Search</div>
+        </div>
+
+        <!-- Search Bar -->
         <form action="/search" method="get">
             <div class="hero-search-wrap">
                 <div class="hero-search-field">
@@ -46,11 +46,26 @@
                 </div>
                 <div class="hero-search-field">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-                    <input type="text" name="location" placeholder="All Egypt">
+                    <select name="location">
+                        <option value="">All Egypt</option>
+                        <option value="Cairo">Cairo</option>
+                        <option value="Alexandria">Alexandria</option>
+                        <option value="Giza">Giza</option>
+                    </select>
                 </div>
-                <button type="submit" class="hero-search-btn">
-                    Search Jobs →
-                </button>
+                <div class="hero-search-field">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+                    <select name="category">
+                        <option value="">All Categories</option>
+                        <option value="IT / Software / Development">IT / Software</option>
+                        <option value="Accounting / Finance">Accounting / Finance</option>
+                        <option value="Marketing / PR / Advertising">Marketing</option>
+                        <option value="Medical / Healthcare">Medical</option>
+                        <option value="Engineering">Engineering</option>
+                        <option value="Sales / Retail">Sales</option>
+                    </select>
+                </div>
+                <button type="submit" class="hero-search-btn">Search Jobs →</button>
             </div>
         </form>
 
@@ -88,7 +103,6 @@
 {% block content %}
 <div class="grid">
     <aside class="sidebar sidebar-desktop">
-        <!-- Sidebar Ad 300x250 -->
         <div style="padding:10px 14px; text-align:center;">
             <script>atOptions={'key':'b1409f5fdeb6cd8e02d4c96526854341','format':'iframe','height':250,'width':300,'params':{}};</script>
             <script src="https://www.highperformanceformat.com/b1409f5fdeb6cd8e02d4c96526854341/invoke.js"></script>
@@ -97,19 +111,14 @@
         <div class="cat-list">
             {% for cat in categories %}
             <a href="/search?category={{ cat.category }}" class="cat-link">
-                <span>{{ cat.category }}</span>
-                <span class="cat-n">{{ cat.count }}</span>
+                <span>{{ cat.category }}</span><span class="cat-n">{{ cat.count }}</span>
             </a>
             {% endfor %}
         </div>
     </aside>
 
     <div>
-        <!-- Featured Positions -->
-        <div class="ph">
-            <h1>Featured Positions</h1>
-            <p>Most in-demand roles with comprehensive requirements</p>
-        </div>
+        <div class="ph"><h1>Featured Positions</h1><p>Most in-demand roles with comprehensive requirements</p></div>
         {% if hot_jobs %}
             {% for job in hot_jobs %}
             <div class="job-card">
@@ -122,367 +131,66 @@
                     <a href="/apply/{{ job.id }}" class="apply-pill" target="_blank">Apply · قدّم ↗</a>
                 </div>
                 <div class="jc-meta">
-                    <span class="jc-meta-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-                        {{ job.location }}
-                    </span>
-                    {% if job.experience and job.experience != '' and job.experience != 'N/A' %}
-                    <span class="jc-meta-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                        {{ job.experience }}
-                    </span>
-                    {% endif %}
+                    <span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>{{ job.location }}</span>
+                    {% if job.experience and job.experience != '' and job.experience != 'N/A' %}<span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>{{ job.experience }}</span>{% endif %}
                 </div>
                 <div class="jc-tags">
                     <span class="tag t-cat">{{ job.category }}</span>
                     {% if job.salary and job.salary|trim != '' and 'kpi' not in job.salary.lower() %}
-                        {% if 'EGP' in job.salary or 'L.E' in job.salary or 'LE' in job.salary %}
-                            <span class="tag t-sal">{{ job.salary }}</span>
-                        {% elif job.salary.replace(',','').replace(' ','').isdigit() %}
-                            <span class="tag t-sal">{{ job.salary }} EGP</span>
-                        {% else %}
-                            <span class="tag t-sal">{{ job.salary }}</span>
-                        {% endif %}
+                        {% if 'EGP' in job.salary or 'L.E' in job.salary or 'LE' in job.salary %}<span class="tag t-sal">{{ job.salary }}</span>{% elif job.salary.replace(',','').replace(' ','').isdigit() %}<span class="tag t-sal">{{ job.salary }} EGP</span>{% else %}<span class="tag t-sal">{{ job.salary }}</span>{% endif %}
                     {% endif %}
                     <span class="tag t-date">{{ job.posted_date }}</span>
                 </div>
             </div>
-            {% if loop.index == 5 %}
-            <div class="ad">
-                <script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script>
-                <script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script>
-            </div>
-            {% endif %}
+            {% if loop.index == 5 %}<div class="ad"><script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script></div>{% endif %}
             {% endfor %}
-        {% else %}
-            <div class="empty"><p>No featured positions right now. Check back soon.</p></div>
-        {% endif %}
+        {% else %}<div class="empty"><p>No featured positions right now.</p></div>{% endif %}
 
-        <!-- Top Compensation -->
-        <div class="ph" style="margin-top: 32px;">
-            <h1>Top Compensation</h1>
-            <p>Positions with disclosed salary ranges</p>
-        </div>
+        <div class="ph" style="margin-top:32px;"><h1>Top Compensation</h1><p>Positions with disclosed salary ranges</p></div>
         {% if top_paying %}
             {% for job in top_paying %}
             <div class="job-card">
                 <div class="jc-top">
                     <div class="jc-logo">{{ job.company[0]|upper if job.company else '?' }}</div>
-                    <div class="jc-info">
-                        <div class="jc-title"><a href="/job/{{ job.id }}">{{ job.title }}</a></div>
-                        <div class="jc-company">{{ job.company }}</div>
-                    </div>
+                    <div class="jc-info"><div class="jc-title"><a href="/job/{{ job.id }}">{{ job.title }}</a></div><div class="jc-company">{{ job.company }}</div></div>
                     <a href="/apply/{{ job.id }}" class="apply-pill" target="_blank">Apply · قدّم ↗</a>
                 </div>
                 <div class="jc-meta">
-                    <span class="jc-meta-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-                        {{ job.location }}
-                    </span>
-                    {% if job.salary and job.salary|trim != '' and 'kpi' not in job.salary.lower() %}
-                    <span class="jc-meta-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-                        {% if 'EGP' in job.salary or 'L.E' in job.salary or 'LE' in job.salary %}
-                            {{ job.salary }}
-                        {% elif job.salary.replace(',','').replace(' ','').isdigit() %}
-                            {{ job.salary }} EGP
-                        {% else %}
-                            {{ job.salary }}
-                        {% endif %}
-                    </span>
-                    {% endif %}
+                    <span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>{{ job.location }}</span>
+                    {% if job.salary and job.salary|trim != '' and 'kpi' not in job.salary.lower() %}<span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>{% if 'EGP' in job.salary or 'L.E' in job.salary or 'LE' in job.salary %}{{ job.salary }}{% elif job.salary.replace(',','').replace(' ','').isdigit() %}{{ job.salary }} EGP{% else %}{{ job.salary }}{% endif %}</span>{% endif %}
                 </div>
                 <div class="jc-tags">
                     <span class="tag t-cat">{{ job.category }}</span>
-                    {% if job.salary and job.salary|trim != '' and 'kpi' not in job.salary.lower() %}
-                        {% if 'EGP' in job.salary or 'L.E' in job.salary or 'LE' in job.salary %}
-                            <span class="tag t-sal">{{ job.salary }}</span>
-                        {% elif job.salary.replace(',','').replace(' ','').isdigit() %}
-                            <span class="tag t-sal">{{ job.salary }} EGP</span>
-                        {% else %}
-                            <span class="tag t-sal">{{ job.salary }}</span>
-                        {% endif %}
-                    {% endif %}
+                    {% if job.salary and job.salary|trim != '' and 'kpi' not in job.salary.lower() %}{% if 'EGP' in job.salary or 'L.E' in job.salary or 'LE' in job.salary %}<span class="tag t-sal">{{ job.salary }}</span>{% elif job.salary.replace(',','').replace(' ','').isdigit() %}<span class="tag t-sal">{{ job.salary }} EGP</span>{% else %}<span class="tag t-sal">{{ job.salary }}</span>{% endif %}{% endif %}
                     <span class="tag t-date">{{ job.posted_date }}</span>
                 </div>
             </div>
-            {% if loop.index == 5 %}
-            <div class="ad">
-                <script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script>
-                <script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script>
-            </div>
-            {% endif %}
+            {% if loop.index == 5 %}<div class="ad"><script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script></div>{% endif %}
             {% endfor %}
-        {% else %}
-            <div class="empty"><p>No salary data available yet.</p></div>
-        {% endif %}
+        {% else %}<div class="empty"><p>No salary data available yet.</p></div>{% endif %}
 
-        <!-- Top Companies Hiring -->
-        <div class="companies-section">
-            <div class="companies-header">
-                <div>
-                    <h2>Top Companies Hiring</h2>
-                    <p>Leading employers currently recruiting in Egypt</p>
-                </div>
-                <a href="/search" class="companies-viewall">View all companies →</a>
-            </div>
-            <div class="companies-row">
-                <a href="/search?q=talabat" class="company-chip">
-                    <span class="company-initial" style="background:#FF6600; color:#fff;">T</span>
-                    <span>talabat</span>
-                </a>
-                <a href="/search?q=etisalat" class="company-chip">
-                    <span class="company-initial" style="background:#00A651; color:#fff;">e&</span>
-                    <span>Etisalat e&</span>
-                </a>
-                <a href="/search?q=CIB" class="company-chip">
-                    <span class="company-initial" style="background:#003087; color:#fff;">CIB</span>
-                    <span>CIB Egypt</span>
-                </a>
-                <a href="/search?q=careem" class="company-chip">
-                    <span class="company-initial" style="background:#1DBF73; color:#fff;">C</span>
-                    <span>Careem</span>
-                </a>
-                <a href="/search?q=orange" class="company-chip">
-                    <span class="company-initial" style="background:#FF7900; color:#fff;">O</span>
-                    <span>Orange</span>
-                </a>
-                <a href="/search?q=concentrix" class="company-chip">
-                    <span class="company-initial" style="background:#6B21A8; color:#fff;">Cx</span>
-                    <span>Concentrix</span>
-                </a>
-            </div>
-        </div>
+        <div class="ad" style="margin-top:8px;"><script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script></div>
 
-        <!-- Leaderboard Ad -->
-        <div class="ad" style="margin-top: 8px;">
-            <script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script>
-            <script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script>
-        </div>
-
-        <!-- Latest Openings -->
-        <div class="ph" style="margin-top: 32px;">
-            <h1>Latest Openings</h1>
-            <p>{{ total }}+ jobs from top companies across Egypt — updated daily</p>
-        </div>
+        <div class="ph" style="margin-top:32px;"><h1>Latest Openings</h1><p>{{ total }}+ jobs from top companies across Egypt — updated daily</p></div>
         {% for job in jobs %}
         <div class="job-card">
             <div class="jc-top">
                 <div class="jc-logo">{{ job.company[0]|upper if job.company else '?' }}</div>
-                <div class="jc-info">
-                    <div class="jc-title"><a href="/job/{{ job.id }}">{{ job.title }}</a></div>
-                    <div class="jc-company">{{ job.company }}</div>
-                </div>
+                <div class="jc-info"><div class="jc-title"><a href="/job/{{ job.id }}">{{ job.title }}</a></div><div class="jc-company">{{ job.company }}</div></div>
                 <a href="/apply/{{ job.id }}" class="apply-pill" target="_blank">Apply · قدّم ↗</a>
             </div>
             <div class="jc-meta">
-                <span class="jc-meta-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-                    {{ job.location }}
-                </span>
-                {% if job.experience and job.experience != '' and job.experience != 'N/A' %}
-                <span class="jc-meta-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                    {{ job.experience }}
-                </span>
-                {% endif %}
+                <span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>{{ job.location }}</span>
+                {% if job.experience and job.experience != '' and job.experience != 'N/A' %}<span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>{{ job.experience }}</span>{% endif %}
             </div>
             <div class="jc-tags">
                 <span class="tag t-cat">{{ job.category }}</span>
-                {% if job.salary and job.salary|trim != '' and 'kpi' not in job.salary.lower() %}
-                    {% if 'EGP' in job.salary or 'L.E' in job.salary or 'LE' in job.salary %}
-                        <span class="tag t-sal">{{ job.salary }}</span>
-                    {% elif job.salary.replace(',','').replace(' ','').isdigit() %}
-                        <span class="tag t-sal">{{ job.salary }} EGP</span>
-                    {% else %}
-                        <span class="tag t-sal">{{ job.salary }}</span>
-                    {% endif %}
-                {% endif %}
-                {% if job.posted_date %}
-                <span class="tag t-date">{{ job.posted_date }}</span>
-                {% endif %}
+                {% if job.salary and job.salary|trim != '' and 'kpi' not in job.salary.lower() %}{% if 'EGP' in job.salary or 'L.E' in job.salary or 'LE' in job.salary %}<span class="tag t-sal">{{ job.salary }}</span>{% elif job.salary.replace(',','').replace(' ','').isdigit() %}<span class="tag t-sal">{{ job.salary }} EGP</span>{% else %}<span class="tag t-sal">{{ job.salary }}</span>{% endif %}{% endif %}
+                {% if job.posted_date %}<span class="tag t-date">{{ job.posted_date }}</span>{% endif %}
             </div>
         </div>
-        {% if loop.index == 5 or loop.index == 10 or loop.index == 15 %}
-        <div class="ad">
-            <script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script>
-            <script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script>
-        </div>
-        {% endif %}
+        {% if loop.index == 5 or loop.index == 10 or loop.index == 15 %}<div class="ad"><script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script></div>{% endif %}
         {% endfor %}
     </div>
 </div>
-
-<style>
-/* Hero search — glassmorphism */
-.hero-search-wrap {
-    display: flex;
-    gap: 8px;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: var(--r-lg);
-    padding: 8px;
-    max-width: 720px;
-    margin: 0 auto 24px;
-}
-.hero-search-field {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex: 1;
-    background: rgba(11,23,48,0.8);
-    border-radius: var(--r-sm);
-    padding: 10px 14px;
-    min-width: 0;
-}
-.hero-search-field svg {
-    width: 16px; height: 16px;
-    color: var(--muted);
-    flex-shrink: 0;
-}
-.hero-search-field input {
-    flex: 1; min-width: 0;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: #F8FAFC;
-    font-family: var(--font);
-    font-size: 13.5px;
-}
-.hero-search-field input::placeholder { color: var(--muted); }
-.hero-search-btn {
-    padding: 10px 22px;
-    background: var(--gold);
-    color: var(--navy);
-    border: none;
-    border-radius: var(--r-sm);
-    font-family: var(--font);
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all var(--t);
-}
-.hero-search-btn:hover { background: var(--gold-h); }
-/* Hero chips */
-.hero-chips {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 32px;
-    max-width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-}
-.hero-chips-label {
-    font-size: 12px;
-    color: var(--muted);
-    font-weight: 500;
-}
-.hero-chip {
-    padding: 5px 12px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #F8FAFC;
-    transition: all var(--t);
-    white-space: nowrap;
-}
-.hero-chip:hover {
-    background: rgba(212,169,77,0.15);
-    border-color: var(--gold);
-    color: var(--gold);
-}
-/* Hero sub */
-.hero-sub {
-    font-size: 14px;
-    color: var(--muted);
-    margin-bottom: 24px;
-}
-/* Hero stats bar */
-.hero-stats-bar {
-    display: flex;
-    justify-content: center;
-    gap: 32px;
-    flex-wrap: wrap;
-}
-.hstat-icon { font-size: 20px; margin-bottom: 2px; }
-/* Hero skyline */
-.hero-skyline {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: auto;
-    pointer-events: none;
-    z-index: 0;
-}
-/* Companies section */
-.companies-section {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--r-lg);
-    padding: 22px 24px;
-    margin-top: 32px;
-    margin-bottom: 10px;
-    box-shadow: var(--sh);
-}
-.companies-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 18px;
-}
-.companies-header h2 {
-    font-size: 18px; font-weight: 800;
-    color: var(--head); letter-spacing: -0.3px;
-}
-.companies-header p {
-    font-size: 12.5px; color: var(--muted);
-    font-weight: 500; margin-top: 2px;
-}
-.companies-viewall {
-    font-size: 12.5px; font-weight: 700;
-    color: var(--gold);
-    white-space: nowrap;
-    transition: opacity var(--t);
-}
-.companies-viewall:hover { opacity: 0.7; }
-.companies-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-.company-chip {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 14px;
-    background: var(--bg);
-    border: 1.5px solid var(--border);
-    border-radius: var(--r-sm);
-    font-size: 13px; font-weight: 700;
-    color: var(--head);
-    transition: all var(--t);
-}
-.company-chip:hover {
-    border-color: var(--gold);
-    background: rgba(212,169,77,0.05);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-.company-initial {
-    width: 30px; height: 30px;
-    border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 900;
-    flex-shrink: 0;
-}
-</style>
 {% endblock %}
