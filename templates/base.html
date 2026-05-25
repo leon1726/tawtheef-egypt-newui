@@ -157,14 +157,15 @@
         .wrap { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
         .page { padding: 28px 0 80px; }
 
-        .grid {
-            display: grid !important;
-            grid-template-columns: 280px 1fr !important;
-            gap: 32px !important;
-            max-width: 1250px !important;
-            margin: 0 auto !important;
-            padding: 40px 24px !important;
-        }
+.grid {
+    display: grid !important;
+    grid-template-columns: 280px 1fr !important;
+    gap: 32px !important;
+    max-width: 1250px !important;
+    margin: 0 auto !important;
+    padding: 40px 24px !important;
+    width: 100% !important;
+}
 
         /* ── SIDEBAR ── */
         .sidebar {
@@ -440,33 +441,33 @@
             pointer-events: none;
         }
 
-        .hero-glow-right {
-            position: absolute !important;
-            top: 0 !important;
-            right: -10% !important;
-            width: 50vw !important;
-            height: 70vh !important;
-            background: radial-gradient(circle at top right, rgba(251, 191, 36, 0.15) 0%, rgba(251, 191, 36, 0.05) 45%, rgba(251, 191, 36, 0) 70%) !important;
-            filter: blur(80px) !important;
-            z-index: 1 !important;
-            pointer-events: none !important;
-        }
+       .hero-glow-right {
+    position: absolute !important;
+    top: 0 !important;
+    right: -10% !important;
+    width: 50vw !important;
+    height: 70vh !important;
+    background: radial-gradient(circle at top right, rgba(251, 191, 36, 0.15) 0%, rgba(251, 191, 36, 0.05) 45%, rgba(251, 191, 36, 0) 70%) !important;
+    filter: blur(80px) !important;
+    z-index: 1 !important;
+    pointer-events: none !important;
+}
 
-        .hero-skyline {
-            position: absolute !important;
-            top: 0 !important;
-            right: 0 !important;
-            bottom: auto !important;
-            width: 48vw !important;
-            height: 100% !important;
-            max-height: 85% !important;
-            object-fit: contain !important;
-            object-position: top right !important;
-            pointer-events: none !important;
-            z-index: 2 !important;
-            opacity: 0.32 !important;
-            filter: sepia(1) saturate(6) brightness(1.4) hue-rotate(5deg) drop-shadow(0 0 25px rgba(251, 191, 36, 0.4)) !important;
-        }
+ .hero-skyline {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: auto !important;
+    width: 48vw !important;
+    height: 100% !important;
+    max-height: 85% !important;
+    object-fit: contain !important;
+    object-position: top right !important;
+    pointer-events: none !important;
+    z-index: 2 !important;
+    opacity: 0.32 !important;
+    filter: sepia(1) saturate(6) brightness(1.4) hue-rotate(5deg) drop-shadow(0 0 25px rgba(251, 191, 36, 0.4)) !important;
+}   
         .hero-inner {
             position: relative; z-index: 1;
             max-width: 1100px;
