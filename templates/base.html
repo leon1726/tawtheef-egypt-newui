@@ -790,8 +790,12 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
                 Post a Job
             </a>
-            <a href="#" class="nav-login">Login</a>
-            <a href="#" class="nav-signup">Sign Up</a>
+            {% if session.get('user') %}
+            <a href="/logout" style="font-size:13px; font-weight:600; color:#94A3B8;">Logout</a>
+            {% else %}
+            <a href="/login" class="nav-login">Login</a>
+            <a href="/signup" class="nav-signup">Sign Up</a>
+            {% endif %}
         </div>
     </div>
 </nav>

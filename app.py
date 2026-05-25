@@ -2,7 +2,11 @@ import os
 import math
 import sqlite3
 import logging
-from flask import Flask, render_template, request, redirect, g
+from flask import Flask, render_template, request, redirect, g, session
+import firebase_admin
+from firebase_admin import credentials, auth
+import json
+from functools import wraps
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -14,6 +18,12 @@ except ImportError:
     PSYCOPG2_AVAILABLE = False
 
 app = Flask(__name__)
+
+# Initialize Firebase
+cred = credentials.Certificate('firebase-key.json')
+firebase_admin.initialize_app(cred)
+app.secret_key = os.environ.get('SECRET_KEY', 'tawtheef-secret-key-change-in-production')
+
 DATABASE_URL = os.environ.get("DATABASE_URL")
 USE_SQLITE = DATABASE_URL is None
 SQLITE_PATH = "jobs.db"
@@ -64,6 +74,15 @@ def query_one(sql, params=None):
         cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         cur.execute(sql, params or [])
         return cur.fetchone()
+
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user' not in session:
+            return redirect('/login')
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 @app.route('/health')
@@ -142,9 +161,34 @@ def apply(job_id):
         return redirect(job['link'])
     return "Not found", 404
 
-@app.route('/sitemap.xml')
-def sitemap():
-    return app.send_static_file('sitemap.xml')
+
+@app.route('/login')
+def login_page():
+    return render_template('login.html')
+
+
+@app.route('/signup')
+def signup_page():
+    return render_template('signup.html')
+
+
+@app.route('/api/auth/session', methods=['POST'])
+def api_set_session():
+    data = request.get_json()
+    session['user'] = {
+        'uid': data.get('uid'),
+        'email': data.get('email'),
+        'name': data.get('name', ''),
+        'picture': data.get('picture', '')
+    }
+    return {'success': True}
+
+
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    return redirect('/')
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
