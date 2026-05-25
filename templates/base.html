@@ -19,6 +19,12 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+        /* FIX: prevent horizontal scroll globally */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
         :root {
             --navy:      #0b1724;
             --navy-2:    #112035;
@@ -69,58 +75,53 @@
         .nav-wrap {
             max-width: 1260px;
             margin: 0 auto;
-            padding: 0 20px;
-            height: 58px;
+            padding: 0 16px;
+            height: 56px;
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 10px;
         }
 
         /* Logo */
-        .logo { display: flex; align-items: center; gap: 9px; flex-shrink: 0; }
+        .logo { display: flex; align-items: center; gap: 8px; flex-shrink: 0; min-width: 0; }
 
         .logo-icon {
-            width: 100px; height: 100px;
-            background: transparent;
-            border: none;
-            border-radius: 0;
-            display: flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px;
             flex-shrink: 0;
-            overflow: visible;
+            overflow: hidden;
         }
 
         .logo-symbol {
-            width: 100px; height: 100px;
+            width: 36px; height: 36px;
             object-fit: contain;
         }
 
-        .logo-words { line-height: 1.15; }
-        .logo-en { font-size: 20px; font-weight: 800; color: var(--navy); letter-spacing: -0.2px; display: block; }
+        .logo-words { line-height: 1.15; min-width: 0; }
+        .logo-en { font-size: 16px; font-weight: 800; color: var(--navy); letter-spacing: -0.2px; display: block; white-space: nowrap; }
         .logo-en span { color: var(--gold); }
-        .logo-ar { font-family: var(--font-ar); font-size: 13px; color: var(--muted); font-weight: 600; display: block; }
+        .logo-ar { font-family: var(--font-ar); font-size: 11px; color: var(--muted); font-weight: 600; display: block; white-space: nowrap; }
 
         /* Search */
-        .nav-form { flex: 1; display: flex; gap: 6px; max-width: 420px; margin-left: auto; }
+        .nav-form { flex: 1; display: flex; gap: 6px; max-width: 420px; margin-left: auto; min-width: 0; }
 
         .nav-form input {
-            flex: 1;
+            flex: 1; min-width: 0;
             background: var(--bg);
             border: 1.5px solid var(--border);
             border-radius: var(--r-sm);
-            padding: 8px 13px;
+            padding: 8px 12px;
             font-family: var(--font);
             font-size: 13px;
             color: var(--head);
             outline: none;
             transition: border-color var(--t);
-            min-width: 0;
         }
 
-         .nav-form input::placeholder { color: var(--muted); }
+        .nav-form input::placeholder { color: var(--muted); }
         .nav-form input:focus { border-color: var(--gold); }
 
         .nav-btn {
-            padding: 8px 16px;
+            padding: 8px 14px;
             background: var(--gold);
             color: var(--navy);
             border: none;
@@ -130,14 +131,15 @@
             font-weight: 700;
             cursor: pointer;
             flex-shrink: 0;
+            white-space: nowrap;
             transition: background var(--t);
         }
 
         .nav-btn:hover { background: var(--gold-h); }
 
         /* ── LAYOUT ── */
-        .wrap { max-width: 1260px; margin: 0 auto; padding: 0 20px; }
-        .page { padding: 24px 0 72px; }
+        .wrap { max-width: 1260px; margin: 0 auto; padding: 0 16px; }
+        .page { padding: 20px 0 72px; }
 
         .grid {
             display: grid;
@@ -153,7 +155,7 @@
             border: 1px solid var(--border);
             overflow: hidden;
             position: sticky;
-            top: 78px;
+            top: 76px;
             box-shadow: var(--sh);
         }
 
@@ -203,6 +205,7 @@
             font-size: 10.5px; font-weight: 700;
             background: var(--bg); color: var(--muted);
             padding: 2px 7px; border-radius: 20px;
+            flex-shrink: 0;
         }
 
         .cat-link.on .cat-n { background: var(--gold); color: var(--navy); }
@@ -220,7 +223,7 @@
         }
 
         .btn-gold { background: var(--gold); color: var(--navy); }
-        .btn-gold:hover { background: var(--gold-h); box-shadow: 0 4px 14px rgba(200,168,75,0.35); }
+        .btn-gold:hover { background: var(--gold-h); }
 
         .btn-outline { background: #fff; color: var(--body); border: 1.5px solid var(--border); }
         .btn-outline:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-pale); }
@@ -235,6 +238,7 @@
             box-shadow: var(--sh);
             transition: all var(--t);
             display: block;
+            overflow: hidden;
         }
 
         .job-card:hover { border-color: var(--gold); box-shadow: var(--sh-hover); transform: translateY(-2px); }
@@ -289,16 +293,19 @@
 
         /* ── AD SLOT ── */
         .ad {
-            border: 1.5px dashed var(--border-2);
             border-radius: var(--r);
-            padding: 10px;
+            padding: 8px;
             text-align: center;
             margin-bottom: 14px;
             background: var(--white);
             overflow: hidden;
+            max-width: 100%;
         }
 
-        /* ── SEARCH BAR ── */
+        /* force ad iframes to not overflow */
+        .ad iframe { max-width: 100% !important; }
+
+        /* ── SEARCH BAR (desktop only on search page) ── */
         .sbar {
             background: var(--white);
             border: 1px solid var(--border);
@@ -322,7 +329,7 @@
             transition: all var(--t);
         }
 
-        .sbar input:focus { border-color: var(--gold); background: #fff; box-shadow: 0 0 0 3px rgba(200,168,75,0.1); }
+        .sbar input:focus { border-color: var(--gold); background: #fff; }
 
         /* ── RESULTS META ── */
         .rmeta {
@@ -461,103 +468,29 @@
 
         footer .ar { font-family: var(--font-ar); color: var(--gold); font-weight: 700; }
 
-        /* Mobile Category Toggle */
-        .mobile-cat-toggle {
-            display: none;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 14px;
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: var(--r-sm);
-            font-family: var(--font);
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--navy);
-            cursor: pointer;
-            margin: 0 14px 12px;
-            width: fit-content;
-        }
-
-        .mobile-cat-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.4);
-            z-index: 300;
-        }
-
-        .mobile-cat-overlay.show { display: block; }
-
-        .mobile-cat-drawer {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            width: 280px;
-            background: var(--white);
-            z-index: 400;
-            overflow-y: auto;
-            box-shadow: 4px 0 24px rgba(0,0,0,0.15);
-            transform: translateX(-100%);
-            transition: transform 0.25s ease;
-        }
-
-        .mobile-cat-drawer.show {
-            display: block;
-            transform: translateX(0);
-        }
-
-        .mobile-cat-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 18px;
-            background: var(--navy);
-            color: var(--gold);
-            font-weight: 700;
-            font-size: 14px;
-        }
-
-        .mobile-cat-close {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 18px;
-            cursor: pointer;
-            padding: 4px 8px;
-        }
-
-        .mobile-cat-list .cat-link {
-            border-bottom: 1px solid var(--bg);
-        }
-
-        /* Mobile Category Button */
+        /* ── MOBILE CATEGORY BUTTON ── */
         .mobile-cat-btn {
             display: none;
             align-items: center;
             gap: 8px;
-            padding: 10px 16px;
+            padding: 11px 16px;
             background: var(--white);
-            border: 1px solid var(--border);
+            border: 1.5px solid var(--border);
             border-radius: var(--r-sm);
             font-family: var(--font);
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--navy);
             cursor: pointer;
-            margin: 0 14px 14px;
-            width: calc(100% - 28px);
+            width: 100%;
             justify-content: center;
             transition: all var(--t);
+            margin-bottom: 14px;
         }
 
-        .mobile-cat-btn:hover {
-            border-color: var(--gold);
-            background: var(--gold-pale);
-        }
+        .mobile-cat-btn:hover { border-color: var(--gold); background: var(--gold-pale); }
 
+        /* ── CATEGORY OVERLAY ── */
         .cat-overlay {
             display: none;
             position: fixed;
@@ -613,48 +546,57 @@
 
         .cat-overlay-item:last-child { border-bottom: none; }
 
+        /* mobile ad — hidden on desktop */
+        .mobile-ad { display: none; }
 
+        /* ── DESKTOP ── */
+        @media (min-width: 901px) {
+            .nav-wrap { padding: 0 20px; height: 60px; gap: 14px; }
+            .logo-icon { width: 48px; height: 48px; }
+            .logo-symbol { width: 48px; height: 48px; }
+            .logo-en { font-size: 20px; }
+            .logo-ar { font-size: 13px; }
+            .wrap { padding: 0 20px; }
+        }
+
+        /* ── TABLET / MOBILE ── */
+        @media (max-width: 900px) {
+            .grid { grid-template-columns: 1fr; }
+            .sidebar-desktop { display: none; }
+            .mobile-cat-btn { display: flex; }
+            .mobile-ad { display: block; }
+        }
 
         /* ── MOBILE ── */
-        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .sidebar-desktop { display: none; } .mobile-cat-btn { display: flex; } .mobile-ad { display: block !important; } }
-
         @media (max-width: 640px) {
-            .nav-wrap { height: 52px; padding: 0 14px; gap: 10px; }
-            .logo-icon { width: 30px; height: 30px; }
-            .logo-symbol { width: 30px; height: 30px; }
-            .logo-en { font-size: 13px; }
-            .logo-ar { font-size: 9.5px; }
-            .nav-form { max-width: 180px; }
-            .nav-form input { font-size: 12px; padding: 7px 10px; }
-            .nav-btn { padding: 7px 12px; font-size: 12px; }
-            .hero { padding: 36px 16px 32px; }
-            .hero h1 { font-size: 26px; letter-spacing: -0.5px; }
+            .hero { padding: 32px 16px 28px; }
+            .hero h1 { font-size: 24px; letter-spacing: -0.5px; }
             .hero-ar { font-size: 14px; }
-            .hero-search { flex-direction: column; }
+            .hero-search { flex-direction: column; gap: 8px; }
             .hero-search input, .hero-search button { width: 100%; }
-            .hero-stats { gap: 20px; }
-            .hstat strong { font-size: 18px; }
-            .wrap { padding: 0 14px; }
-            .page { padding: 16px 0 56px; }
+            .hero-stats { gap: 16px; }
+            .hstat strong { font-size: 17px; }
+            .page { padding: 14px 0 52px; }
             .ph h1 { font-size: 19px; }
-            .job-card { padding: 14px 16px; }
+            .job-card { padding: 13px 14px; }
             .jc-top { flex-direction: column; gap: 8px; }
             .apply-pill { width: 100%; justify-content: center; }
             .jc-title { font-size: 14px; }
             .jc-company { font-size: 12px; }
             .jc-meta { font-size: 12px; gap: 8px; }
-            .sbar { flex-wrap: wrap; }
-            .sbar input { width: 100%; }
+            /* hide search bar on search page — use nav search instead */
+            .sbar { display: none; }
             .rmeta { flex-direction: column; gap: 3px; font-size: 12px; align-items: flex-start; }
             .bc { font-size: 11.5px; }
             footer { font-size: 11.5px; }
-            .mobile-ad { display: block !important; }
+            .pages { gap: 3px; }
+            .pg { min-width: 28px; height: 28px; font-size: 11px; }
         }
 
         @media (max-width: 380px) {
-            .nav-form { max-width: 140px; }
-            .hero h1 { font-size: 22px; }
-            .hero-badge { font-size: 9px; }
+            .hero h1 { font-size: 20px; }
+            .hero-badge { font-size: 9px; padding: 4px 10px; }
+            .hstat { font-size: 10px; }
         }
     </style>
     {% block extra_css %}{% endblock %}
@@ -679,22 +621,28 @@
     </div>
 </nav>
 
-<!-- Mobile Category Button -->
-<button class="mobile-cat-btn" id="catBtn">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4h18M3 9h12M3 14h18M3 19h8"/></svg>
-    Browse Categories
-</button>
+{% block hero %}{% endblock %}
+
+<div class="wrap page">
+    <!-- Mobile Category Button — shows ABOVE content on mobile only -->
+    <button class="mobile-cat-btn" id="catBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4h18M3 9h12M3 14h18M3 19h8"/></svg>
+        Browse Categories · تصفح التصنيفات
+    </button>
+
+    {% block content %}{% endblock %}
+</div>
 
 <!-- Category Overlay -->
 <div class="cat-overlay" id="catOverlay">
     <div class="cat-overlay-card">
         <div class="cat-overlay-head">
-            <span>Select a Category</span>
+            <span>Select a Category · اختر تصنيف</span>
             <button class="cat-overlay-close" id="catClose">✕</button>
         </div>
         <div class="cat-overlay-list">
             <a href="/search" class="cat-link cat-overlay-item" onclick="closeOverlay()">
-                <span>All Categories</span>
+                <span>All Categories · الكل</span>
             </a>
             {% for cat in categories %}
             <a href="/search?category={{ cat.category }}" class="cat-link cat-overlay-item" onclick="closeOverlay()">
@@ -706,14 +654,8 @@
     </div>
 </div>
 
-{% block hero %}{% endblock %}
-
-<div class="wrap page">
-    {% block content %}{% endblock %}
-</div>
-
 <!-- Adsterra Banner 320x50 -->
-<div style="text-align:center; margin:10px 0;">
+<div style="text-align:center; margin:10px 0; overflow:hidden;">
     <script>
       atOptions = {'key':'397822ac95e63c1a331926eb353a041a','format':'iframe','height':50,'width':320,'params':{}};
     </script>
@@ -724,9 +666,6 @@
     <span class="ar">توظيف مصر</span> · Tawtheef Egypt · Data from Wuzzuf.net
 </footer>
 
-
-
-
 <!-- Adblock Detector -->
 <script>
     (function() {
@@ -736,13 +675,9 @@
         testAd.className = 'adsbox';
         testAd.style.cssText = 'position:absolute;left:-9999px;top:-9999px;height:1px;width:1px';
         document.body.appendChild(testAd);
-        
         window.setTimeout(function() {
-            if (testAd.offsetHeight === 0) {
-                adBlockEnabled = true;
-            }
+            if (testAd.offsetHeight === 0) adBlockEnabled = true;
             testAd.remove();
-            
             if (adBlockEnabled) {
                 const overlay = document.createElement('div');
                 overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;font-family:var(--font);';
@@ -755,7 +690,7 @@
                             Ads help keep Tawtheef Egypt free for everyone.<br>
                             Please disable your ad blocker to continue.
                         </p>
-                        <button onclick="this.parentElement.parentElement.remove()" style="background:var(--gold);color:var(--navy);border:none;padding:12px 28px;border-radius:var(--r-sm);font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:all var(--t);">
+                        <button onclick="this.parentElement.parentElement.remove()" style="background:var(--gold);color:var(--navy);border:none;padding:12px 28px;border-radius:var(--r-sm);font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;">
                             I've disabled my ad blocker →
                         </button>
                         <p style="font-size:11px;color:var(--muted);margin-top:14px;">Then refresh the page</p>
@@ -767,41 +702,41 @@
     })();
 </script>
 
-
-
 <!-- Adsterra Social Bar -->
 <script src="https://pl29543683.effectivecpmnetwork.com/6c/ab/73/6cab73af5eaa34dde04da1d3b6fca514.js"></script>
-
-
 
 <script>
     const catBtn = document.getElementById('catBtn');
     const catOverlay = document.getElementById('catOverlay');
     const catClose = document.getElementById('catClose');
 
-    catBtn.addEventListener('click', () => {
-        catOverlay.classList.add('show');
-        document.body.style.overflow = 'hidden';
-    });
+    if (catBtn) {
+        catBtn.addEventListener('click', () => {
+            catOverlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        });
+    }
 
-    catClose.addEventListener('click', () => {
-        catOverlay.classList.remove('show');
-        document.body.style.overflow = '';
-    });
-
-    catOverlay.addEventListener('click', (e) => {
-        if (e.target === catOverlay) {
+    if (catClose) {
+        catClose.addEventListener('click', () => {
             catOverlay.classList.remove('show');
             document.body.style.overflow = '';
-        }
-    });
+        });
+    }
+
+    if (catOverlay) {
+        catOverlay.addEventListener('click', (e) => {
+            if (e.target === catOverlay) {
+                catOverlay.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+    }
 
     function closeOverlay() {
         catOverlay.classList.remove('show');
         document.body.style.overflow = '';
     }
-
-    
 </script>
 </body>
 </html>

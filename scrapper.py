@@ -602,6 +602,7 @@ def migrate_from_sqlite(sqlite_path="jobs.db"):
     print(f"[*] Migrating from {sqlite_path}...")
     sqlite_conn = sqlite3.connect(sqlite_path)
     sqlite_conn.row_factory = sqlite3.Row
+    sqlite_conn.text_factory = lambda x: str(x, 'utf-8', 'ignore')
     jobs = sqlite_conn.execute("SELECT * FROM jobs").fetchall()
     sqlite_conn.close()
     print(f"[*] Found {len(jobs)} jobs to migrate...")
@@ -630,7 +631,6 @@ def migrate_from_sqlite(sqlite_path="jobs.db"):
     pg_conn.commit()
     pg_conn.close()
     print(f"[✓] Migrated {migrated}/{len(jobs)} jobs.")
-
 
 def export_csv():
     conn = get_db()
