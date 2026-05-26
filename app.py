@@ -2,11 +2,8 @@ import os
 import math
 import sqlite3
 import logging
-from flask import Flask, render_template, request, redirect, g, session
-import firebase_admin
-from firebase_admin import credentials, auth
-import json
-from functools import wraps
+
+
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -19,10 +16,7 @@ except ImportError:
 
 app = Flask(__name__)
 
-# Initialize Firebase
-cred = credentials.Certificate('firebase-key.json')
-firebase_admin.initialize_app(cred)
-app.secret_key = os.environ.get('SECRET_KEY', 'tawtheef-secret-key-change-in-production')
+
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 USE_SQLITE = DATABASE_URL is None
