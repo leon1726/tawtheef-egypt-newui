@@ -180,9 +180,7 @@ def login_page():
     return render_template('login.html')
 
 
-    
-
-    @app.context_processor
+@app.context_processor
 def inject_lang():
     lang = request.args.get('lang', 'en')
     if lang not in ('en', 'ar'):
