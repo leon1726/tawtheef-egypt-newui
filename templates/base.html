@@ -515,7 +515,6 @@ window.switchTab = function(tab) {
     document.getElementById('panel-' + tab).classList.add('active');
 };
 
-document.getElementById('authOverlay').addEventListener('click', (e) => { if (e.target === document.getElementById('authOverlay')) closeAuth(); });
 document.getElementById('login-password').addEventListener('keydown', e => { if (e.key === 'Enter') window.doLogin(); });
 document.getElementById('signup-password').addEventListener('keydown', e => { if (e.key === 'Enter') window.doSignup(); });
 </script>
