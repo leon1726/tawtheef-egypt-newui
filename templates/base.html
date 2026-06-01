@@ -408,7 +408,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+provider.addScope('profile');
+provider.addScope('email');
 
+// ── AUTH STATE ──
 onAuthStateChanged(auth, (user) => {
     const authState = document.getElementById('authState');
     if (!authState) return;
@@ -416,76 +419,78 @@ onAuthStateChanged(auth, (user) => {
         const name = user.displayName || user.email.split('@')[0];
         const initial = name[0].toUpperCase();
         const photo = user.photoURL;
-        authState.innerHTML = `<div class="nav-user"><div class="nav-avatar">${photo ? `<img src="${photo}" alt="">` : initial}</div><span class="nav-username">${name}</span><button class="nav-logout" onclick="window._doLogout()">Logout</button></div>`;
+        authState.innerHTML = `
+            <div class="nav-user">
+                <div class="nav-avatar">${photo ? `<img src="${photo}" alt="${initial}">` : initial}</div>
+                <span class="nav-username">${name}</span>
+                <button class="nav-logout" onclick="window._doLogout()">Logout</button>
+            </div>`;
     } else {
-        authState.innerHTML = `<button class="nav-login" onclick="openAuth('login')" style="margin-right:8px;">Login</button><button class="nav-signup" onclick="openAuth('signup')">Sign Up</button>`;
+        authState.innerHTML = `
+            <button class="nav-login" onclick="openAuth('login')" style="margin-right:8px;">Login</button>
+            <button class="nav-signup" onclick="openAuth('signup')">Sign Up</button>`;
     }
 });
 
+// ── HELPERS ──
 function showError(id, msg) { const el = document.getElementById(id); if (el) { el.textContent = msg; el.classList.add('show'); } }
 function hideError(id) { const el = document.getElementById(id); if (el) el.classList.remove('show'); }
 function showSuccess(id, msg) { const el = document.getElementById(id); if (el) { el.textContent = msg; el.classList.add('show'); } }
 function setLoading(btnId, loading) { const btn = document.getElementById(btnId); if (!btn) return; btn.disabled = loading; if (loading) btn.classList.add('btn-loading'); else btn.classList.remove('btn-loading'); }
-function getFirebaseError(code) { const map = {'auth/invalid-email':'Invalid email address.','auth/user-not-found':'No account found with this email.','auth/wrong-password':'Incorrect password.','auth/email-already-in-use':'An account with this email already exists.','auth/weak-password':'Password must be at least 6 characters.','auth/too-many-requests':'Too many attempts.','auth/popup-closed-by-user':'Sign in was cancelled.','auth/invalid-credential':'Invalid email or password.','auth/network-request-failed':'Network error.'}; return map[code] || 'Something went wrong.'; }
+function getFirebaseError(code) {
+    const map = {
+        'auth/invalid-email': 'Invalid email address.',
+        'auth/user-not-found': 'No account found with this email.',
+        'auth/wrong-password': 'Incorrect password.',
+        'auth/email-already-in-use': 'An account with this email already exists.',
+        'auth/weak-password': 'Password must be at least 6 characters.',
+        'auth/too-many-requests': 'Too many attempts. Please try again later.',
+        'auth/popup-closed-by-user': 'Sign in was cancelled.',
+        'auth/popup-blocked': 'Popup was blocked by your browser. Please allow popups for this site.',
+        'auth/cancelled-popup-request': 'Sign in was cancelled.',
+        'auth/invalid-credential': 'Invalid email or password.',
+        'auth/network-request-failed': 'Network error. Check your connection.',
+        'auth/internal-error': 'An internal error occurred. Please try again.',
+        'auth/unauthorized-domain': 'This domain is not authorized for Google Sign-In. Please contact support.'
+    };
+    return map[code] || 'Something went wrong. Please try again.';
+}
 
+async function saveUserToBackend(user) {
+    try {
+        await fetch('/api/auth/save-user', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                uid: user.uid,
+                email: user.email,
+                name: user.displayName || '',
+                picture: user.photoURL || ''
+            })
+        });
+    } catch (err) {
+        console.warn('Could not save user to backend:', err);
+    }
+}
+
+// ── LOGIN ──
 window.doLogin = async function() {
     const email = document.getElementById('login-email').value.trim();
     const password = document.getElementById('login-password').value;
     hideError('login-error');
     if (!email || !password) { showError('login-error', 'Please fill in all fields.'); return; }
     setLoading('login-btn', true);
-    try { await signInWithEmailAndPassword(auth, email, password); closeAuth(); } catch (e) { showError('login-error', getFirebaseError(e.code)); } finally { setLoading('login-btn', false); }
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
+        closeAuth();
+    } catch (e) {
+        showError('login-error', getFirebaseError(e.code));
+    } finally {
+        setLoading('login-btn', false);
+    }
 };
 
-window.doSignup = async function() {
-    const name = document.getElementById('signup-name').value.trim();
-    const email = document.getElementById('signup-email').value.trim();
-    const password = document.getElementById('signup-password').value;
-    hideError('signup-error');
-    if (!name || !email || !password) { showError('signup-error', 'Please fill in all fields.'); return; }
-    setLoading('signup-btn', true);
-    try { const cred = await createUserWithEmailAndPassword(auth, email, password); await updateProfile(cred.user, { displayName: name }); closeAuth(); } catch (e) { showError('signup-error', getFirebaseError(e.code)); } finally { setLoading('signup-btn', false); }
-};
-
-window.doGoogle = async function() { try { await signInWithPopup(auth, provider); closeAuth(); } catch (e) { showError('login-error', getFirebaseError(e.code)); } };
-window.doGoogle = async function() { 
-    try { 
-        const result = await signInWithPopup(auth, provider);
-        fetch('/api/auth/save-user', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                uid: result.user.uid,
-                email: result.user.email,
-                name: result.user.displayName || '',
-                picture: result.user.photoURL || ''
-            })
-        });
-        closeAuth(); 
-    } catch (e) { showError('login-error', getFirebaseError(e.code)); } 
-};
-window._doLogout = async function() { await signOut(auth); };
-window.sendReset = async function() { const email = document.getElementById('login-email').value.trim(); hideError('login-error'); if (!email) { showError('login-error', 'Enter your email above first.'); return; } try { await sendPasswordResetEmail(auth, email); showSuccess('login-success', 'Reset email sent! Check your inbox.'); } catch (e) { showError('login-error', getFirebaseError(e.code)); } };
-
-window.openAuth = function(tab = 'login') {
-    document.getElementById('authOverlay').classList.add('show');
-    document.body.style.overflow = 'hidden';
-    // Clear all fields
-    document.getElementById('login-email').value = '';
-    document.getElementById('login-password').value = '';
-    document.getElementById('signup-name').value = '';
-    document.getElementById('signup-email').value = '';
-    document.getElementById('signup-password').value = '';
-    // Hide errors/success
-    document.querySelectorAll('.auth-error, .auth-success').forEach(el => el.classList.remove('show'));
-    switchTab(tab);
-};
-window.closeAuth = function() { document.getElementById('authOverlay').classList.remove('show'); document.body.style.overflow = ''; };
-window.switchTab = function(tab) { document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.auth-panel').forEach(p => p.classList.remove('active')); document.getElementById('tab-' + tab).classList.add('active'); document.getElementById('panel-' + tab).classList.add('active'); };
-
-document.getElementById('authOverlay').addEventListener('click', (e) => { if (e.target === document.getElementById('authOverlay')) closeAuth(); });
-document.getElementById('login-password').addEventListener('keydown', e => { if (e.key === 'Enter') window.doLogin(); });
-document.getElementById('signup-password').addEventListener('keydown', e => { if (e.key === 'Enter') window.doSignup(); });
+// ── SIGN UP ──
 window.doSignup = async function() {
     const name = document.getElementById('signup-name').value.trim();
     const email = document.getElementById('signup-email').value.trim();
@@ -496,20 +501,82 @@ window.doSignup = async function() {
     try {
         const cred = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(cred.user, { displayName: name });
-        // Save to backend
-        fetch('/api/auth/save-user', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                uid: cred.user.uid,
-                email: cred.user.email,
-                name: name,
-                picture: cred.user.photoURL || ''
-            })
-        });
+        await saveUserToBackend({ ...cred.user, displayName: name });
         closeAuth();
-    } catch (e) { showError('signup-error', getFirebaseError(e.code)); } finally { setLoading('signup-btn', false); }
+    } catch (e) {
+        showError('signup-error', getFirebaseError(e.code));
+    } finally {
+        setLoading('signup-btn', false);
+    }
 };
+
+// ── GOOGLE SIGN IN ──
+window.doGoogle = async function() {
+    // Determine which panel is active to show errors in the right place
+    const activePanel = document.querySelector('.auth-panel.active');
+    const errorId = activePanel && activePanel.id === 'panel-signup' ? 'signup-error' : 'login-error';
+    hideError('login-error');
+    hideError('signup-error');
+    try {
+        const result = await signInWithPopup(auth, provider);
+        await saveUserToBackend(result.user);
+        closeAuth();
+    } catch (e) {
+        if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
+            showError(errorId, getFirebaseError(e.code));
+        }
+    }
+};
+
+// ── LOGOUT ──
+window._doLogout = async function() {
+    try { await signOut(auth); } catch (e) { console.error('Logout error:', e); }
+};
+
+// ── FORGOT PASSWORD ──
+window.sendReset = async function() {
+    const email = document.getElementById('login-email').value.trim();
+    hideError('login-error');
+    if (!email) { showError('login-error', 'Enter your email above first.'); return; }
+    try {
+        await sendPasswordResetEmail(auth, email);
+        showSuccess('login-success', 'Reset email sent! Check your inbox.');
+    } catch (e) {
+        showError('login-error', getFirebaseError(e.code));
+    }
+};
+
+// ── MODAL CONTROLS ──
+window.openAuth = function(tab = 'login') {
+    document.getElementById('authOverlay').classList.add('show');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('login-email').value = '';
+    document.getElementById('login-password').value = '';
+    document.getElementById('signup-name').value = '';
+    document.getElementById('signup-email').value = '';
+    document.getElementById('signup-password').value = '';
+    document.querySelectorAll('.auth-error, .auth-success').forEach(el => el.classList.remove('show'));
+    switchTab(tab);
+};
+
+window.closeAuth = function() {
+    document.getElementById('authOverlay').classList.remove('show');
+    document.body.style.overflow = '';
+};
+
+window.switchTab = function(tab) {
+    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.auth-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.getElementById('panel-' + tab).classList.add('active');
+};
+
+// ── EVENT LISTENERS ──
+document.getElementById('authOverlay').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('authOverlay')) closeAuth();
+});
+document.getElementById('login-password').addEventListener('keydown', e => { if (e.key === 'Enter') window.doLogin(); });
+document.getElementById('signup-password').addEventListener('keydown', e => { if (e.key === 'Enter') window.doSignup(); });
 </script>
 </body>
 </html>
