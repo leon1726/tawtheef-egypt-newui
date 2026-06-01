@@ -17,8 +17,20 @@ except ImportError:
 
 app = Flask(__name__)
 
-app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
 
+app.secret_key = os.environ.get('SECRET_KEY', 'fallback-secret')
+
+@app.context_processor
+def inject_firebase():
+    return {
+        'FIREBASE_API_KEY': os.environ.get('FIREBASE_API_KEY', ''),
+        'FIREBASE_AUTH_DOMAIN': os.environ.get('FIREBASE_AUTH_DOMAIN', ''),
+        'FIREBASE_PROJECT_ID': os.environ.get('FIREBASE_PROJECT_ID', ''),
+        'FIREBASE_STORAGE_BUCKET': os.environ.get('FIREBASE_STORAGE_BUCKET', ''),
+        'FIREBASE_MESSAGING_SENDER_ID': os.environ.get('FIREBASE_MESSAGING_SENDER_ID', ''),
+        'FIREBASE_APP_ID': os.environ.get('FIREBASE_APP_ID', ''),
+    }
+    
 DATABASE_URL = os.environ.get("DATABASE_URL")
 USE_SQLITE = DATABASE_URL is None
 SQLITE_PATH = "jobs.db"
