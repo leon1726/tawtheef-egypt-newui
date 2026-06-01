@@ -1435,13 +1435,16 @@ fetch('/static/articles.json')
       ...data.resources,
       ...data.interview_prep
     };
+    console.log('Articles loaded. Available keys:', Object.keys(articleData));
   })
   .catch(err => console.error('Failed to load articles:', err));
 
 function openArticle(articleId) {
+  console.log('openArticle called with:', articleId);
   const a = articleData[articleId];
   if (!a) {
     console.warn('Article not found:', articleId);
+    console.log('Available IDs:', Object.keys(articleData));
     return;
   }
   document.getElementById('modalCategory').textContent = a.category || '';
@@ -1461,5 +1464,4 @@ document.getElementById('articleOverlay').addEventListener('click', function(e) 
   if (e.target === this) closeArticle();
 });
 </script>
-
 {% endblock %}
