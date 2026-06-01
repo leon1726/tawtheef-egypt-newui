@@ -3,6 +3,24 @@
 {% block extra_css %}
 <style>
 
+  /* ── Fixes: Dark sections + floating cards + hero visual ── */
+  .ca-section { background: #0f172a !important; }
+  .ca-article-card, .ca-resource-card, .ca-market-card, .ca-salary-card, .ca-hub-card, .ca-roadmap-card {
+    background: rgba(255,255,255,0.04) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+  }
+  .ca-featured { background: rgba(255,255,255,0.04) !important; backdrop-filter: blur(12px) !important; border: 1px solid rgba(255,255,255,0.08) !important; }
+  .ca-newsletter { background: var(--navy) !important; }
+  .ca-section-header h2, .ca-section-title, .ca-featured__title, .ca-article-card__title, .ca-resource-card__title, .ca-market-card__sector, .ca-salary-card__role, .ca-hub-card__title, .ca-roadmap-card__title { color: #F8FAFC !important; }
+  .ca-section-sub, .ca-article-card__excerpt, .ca-resource-card__desc, .ca-market-card__insight, .ca-hub-card__desc { color: #94A3B8 !important; }
+  
+  .ca-hero__visual { display: flex; flex-direction: column; gap: 20px; }
+  .hero-card { background: rgba(255,255,255,0.06); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; padding: 28px; }
+  .hero-card span { font-size: 0.8rem; color: rgba(255,255,255,0.5); display: block; }
+  .hero-card strong { display: block; font-size: 2rem; color: var(--gold); margin-top: 4px; }
+  
   /* ============================================================
      CAREER ADVICE PAGE — TAWTHEEF EGYPT
      Premium Resource Center
@@ -1399,7 +1417,7 @@
   ============================================================ -->
     <section class="ca-hero">
    <img src="{{ url_for('static', filename='career-advice-bg.png') }}" class="ca-hero-bg" alt="">
-    <div class="ca-hero__inner" style="display:block !important; max-width:800px !important; margin:0 auto !important; text-align:center !important;">
+    <div class="ca-hero__inner">
       <div class="ca-hero__eyebrow" style="justify-content:center;">
         <span class="ca-hero__eyebrow-line"></span>
         <span class="ca-hero__eyebrow-text">Tawtheef Egypt · Career Resource Center</span>
@@ -1425,6 +1443,22 @@
         <div class="ca-hero__stat"><div class="ca-hero__stat-num">100+</div><div class="ca-hero__stat-label">Interview Tips</div></div>
         <div class="ca-hero__stat"><div class="ca-hero__stat-num">25+</div><div class="ca-hero__stat-label">Salary Insights</div></div>
         <div class="ca-hero__stat"><div class="ca-hero__stat-num">10k+</div><div class="ca-hero__stat-label">Monthly Readers</div></div>
+      </div>
+    </div>
+
+    <!-- Right Visual Panel -->
+    <div class="ca-hero__visual">
+      <div class="hero-card">
+        <span>Jobs Posted</span>
+        <strong>12,000+</strong>
+      </div>
+      <div class="hero-card">
+        <span>Companies Hiring</span>
+        <strong>800+</strong>
+      </div>
+      <div class="hero-card">
+        <span>Career Guides</span>
+        <strong>50+</strong>
       </div>
     </div>
   </section>
