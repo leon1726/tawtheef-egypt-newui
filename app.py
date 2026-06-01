@@ -17,7 +17,7 @@ except ImportError:
 
 app = Flask(__name__)
 
-
+app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 USE_SQLITE = DATABASE_URL is None
@@ -207,6 +207,10 @@ def save_user():
     except Exception as e:
         print(f"Save user error: {e}")
         return {'success': False, 'error': str(e)}, 500
+
+@app.route('/sitemap.xml')
+def sitemap():
+    return app.send_static_file('sitemap.xml')
 
 
 if __name__ == '__main__':
