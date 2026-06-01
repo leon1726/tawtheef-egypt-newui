@@ -19,10 +19,54 @@ app = Flask(__name__)
 
 
 app.secret_key = os.environ.get('SECRET_KEY', 'fallback-secret')
+TRANSLATIONS = {
+    'en': {
+        'home': 'Home',
+        'find_jobs': 'Find Jobs',
+        'career_advice': 'Career Advice',
+        'categories': 'Categories',
+        'search_placeholder': 'Search jobs...',
+        'login': 'Login',
+        'signup': 'Sign Up',
+        'logout': 'Logout',
+        'apply_now': 'Apply Now',
+        'latest_jobs': 'Latest Openings',
+        'featured_positions': 'Featured Positions',
+        'top_compensation': 'Top Compensation',
+        'browse_categories': 'Browse Categories',
+        'footer_text': 'Data from Wuzzuf.net',
+        'search': 'Search',
+        'go': 'Go',
+    },
+    'ar': {
+        'home': 'الرئيسية',
+        'find_jobs': 'البحث عن وظائف',
+        'career_advice': 'نصائح مهنية',
+        'categories': 'التصنيفات',
+        'search_placeholder': 'ابحث عن وظائف...',
+        'login': 'دخول',
+        'signup': 'تسجيل',
+        'logout': 'خروج',
+        'apply_now': 'تقدم الآن',
+        'latest_jobs': 'أحدث الوظائف',
+        'featured_positions': 'وظائف مميزة',
+        'top_compensation': 'أعلى الرواتب',
+        'browse_categories': 'تصفح التصنيفات',
+        'footer_text': 'بيانات من Wuzzuf.net',
+        'search': 'بحث',
+        'go': 'بحث',
+    }
+}
 
 @app.context_processor
-def inject_firebase():
+def inject_globals():
+    lang = request.args.get('lang', 'en')
+    if lang not in ('en', 'ar'):
+        lang = 'en'
     return {
+        'lang': lang,
+        'is_ar': lang == 'ar',
+        't': TRANSLATIONS[lang],
         'FIREBASE_API_KEY': os.environ.get('FIREBASE_API_KEY', ''),
         'FIREBASE_AUTH_DOMAIN': os.environ.get('FIREBASE_AUTH_DOMAIN', ''),
         'FIREBASE_PROJECT_ID': os.environ.get('FIREBASE_PROJECT_ID', ''),
@@ -30,7 +74,6 @@ def inject_firebase():
         'FIREBASE_MESSAGING_SENDER_ID': os.environ.get('FIREBASE_MESSAGING_SENDER_ID', ''),
         'FIREBASE_APP_ID': os.environ.get('FIREBASE_APP_ID', ''),
     }
-
 DATABASE_URL = os.environ.get("DATABASE_URL")
 USE_SQLITE = DATABASE_URL is None
 SQLITE_PATH = "jobs.db"
@@ -181,11 +224,21 @@ def login_page():
 
 
 @app.context_processor
-def inject_lang():
+def inject_globals():
     lang = request.args.get('lang', 'en')
     if lang not in ('en', 'ar'):
         lang = 'en'
-    return {'lang': lang, 'is_ar': lang == 'ar'}
+    return {
+        'lang': lang,
+        'is_ar': lang == 'ar',
+        't': TRANSLATIONS[lang],
+        'FIREBASE_API_KEY': os.environ.get('FIREBASE_API_KEY', ''),
+        'FIREBASE_AUTH_DOMAIN': os.environ.get('FIREBASE_AUTH_DOMAIN', ''),
+        'FIREBASE_PROJECT_ID': os.environ.get('FIREBASE_PROJECT_ID', ''),
+        'FIREBASE_STORAGE_BUCKET': os.environ.get('FIREBASE_STORAGE_BUCKET', ''),
+        'FIREBASE_MESSAGING_SENDER_ID': os.environ.get('FIREBASE_MESSAGING_SENDER_ID', ''),
+        'FIREBASE_APP_ID': os.environ.get('FIREBASE_APP_ID', ''),
+    }
 
 
 @app.route('/signup')
