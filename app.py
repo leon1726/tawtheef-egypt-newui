@@ -270,22 +270,6 @@ def login_page():
     return render_template('login.html')
 
 
-@app.context_processor
-def inject_globals():
-    lang = request.args.get('lang', 'en')
-    if lang not in ('en', 'ar'):
-        lang = 'en'
-    return {
-        'lang': lang,
-        'is_ar': lang == 'ar',
-        't': TRANSLATIONS[lang],
-        'FIREBASE_API_KEY': os.environ.get('FIREBASE_API_KEY', ''),
-        'FIREBASE_AUTH_DOMAIN': os.environ.get('FIREBASE_AUTH_DOMAIN', ''),
-        'FIREBASE_PROJECT_ID': os.environ.get('FIREBASE_PROJECT_ID', ''),
-        'FIREBASE_STORAGE_BUCKET': os.environ.get('FIREBASE_STORAGE_BUCKET', ''),
-        'FIREBASE_MESSAGING_SENDER_ID': os.environ.get('FIREBASE_MESSAGING_SENDER_ID', ''),
-        'FIREBASE_APP_ID': os.environ.get('FIREBASE_APP_ID', ''),
-    }
 
 
 @app.route('/signup')
