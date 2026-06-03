@@ -2,7 +2,7 @@
 import sqlite3
 
 DB_PATH = "jobs.db"
-BASE_URL = "https://tawtheef-egypt.onrender.com"  # Update after deploy
+BASE_URL = "https://tawtheef-egypt-production.up.railway.app"
 
 def generate_sitemap():
     conn = sqlite3.connect(DB_PATH)
@@ -16,12 +16,34 @@ def generate_sitemap():
     <changefreq>hourly</changefreq>
     <priority>1.0</priority>
   </url>""")
+    urls.append(f"""  <url>
+    <loc>{BASE_URL}/?lang=ar</loc>
+    <changefreq>hourly</changefreq>
+    <priority>0.9</priority>
+  </url>""")
     
     # Search page
     urls.append(f"""  <url>
     <loc>{BASE_URL}/search</loc>
     <changefreq>hourly</changefreq>
     <priority>0.9</priority>
+  </url>""")
+    urls.append(f"""  <url>
+    <loc>{BASE_URL}/search?lang=ar</loc>
+    <changefreq>hourly</changefreq>
+    <priority>0.8</priority>
+  </url>""")
+    
+    # Career advice
+    urls.append(f"""  <url>
+    <loc>{BASE_URL}/career-advice</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>""")
+    urls.append(f"""  <url>
+    <loc>{BASE_URL}/career-advice?lang=ar</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>""")
     
     # Category pages
@@ -42,6 +64,11 @@ def generate_sitemap():
     <loc>{BASE_URL}/job/{job_id}</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
+  </url>""")
+        urls.append(f"""  <url>
+    <loc>{BASE_URL}/job/{job_id}?lang=ar</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
   </url>""")
     
     conn.close()
