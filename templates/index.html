@@ -95,87 +95,71 @@
 {% endblock %}
 
 {% block content %}
-<div class="grid">
-    <aside class="sidebar sidebar-desktop">
-        <div class="sidebar-head">{% if is_ar %}التصنيفات{% else %}Categories{% endif %} <span class="ar">{% if is_ar %}Categories{% else %}التصنيفات{% endif %}</span></div>
-        <div class="cat-list">
-            {% for cat in categories %}
-            <a href="/search?category={{ cat.category }}" class="cat-link">
-                <span>{{ cat.category }}</span><span class="cat-n">{{ cat.count }}</span>
-            </a>
-            {% endfor %}
-        </div>
-        <div style="padding:10px 14px; text-align:center;">
-            <script>atOptions={'key':'b1409f5fdeb6cd8e02d4c96526854341','format':'iframe','height':250,'width':300,'params':{}};</script>
-            <script src="https://www.highperformanceformat.com/b1409f5fdeb6cd8e02d4c96526854341/invoke.js"></script>
-        </div>
-    </aside>
+<div class="grid-full">
+    <div class="stats-subtitle">{{ total }}+ jobs · 500+ companies · {% if is_ar %}تحديث يومي{% else %}updated daily{% endif %}</div>
 
-    <div>
-        <div class="ph"><h1>{{ t.featured_positions }}</h1><p>{% if is_ar %}أكثر الوظائف طلباً مع متطلبات شاملة{% else %}Most in-demand roles with comprehensive requirements{% endif %}</p></div>
-        {% if hot_jobs %}
-        <div class="jobs-grid">
-            {% for job in hot_jobs %}
-            <div class="job-card">
-                <div class="jc-top">
-                    <div class="jc-logo">
-                        {% if job.logo_url %}<img src="{{ job.logo_url }}" alt="{{ job.company }}" style="width:100%;height:100%;object-fit:contain;">
-                        {% else %}{{ job.company[0]|upper if job.company else '?' }}{% endif %}
-                    </div>
-                    <div class="jc-info">
-                        <div class="jc-title"><a href="/job/{{ job.id }}">{{ job.title_ar if is_ar and job.title_ar else job.title }}</a></div>
-                        <div class="jc-company">{{ job.company }}</div>
-                    </div>
-                    <a href="/apply/{{ job.id }}" class="apply-pill" target="_blank">{% if is_ar %}قدم الأن ↗{% else %}Apply Now ↗{% endif %}</a>
+    <div class="section-header">
+        <h2>{{ t.featured_positions }}</h2>
+        <div class="cat-pills-wrap">
+            <a href="/search" class="cat-pill active">{% if is_ar %}الكل{% else %}All{% endif %}</a>
+            <a href="/search?category=IT / Software / Development" class="cat-pill">IT / Software</a>
+            <a href="/search?category=Engineering" class="cat-pill">Engineering</a>
+            <a href="/search?category=Marketing / PR / Advertising" class="cat-pill">Marketing</a>
+            <a href="/search?category=Medical / Healthcare" class="cat-pill">Healthcare</a>
+            <a href="/search?category=Sales / Retail" class="cat-pill">Sales</a>
+            <a href="/search?category=Accounting / Finance" class="cat-pill">Finance</a>
+            <a href="/search?category=Administration" class="cat-pill">Administration</a>
+            <a href="/search?category=Hospitality / Hotels / Food Services" class="cat-pill">Hospitality</a>
+        </div>
+    </div>
+    <p style="color:#94A3B8;font-size:13px;margin-bottom:20px;">{% if is_ar %}أكثر الوظائف طلباً مع متطلبات شاملة{% else %}Most in-demand roles with comprehensive requirements{% endif %}</p>
+
+    {% if hot_jobs %}
+    <div class="jobs-grid">
+        {% for job in hot_jobs %}
+        <div class="job-card">
+            <div class="jc-top">
+                <div class="jc-logo">
+                    {% if job.logo_url %}<img src="{{ job.logo_url }}" alt="{{ job.company }}" style="width:100%;height:100%;object-fit:contain;">
+                    {% else %}{{ job.company[0]|upper if job.company else '?' }}{% endif %}
                 </div>
-                <div class="jc-meta">
-                    <span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>{{ job.location_ar if is_ar and job.location_ar else job.location }}</span>
-                    {% if job.experience and job.experience != '' and job.experience != 'N/A' %}<span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>{{ job.experience }}</span>{% endif %}
+                <div class="jc-info">
+                    <div class="jc-title"><a href="/job/{{ job.id }}">{{ job.title_ar if is_ar and job.title_ar else job.title }}</a></div>
+                    <div class="jc-company">{{ job.company }}</div>
                 </div>
-                <div class="jc-tags">
-                    <span class="tag t-cat">{{ job.category }}</span>
-                    {% if job.salary and job.salary|trim != '' and 'kpi' not in job.salary.lower() %}<span class="tag t-sal">{{ job.salary }}</span>{% endif %}
-                    <span class="tag t-date">{{ job.posted_date }}</span>
-                </div>
+                <a href="/apply/{{ job.id }}" class="apply-pill" target="_blank">{% if is_ar %}قدم الأن ↗{% else %}Apply Now ↗{% endif %}</a>
             </div>
-            {% if loop.index == 5 %}<div class="ad"><script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script></div>{% endif %}
-            {% endfor %}
-        </div>
-        {% else %}<div class="empty"><p>No featured positions right now.</p></div>{% endif %}
-
-        <div class="ph" style="margin-top:32px;"><h1>{{ t.top_compensation }}</h1><p>{% if is_ar %}وظائف مع نطاق رواتب معلن{% else %}Positions with disclosed salary ranges{% endif %}</p></div>
-        {% if top_paying %}
-        <div class="jobs-grid">
-            {% for job in top_paying %}
-            <div class="job-card">
-                <div class="jc-top">
-                    <div class="jc-logo">
-                        {% if job.logo_url %}<img src="{{ job.logo_url }}" alt="{{ job.company }}" style="width:100%;height:100%;object-fit:contain;">
-                        {% else %}{{ job.company[0]|upper if job.company else '?' }}{% endif %}
-                    </div>
-                    <div class="jc-info"><div class="jc-title"><a href="/job/{{ job.id }}">{{ job.title_ar if is_ar and job.title_ar else job.title }}</a></div><div class="jc-company">{{ job.company }}</div></div>
-                    <a href="/apply/{{ job.id }}" class="apply-pill" target="_blank">{% if is_ar %}قدم الأن ↗{% else %}Apply Now ↗{% endif %}</a>
-                </div>
-                <div class="jc-meta">
-                    <span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>{{ job.location_ar if is_ar and job.location_ar else job.location }}</span>
-                    {% if job.salary and job.salary|trim != '' and 'kpi' not in job.salary.lower() %}<span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>{{ job.salary }}</span>{% endif %}
-                </div>
-                <div class="jc-tags">
-                    <span class="tag t-cat">{{ job.category }}</span>
-                    {% if job.salary and job.salary|trim != '' and 'kpi' not in job.salary.lower() %}<span class="tag t-sal">{{ job.salary }}</span>{% endif %}
-                    <span class="tag t-date">{{ job.posted_date }}</span>
-                </div>
+            <div class="jc-meta">
+                <span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>{{ job.location_ar if is_ar and job.location_ar else job.location }}</span>
+                {% if job.experience and job.experience != '' and job.experience != 'N/A' %}<span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>{{ job.experience }}</span>{% endif %}
             </div>
-            {% if loop.index == 5 %}<div class="ad"><script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script></div>{% endif %}
-            {% endfor %}
+            <div class="jc-tags">
+                <span class="tag t-cat">{{ job.category }}</span>
+                {% if job.salary and job.salary|trim != '' and 'kpi' not in job.salary.lower() %}<span class="tag t-sal">{{ job.salary }}</span>{% endif %}
+                <span class="tag t-date">{{ job.posted_date }}</span>
+            </div>
         </div>
-        {% else %}<div class="empty"><p>No salary data available yet.</p></div>{% endif %}
+        {% if loop.index == 5 %}<div class="ad"><script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script></div>{% endif %}
+        {% endfor %}
 
-        <div class="ad" style="margin-top:8px;"><script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script></div>
+        <!-- Promo Card -->
+        <div class="promo-card">
+            <div>
+                <h3>{% if is_ar %}احصل على بونص ٦٠٠٪{% else %}GET A 600% BONUS{% endif %}</h3>
+                <p>{% if is_ar %}احصل على أفضل مجتمعات الوظائف المرغوبة{% else %}Get your best communities of desired jobs{% endif %}</p>
+            </div>
+            <div class="promo-icon">🚀</div>
+        </div>
+    </div>
+    {% else %}<div class="empty"><p>No featured positions right now.</p></div>{% endif %}
 
-        <div class="ph" style="margin-top:32px;"><h1>{{ t.latest_jobs }}</h1><p>{{ total }}+ {% if is_ar %}وظيفة من أفضل الشركات في مصر — تحديث يومي{% else %}jobs from top companies across Egypt — updated daily{% endif %}</p></div>
-        <div class="jobs-grid">
-        {% for job in jobs %}
+    <div class="section-header" style="margin-top:32px;">
+        <h2>{{ t.top_compensation }}</h2>
+    </div>
+    <p style="color:#94A3B8;font-size:13px;margin-bottom:20px;">{% if is_ar %}وظائف مع نطاق رواتب معلن{% else %}Positions with disclosed salary ranges{% endif %}</p>
+    {% if top_paying %}
+    <div class="jobs-grid">
+        {% for job in top_paying %}
         <div class="job-card">
             <div class="jc-top">
                 <div class="jc-logo">
@@ -187,17 +171,48 @@
             </div>
             <div class="jc-meta">
                 <span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>{{ job.location_ar if is_ar and job.location_ar else job.location }}</span>
-                {% if job.experience and job.experience != '' and job.experience != 'N/A' %}<span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>{{ job.experience }}</span>{% endif %}
+                {% if job.salary and job.salary|trim != '' and 'kpi' not in job.salary.lower() %}<span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>{{ job.salary }}</span>{% endif %}
             </div>
             <div class="jc-tags">
                 <span class="tag t-cat">{{ job.category }}</span>
                 {% if job.salary and job.salary|trim != '' and 'kpi' not in job.salary.lower() %}<span class="tag t-sal">{{ job.salary }}</span>{% endif %}
-                {% if job.posted_date %}<span class="tag t-date">{{ job.posted_date }}</span>{% endif %}
+                <span class="tag t-date">{{ job.posted_date }}</span>
             </div>
         </div>
-        {% if loop.index == 5 or loop.index == 10 or loop.index == 15 %}<div class="ad"><script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script></div>{% endif %}
+        {% if loop.index == 5 %}<div class="ad"><script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script></div>{% endif %}
         {% endfor %}
+    </div>
+    {% else %}<div class="empty"><p>No salary data available yet.</p></div>{% endif %}
+
+    <div class="ad" style="margin-top:8px;"><script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script></div>
+
+    <div class="section-header" style="margin-top:32px;">
+        <h2>{{ t.latest_jobs }}</h2>
+    </div>
+    <p style="color:#94A3B8;font-size:13px;margin-bottom:20px;">{{ total }}+ {% if is_ar %}وظيفة من أفضل الشركات في مصر — تحديث يومي{% else %}jobs from top companies across Egypt — updated daily{% endif %}</p>
+    <div class="jobs-grid">
+    {% for job in jobs %}
+    <div class="job-card">
+        <div class="jc-top">
+            <div class="jc-logo">
+                {% if job.logo_url %}<img src="{{ job.logo_url }}" alt="{{ job.company }}" style="width:100%;height:100%;object-fit:contain;">
+                {% else %}{{ job.company[0]|upper if job.company else '?' }}{% endif %}
+            </div>
+            <div class="jc-info"><div class="jc-title"><a href="/job/{{ job.id }}">{{ job.title_ar if is_ar and job.title_ar else job.title }}</a></div><div class="jc-company">{{ job.company }}</div></div>
+            <a href="/apply/{{ job.id }}" class="apply-pill" target="_blank">{% if is_ar %}قدم الأن ↗{% else %}Apply Now ↗{% endif %}</a>
         </div>
+        <div class="jc-meta">
+            <span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>{{ job.location_ar if is_ar and job.location_ar else job.location }}</span>
+            {% if job.experience and job.experience != '' and job.experience != 'N/A' %}<span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>{{ job.experience }}</span>{% endif %}
+        </div>
+        <div class="jc-tags">
+            <span class="tag t-cat">{{ job.category }}</span>
+            {% if job.salary and job.salary|trim != '' and 'kpi' not in job.salary.lower() %}<span class="tag t-sal">{{ job.salary }}</span>{% endif %}
+            {% if job.posted_date %}<span class="tag t-date">{{ job.posted_date }}</span>{% endif %}
+        </div>
+    </div>
+    {% if loop.index == 5 or loop.index == 10 or loop.index == 15 %}<div class="ad"><script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script></div>{% endif %}
+    {% endfor %}
     </div>
 </div>
 {% endblock %}
