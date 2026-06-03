@@ -8,6 +8,13 @@ import sqlite3
 from datetime import datetime
 from urllib.parse import urljoin
 from playwright.sync_api import sync_playwright
+from deep_translator import GoogleTranslator
+
+translator = GoogleTranslator(source="en", target="ar")
+
+
+
+
 
 try:
     import psycopg2
@@ -278,12 +285,25 @@ class WuzzufCategoryScraper:
             if link in self.seen_links:
                 return None
 
-            self.seen_links.add(link)
+ self.seen_links.add(link)
+
+            title_ar = ""
+            location_ar = ""
+            try:
+                title_ar = translator.translate(title) if title else ""
+            except:
+                pass
+            try:
+                location_ar = translator.translate(location) if location else ""
+            except:
+                pass
 
             return {
                 "title": title,
+                "title_ar": title_ar,
                 "company": company,
                 "location": location,
+                "location_ar": location_ar,
                 "link": link,
                 "category": category_name,
                 "posted_date": posted_date,
@@ -310,11 +330,12 @@ class WuzzufCategoryScraper:
                     ))
                 else:
                     c.execute("""
-                        INSERT INTO jobs (title, company, location, link, category, posted_date, scraped_at)
-                        VALUES (%s, %s, %s, %s, %s, %s, %s)
+                        INSERT INTO jobs (title, title_ar, company, location, location_ar, link, category, posted_date, scraped_at)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                         ON CONFLICT (link) DO NOTHING
                     """, (
-                        job.get("title"), job.get("company"), job.get("location"),
+                        job.get("title"), job.get("title_ar"), job.get("company"),
+                        job.get("location"), job.get("location_ar"),
                         job.get("link"), job.get("category"), job.get("posted_date"),
                         job.get("scraped_at"),
                     ))
@@ -499,6 +520,11 @@ def enrich_jobs(max_jobs=None, delay=2):
 
             try:
                 details = scraper.scrape_job_details(page, link)
+                if details.get("description"):
+                    try:
+                        details["description_ar"] = translator.translate(details["description"][:4500])
+                    except:
+                        details["description_ar"] = ""
             except Exception as e:
                 print(f"        Detail error: {e}")
                 details = {}
@@ -529,14 +555,14 @@ def enrich_jobs(max_jobs=None, delay=2):
                 else:
                     c.execute("""
                         UPDATE jobs
-                        SET description=%s, skills=%s, job_type=%s, experience=%s,
+                        SET description=%s, description_ar=%s, skills=%s, job_type=%s, experience=%s,
                             career_level=%s, education=%s, salary=%s, details_scraped=1
                         WHERE id=%s
                     """, (
-                        details.get("description", ""), details.get("skills", ""),
-                        details.get("job_type", ""), details.get("experience", ""),
-                        details.get("career_level", ""), details.get("education", ""),
-                        details.get("salary", ""), job_id,
+                        details.get("description", ""), details.get("description_ar", ""),
+                        details.get("skills", ""), details.get("job_type", ""),
+                        details.get("experience", ""), details.get("career_level", ""),
+                        details.get("education", ""), details.get("salary", ""), job_id,
                     ))
                 conn.commit()
                 conn.close()
