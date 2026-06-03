@@ -12,10 +12,6 @@ from deep_translator import GoogleTranslator
 
 translator = GoogleTranslator(source="en", target="ar")
 
-
-
-
-
 try:
     import psycopg2
     import psycopg2.extras
@@ -80,13 +76,16 @@ def init_db():
             CREATE TABLE IF NOT EXISTS jobs (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT,
+                title_ar TEXT,
                 company TEXT,
                 location TEXT,
+                location_ar TEXT,
                 link TEXT UNIQUE,
                 category TEXT,
                 posted_date TEXT,
                 scraped_at TEXT,
                 description TEXT,
+                description_ar TEXT,
                 skills TEXT,
                 job_type TEXT,
                 experience TEXT,
@@ -101,13 +100,16 @@ def init_db():
             CREATE TABLE IF NOT EXISTS jobs (
                 id SERIAL PRIMARY KEY,
                 title TEXT,
+                title_ar TEXT,
                 company TEXT,
                 location TEXT,
+                location_ar TEXT,
                 link TEXT UNIQUE,
                 category TEXT,
                 posted_date TEXT,
                 scraped_at TEXT,
                 description TEXT,
+                description_ar TEXT,
                 skills TEXT,
                 job_type TEXT,
                 experience TEXT,
@@ -233,7 +235,7 @@ class WuzzufCategoryScraper:
 
         return self.jobs
 
-def _parse_card(self, card, category_name):
+    def _parse_card(self, card, category_name):
         try:
             title = ""
             title_el = card.query_selector("h2 a") or card.query_selector("h2")
@@ -291,11 +293,11 @@ def _parse_card(self, card, category_name):
             location_ar = ""
             try:
                 title_ar = translator.translate(title) if title else ""
-            except:
+            except Exception:
                 pass
             try:
                 location_ar = translator.translate(location) if location else ""
-            except:
+            except Exception:
                 pass
 
             return {
@@ -375,21 +377,15 @@ def _parse_card(self, card, category_name):
             skills = [el.inner_text().strip() for el in skill_els if el.inner_text().strip()]
             details["skills"] = ", ".join(skills) if skills else ""
 
-            requirements = []
             req_header = page.query_selector("h2.css-19118j8")
             if req_header:
-                li_els = page.query_selector_all("h2.css-19118j8 ~ ul li")
-                requirements = [el.inner_text().strip() for el in li_els if el.inner_text().strip()]
-
-                # Job Description and Job Requirements
                 desc_text = ""
                 requirements_list = []
-                
+
                 desc_headers = page.query_selector_all("h2.css-19118j8")
                 for header in desc_headers:
                     header_text = header.inner_text().strip()
                     content_parts = []
-                    # Get sibling elements until next h2 or end
                     try:
                         sibling = header.query_selector("xpath=following-sibling::*[1]")
                         while sibling:
@@ -400,9 +396,9 @@ def _parse_card(self, card, category_name):
                             if text:
                                 content_parts.append(text)
                             sibling = sibling.query_selector("xpath=following-sibling::*[1]")
-                    except:
+                    except Exception:
                         pass
-                    
+
                     if "job description" in header_text.lower():
                         desc_text = "\n".join(content_parts)
                     elif "job requirements" in header_text.lower():
@@ -413,7 +409,6 @@ def _parse_card(self, card, category_name):
                 elif requirements_list:
                     details["description"] = "\n".join(requirements_list)[:5000]
                 else:
-                    # Fallback
                     desc_el = (
                         page.query_selector("div.css-1o5p7h1") or
                         page.query_selector("div[class*='description']")
@@ -427,18 +422,17 @@ def _parse_card(self, card, category_name):
         return details
 
     def scrape_general_search(self, max_pages=10):
-        """Scrape the main search feed - catches all categories at once."""
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=self.headless)
             context = browser.new_context(user_agent=self.user_agent)
             page = context.new_page()
             page.set_default_timeout(30000)
-            
+
             for page_num in range(max_pages):
                 start = page_num * 15
                 url = f"https://www.wuzzuf.net/search/jobs/?a=spd&start={start}"
                 print(f"    Page {page_num+1}: {url}")
-                
+
                 try:
                     page.goto(url, wait_until="domcontentloaded")
                     page.wait_for_timeout(2500)
@@ -446,15 +440,15 @@ def _parse_card(self, card, category_name):
                 except Exception as e:
                     print(f"    Failed: {e}")
                     continue
-                
+
                 cards = page.query_selector_all("div.css-ghe2tq")
                 if not cards:
                     cards = page.query_selector_all("div.css-ovk77c")
-                
+
                 if not cards:
                     print("    No cards, stopping.")
                     break
-                
+
                 new_jobs = 0
                 for card in cards:
                     try:
@@ -462,12 +456,12 @@ def _parse_card(self, card, category_name):
                         if job:
                             self.jobs.append(job)
                             new_jobs += 1
-                    except:
+                    except Exception:
                         continue
-                
+
                 print(f"    New: {new_jobs} | Total: {len(self.jobs)}")
                 time.sleep(random.uniform(1, 2))
-            
+
             self._save_to_db()
             context.close()
             browser.close()
@@ -486,10 +480,7 @@ def _parse_card(self, card, category_name):
 def enrich_jobs(max_jobs=None, delay=2):
     conn = get_db()
     c = conn.cursor()
-    if USE_SQLITE:
-        c.execute("SELECT id, link FROM jobs WHERE details_scraped = 0 ORDER BY id DESC")
-    else:
-        c.execute("SELECT id, link FROM jobs WHERE details_scraped = 0 ORDER BY id DESC")
+    c.execute("SELECT id, link FROM jobs WHERE details_scraped = 0 ORDER BY id DESC")
     jobs = c.fetchall()
     conn.close()
 
@@ -523,7 +514,7 @@ def enrich_jobs(max_jobs=None, delay=2):
                 if details.get("description"):
                     try:
                         details["description_ar"] = translator.translate(details["description"][:4500])
-                    except:
+                    except Exception:
                         details["description_ar"] = ""
             except Exception as e:
                 print(f"        Detail error: {e}")
@@ -531,7 +522,7 @@ def enrich_jobs(max_jobs=None, delay=2):
                 failed += 1
                 try:
                     context.close()
-                except:
+                except Exception:
                     pass
                 context = browser.new_context(user_agent=random.choice(USER_AGENTS))
                 page = context.new_page()
@@ -555,8 +546,9 @@ def enrich_jobs(max_jobs=None, delay=2):
                 else:
                     c.execute("""
                         UPDATE jobs
-                        SET description=%s, description_ar=%s, skills=%s, job_type=%s, experience=%s,
-                            career_level=%s, education=%s, salary=%s, details_scraped=1
+                        SET description=%s, description_ar=%s, skills=%s, job_type=%s,
+                            experience=%s, career_level=%s, education=%s, salary=%s,
+                            details_scraped=1
                         WHERE id=%s
                     """, (
                         details.get("description", ""), details.get("description_ar", ""),
@@ -574,7 +566,7 @@ def enrich_jobs(max_jobs=None, delay=2):
                 print(f"    [Progress: {enriched}/{total} enriched, {failed} failed]")
                 try:
                     context.close()
-                except:
+                except Exception:
                     pass
                 context = browser.new_context(user_agent=random.choice(USER_AGENTS))
                 page = context.new_page()
@@ -658,6 +650,7 @@ def migrate_from_sqlite(sqlite_path="jobs.db"):
     pg_conn.close()
     print(f"[✓] Migrated {migrated}/{len(jobs)} jobs.")
 
+
 def export_csv():
     conn = get_db()
     c = conn.cursor()
@@ -674,14 +667,9 @@ def export_csv():
             "experience", "career_level", "education", "salary"]
 
     with open("jobs.csv", "w", newline="", encoding="utf-8") as f:
-        if USE_SQLITE:
-            writer = csv.DictWriter(f, fieldnames=keys, extrasaction='ignore')
-            writer.writeheader()
-            writer.writerows([dict(j) for j in jobs])
-        else:
-            writer = csv.DictWriter(f, fieldnames=keys, extrasaction='ignore')
-            writer.writeheader()
-            writer.writerows([dict(j) for j in jobs])
+        writer = csv.DictWriter(f, fieldnames=keys, extrasaction='ignore')
+        writer.writeheader()
+        writer.writerows([dict(j) for j in jobs])
 
     print(f"[+] Exported {len(jobs)} jobs to jobs.csv")
 
