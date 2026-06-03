@@ -49,7 +49,8 @@ TRANSLATIONS = {
     'join_thousands': 'انضم إلى آلاف الباحثين عن عمل في مصر',
     'full_name': 'الاسم الكامل',
     'signup_btn': '← إنشاء حساب',
-}}
+  }
+}
 
 @app.context_processor
 def inject_globals():
