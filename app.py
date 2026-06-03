@@ -20,7 +20,6 @@ app = Flask(__name__)
 
 app.secret_key = os.environ.get('SECRET_KEY', 'fallback-secret')
 TRANSLATIONS = {
-TRANSLATIONS = {
     'en': {
         'home': 'Home',
         'find_jobs': 'Find Jobs',
