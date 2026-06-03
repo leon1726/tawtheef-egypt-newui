@@ -273,13 +273,19 @@
         @media (max-width: 640px) { .page { padding: 16px 0 60px; } .ph h1 { font-size: 19px; } .job-card { padding: 14px 16px; } .jc-top { flex-direction: column; gap: 8px; } .apply-pill { width: 100%; justify-content: center; } .sbar { display: none; } .rmeta { flex-direction: column; gap: 3px; font-size: 12px; align-items: flex-start; } .bc { font-size: 11.5px; } footer { font-size: 11.5px; } .hero { padding: 50px 16px 70px; } .hero h1 { font-size: 24px; } .hero-feature-badges { gap: 6px; } .hero-feature-badge { font-size: 10px; padding: 4px 10px; } .hero-stats-bar { gap: 20px; } }
     
 
+
+
 [dir="rtl"] body { font-family: var(--font-ar); }
-[dir="rtl"] .nav-wrap, [dir="rtl"] .nav-links { flex-direction: row-reverse; }
-[dir="rtl"] .nav-right { flex-direction: row; }
-[dir="rtl"] .logo { order: -1; }
+/* Navbar: keep logo on LEFT, nav-right on RIGHT always */
+[dir="rtl"] .nav-wrap { flex-direction: row; }
+[dir="rtl"] .nav-links { flex-direction: row-reverse; }
+[dir="rtl"] .nav-right { flex-direction: row; margin-left: auto; margin-right: 0; }
+/* Sidebar category active indicator */
 [dir="rtl"] .cat-link { border-left: none; border-right: 3px solid transparent; }
 [dir="rtl"] .cat-link:hover, [dir="rtl"] .cat-link.on { border-right-color: var(--gold); }
-[dir="rtl"] .jc-top { flex-direction: row-reverse; }
+/* Job card: keep logo LEFT, button RIGHT always */
+[dir="rtl"] .jc-top { flex-direction: row; }
+/* Hero text align right in Arabic */
 [dir="rtl"] .hero { text-align: right; }
 
 
