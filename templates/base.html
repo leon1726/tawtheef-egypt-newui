@@ -272,7 +272,45 @@
         @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .sidebar-desktop { display: none; } .mobile-cat-btn { display: flex; } .mobile-ad { display: block; } .nav-links, .nav-right { display: none; } .nav-form { display: flex; flex: 1; gap: 6px; max-width: 320px; margin-left: auto; } .nav-form input { flex: 1; min-width: 0; background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.08); border-radius: var(--r-sm); padding: 8px 12px; font-family: var(--font); font-size: 13px; color: #F8FAFC; outline: none; } .nav-form input::placeholder { color: var(--muted); } .nav-btn { padding: 8px 14px; background: var(--gold); color: var(--navy); border: none; border-radius: var(--r-sm); font-family: var(--font); font-size: 13px; font-weight: 700; cursor: pointer; flex-shrink: 0; white-space: nowrap; } .hero h1 { font-size: 28px; } .hero-search-wrap { flex-direction: column !important; } .hero-skyline { width: 80%; opacity: 0.2; } }
 
         /* ── MOBILE ── */
-        @media (max-width: 640px) { .page { padding: 16px 0 60px; } .ph h1 { font-size: 19px; } .job-card { padding: 14px 16px; } .jc-top { flex-direction: column; gap: 8px; } .apply-pill { width: 100%; justify-content: center; } .sbar { display: flex; } .rmeta { flex-direction: column; gap: 3px; font-size: 12px; align-items: flex-start; } .bc { font-size: 11.5px; } footer { font-size: 11.5px; } .hero { padding: 50px 16px 70px; } .hero h1 { font-size: 24px; } .hero-feature-badges { gap: 6px; } .hero-feature-badge { font-size: 10px; padding: 4px 10px; } .hero-stats-bar { gap: 20px; } }
+@media (max-width: 640px) {
+    .page { padding: 16px 0 60px; }
+    .ph h1 { font-size: 19px; }
+
+    /* Job cards */
+    .job-card { padding: 14px 16px; }
+    .jc-top { flex-direction: row; gap: 8px; align-items: center; }
+    .jc-logo { width: 36px; height: 36px; font-size: 12px; flex-shrink: 0; }
+    .jc-title { font-size: 13.5px; }
+    .jc-company { font-size: 12px; }
+    .apply-pill { padding: 8px 14px; font-size: 12px; white-space: nowrap; flex-shrink: 0; }
+
+    /* Tags */
+    .jc-tags { gap: 4px; }
+    .tag { font-size: 10px; padding: 2px 8px; }
+
+    /* Search */
+    .sbar { display: flex; flex-direction: column; gap: 8px; }
+    .sbar input { width: 100%; }
+    .sbar .btn { width: 100%; justify-content: center; }
+
+    /* Results meta */
+    .rmeta { flex-direction: column; gap: 3px; font-size: 12px; align-items: flex-start; }
+
+    /* Hero */
+    .hero { padding: 40px 16px 60px; }
+    .hero h1 { font-size: 22px; }
+    .hero-feature-badges { gap: 6px; }
+    .hero-feature-badge { font-size: 10px; padding: 4px 10px; }
+    .hero-stats-bar { flex-direction: column !important; gap: 16px; padding: 16px !important; }
+    .hero-chips { gap: 5px; }
+    .hero-chip { font-size: 10px; }
+
+    /* Misc */
+    .bc { font-size: 11.5px; }
+    footer { font-size: 11.5px; padding: 16px; }
+    .pages { gap: 3px; }
+    .pg { min-width: 32px; height: 32px; font-size: 12px; }
+}
     
 
 
