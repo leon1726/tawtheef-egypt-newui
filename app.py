@@ -170,24 +170,26 @@ def index():
     try:
         category = request.args.get('category', '').strip()
         
-        where_clause = ""
-        params = []
         if category:
-            where_clause = "WHERE category = %s"
-            params = [category]
+            latest = query("SELECT * FROM jobs WHERE category = %s ORDER BY scraped_at DESC LIMIT 20", [category])
+            hot = query("SELECT * FROM jobs WHERE skills IS NOT NULL AND skills != '' AND category = %s ORDER BY LENGTH(skills) DESC LIMIT 10", [category])
+            top_paying = query("SELECT * FROM jobs WHERE salary IS NOT NULL AND salary != 'Confidential' AND salary != '' AND salary != 'Not specified' AND LOWER(salary) NOT LIKE %s AND category = %s ORDER BY scraped_at DESC LIMIT 10", ['%kpi%', category])
+            total_result = query_one("SELECT COUNT(*) as count FROM jobs WHERE category = %s", [category])
+        else:
+            latest = query("SELECT * FROM jobs ORDER BY scraped_at DESC LIMIT 20")
+            hot = query("SELECT * FROM jobs WHERE skills IS NOT NULL AND skills != '' ORDER BY LENGTH(skills) DESC LIMIT 10")
+            top_paying = query("SELECT * FROM jobs WHERE salary IS NOT NULL AND salary != 'Confidential' AND salary != '' AND salary != 'Not specified' AND LOWER(salary) NOT LIKE %s ORDER BY scraped_at DESC LIMIT 10", ['%kpi%'])
+            total_result = query_one("SELECT COUNT(*) as count FROM jobs")
         
-        latest = query(f"SELECT * FROM jobs {where_clause} ORDER BY scraped_at DESC LIMIT 20", params)
-        hot = query(f"SELECT * FROM jobs WHERE skills IS NOT NULL AND skills != '' {'AND category = %s' if category else ''} ORDER BY LENGTH(skills) DESC LIMIT 10", [category] if category else [])
-        top_paying = query(f"SELECT * FROM jobs WHERE salary IS NOT NULL AND salary != 'Confidential' AND salary != '' AND salary != 'Not specified' AND LOWER(salary) NOT LIKE %s {'AND category = %s' if category else ''} ORDER BY scraped_at DESC LIMIT 10", ['%kpi%'] + ([category] if category else []))
+        overall_total_result = query_one("SELECT COUNT(*) as count FROM jobs")
+        overall_total = overall_total_result['count'] if overall_total_result else 0
         
         categories = query("SELECT category, COUNT(*) as count FROM jobs GROUP BY category ORDER BY count DESC")
-        total_result = query_one(f"SELECT COUNT(*) as count FROM jobs {where_clause}", params)
         total = total_result['count'] if total_result else 0
     except Exception as e:
         return f"Database error: {e}", 500
 
-    return render_template('index.html', jobs=latest, hot_jobs=hot, top_paying=top_paying, categories=categories, total=total, selected_category=category)
-
+    return render_template('index.html', jobs=latest, hot_jobs=hot, top_paying=top_paying, categories=categories, total=total, overall_total=overall_total, selected_category=category)
 
 @app.route('/search')
 def search():
