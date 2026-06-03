@@ -90,6 +90,7 @@
         .wrap { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
         .page { padding: 28px 0 80px; }
         .grid { display: grid !important; grid-template-columns: 280px 1fr !important; gap: 32px !important; max-width: 1250px !important; margin: 0 auto !important; padding: 40px 24px !important; width: 100% !important; }
+        .jobs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 
         /* ── SIDEBAR ── */
         .sidebar { background: #1E2D4A; border-radius: var(--r-lg); border: 1px solid rgba(255,255,255,0.06); overflow: hidden; position: sticky; top: 84px; box-shadow: var(--sh); height: fit-content; }
@@ -118,7 +119,7 @@
         .job-card:hover::before { background: var(--gold); }
         .job-detail-card { background: #1E2D4A; border: 1px solid rgba(255,255,255,0.06); border-radius: var(--r); padding: 24px; color: #F8FAFC; }
         .jc-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
-        .jc-logo { width: 44px; height: 44px; border-radius: var(--r-sm); border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.04); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: var(--muted); flex-shrink: 0; overflow: hidden; }
+        .jc-logo { width: 44px; height: 44px; border-radius: var(--r-sm); border: 1px solid rgba(255,255,255,0.08); background: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: #0f172a; flex-shrink: 0; overflow: hidden; padding: 4px; }
         .jc-info { flex: 1; min-width: 0; }
         .jc-title { font-size: 15px; font-weight: 700; color: #F8FAFC; line-height: 1.35; }
         .jc-title a { color: inherit; transition: color var(--t); }
@@ -272,7 +273,7 @@
         @media (min-width: 901px) { .logo-icon { width: 28px; height: 28px; } .logo-symbol { width: 28px; height: 28px; } .logo-en { font-size: 20px; } .logo-ar { font-size: 12px; } .wrap { padding: 0 28px; } }
 
         /* ── TABLET / MOBILE ── */
-@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .sidebar-desktop { display: none; }  .mobile-ad { display: block; } .nav-links { display: none; } .nav-form { display: none; } .nav-right { display: flex; gap: 6px; margin-left: auto; } .nav-form input { flex: 1; min-width: 0; background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.08); border-radius: var(--r-sm); padding: 8px 12px; font-family: var(--font); font-size: 13px; color: #F8FAFC; outline: none; } .nav-form input::placeholder { color: var(--muted); } .nav-btn { padding: 8px 14px; background: var(--gold); color: var(--navy); border: none; border-radius: var(--r-sm); font-family: var(--font); font-size: 13px; font-weight: 700; cursor: pointer; flex-shrink: 0; white-space: nowrap; } .hero h1 { font-size: 28px; } .hero-search-wrap { flex-direction: column !important; } .hero-skyline { width: 100%; opacity: 0.5; } .logo-icon { width: 24px; height: 24px; } .logo-symbol { width: 24px; height: 24px; } .logo-en { font-size: 14px; } .logo-ar { font-size: 10px; } .nav-lang-btn { padding: 0 10px; height: 34px; font-size: 12px; gap: 6px; } .nav-login { padding: 6px 12px; font-size: 12px; } .nav-signup { padding: 6px 12px; font-size: 12px; } .nav-wrap { padding: 0 12px; height: 58px; } }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .jobs-grid { grid-template-columns: 1fr; } .sidebar-desktop { display: none; }  .mobile-ad { display: block; } .nav-links { display: none; } .nav-form { display: none; } .nav-right { display: flex; gap: 6px; margin-left: auto; } .nav-form input { flex: 1; min-width: 0; background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.08); border-radius: var(--r-sm); padding: 8px 12px; font-family: var(--font); font-size: 13px; color: #F8FAFC; outline: none; } .nav-form input::placeholder { color: var(--muted); } .nav-btn { padding: 8px 14px; background: var(--gold); color: var(--navy); border: none; border-radius: var(--r-sm); font-family: var(--font); font-size: 13px; font-weight: 700; cursor: pointer; flex-shrink: 0; white-space: nowrap; } .hero h1 { font-size: 28px; } .hero-search-wrap { flex-direction: column !important; } .hero-skyline { width: 100%; opacity: 0.5; } .logo-icon { width: 24px; height: 24px; } .logo-symbol { width: 24px; height: 24px; } .logo-en { font-size: 14px; } .logo-ar { font-size: 10px; } .nav-lang-btn { padding: 0 10px; height: 34px; font-size: 12px; gap: 6px; } .nav-login { padding: 6px 12px; font-size: 12px; } .nav-signup { padding: 6px 12px; font-size: 12px; } .nav-wrap { padding: 0 12px; height: 58px; } }
 
         /* ── MOBILE ── */
 @media (max-width: 640px) {
