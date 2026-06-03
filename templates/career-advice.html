@@ -1471,4 +1471,330 @@ document.getElementById('articleOverlay').addEventListener('click', function(e) 
   if (e.target === this) closeArticle();
 });
 </script>
+
+<!-- ARABIC TRANSLATIONS -->
+<script>
+(function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('lang') !== 'ar') return;
+
+  // Apply RTL and Arabic font to page
+  document.documentElement.setAttribute('dir', 'rtl');
+  document.documentElement.setAttribute('lang', 'ar');
+  document.querySelector('.ca-page').style.fontFamily = "'Cairo', sans-serif";
+
+  const translations = {
+    // HERO
+    'Tawtheef Egypt · Career Resource Center': 'توظيف مصر · مركز الموارد المهنية',
+    'Career Advice': 'النصائح المهنية',
+    'Expert guidance, market insights, and practical strategies to help professionals across Egypt navigate their career journey.': 'إرشادات من خبراء ورؤى السوق واستراتيجيات عملية لمساعدة المهنيين في مصر على التنقل في مسيرتهم المهنية.',
+    'Search guides, tips, salary insights...': 'ابحث عن أدلة، نصائح، معلومات الرواتب...',
+    'Search': 'بحث',
+    'Expert-curated': 'محتوى من خبراء',
+    'Egypt focused': 'مخصص لمصر',
+    'Updated weekly': 'تحديث أسبوعي',
+    'Free to access': 'مجاني تماماً',
+    'Career Guides': 'دليل مهني',
+    'Interview Tips': 'نصائح مقابلات',
+    'Salary Insights': 'معلومات الرواتب',
+    'Monthly Readers': 'قارئ شهرياً',
+
+    // SECTION 2
+    'Featured Guide': 'الدليل المميز',
+    "Editor's Pick This Month": 'اختيار المحرر هذا الشهر',
+    'Career Strategy': 'استراتيجية مهنية',
+    '12 min read': '١٢ دقيقة قراءة',
+    'The Complete Guide to Navigating Your Career in Egypt\'s Evolving Job Market': 'الدليل الشامل للتنقل في مسيرتك المهنية في سوق العمل المصري المتطور',
+    "Egypt's professional landscape is transforming rapidly. From the rise of remote-first companies to the increasing demand for bilingual talent, understanding the market dynamics can be the difference between stagnation and accelerated career growth.": 'المشهد المهني في مصر يتحول بسرعة. من صعود الشركات التي تعمل عن بُعد إلى الطلب المتزايد على المواهب ثنائية اللغة، فهم ديناميكيات السوق يمكن أن يكون الفرق بين الركود والنمو المهني المتسارع.',
+    'Career Experts Team': 'فريق خبراء المهن',
+    'June 1, 2025 · Updated regularly': '١ يونيو ٢٠٢٥ · تحديث منتظم',
+    'Read Full Guide': 'قراءة الدليل الكامل',
+    'Featured Resource': 'مورد مميز',
+    'Career Strategy 2025': 'استراتيجية مهنية ٢٠٢٥',
+
+    // SECTION 3
+    'Latest Articles': 'أحدث المقالات',
+    'Fresh Career Insights': 'رؤى مهنية جديدة',
+    'Practical, expert-written guides to help you grow professionally in the Egyptian market.': 'أدلة عملية مكتوبة من خبراء لمساعدتك على النمو مهنياً في السوق المصري.',
+    'Resume Writing': 'كتابة السيرة الذاتية',
+    'How to Write a Resume That Gets Past ATS Systems in 2025': 'كيفية كتابة سيرة ذاتية تتخطى أنظمة ATS في ٢٠٢٥',
+    'Applicant tracking systems reject up to 75% of resumes before a human ever sees them. Learn the exact formatting and keyword strategies that ensure your application reaches a recruiter\'s desk.': 'أنظمة تتبع المتقدمين ترفض ما يصل إلى ٧٥٪ من السير الذاتية قبل أن يراها أي إنسان. تعلم استراتيجيات التنسيق والكلمات المفتاحية التي تضمن وصول طلبك إلى مكتب المجند.',
+    '8 min read': '٨ دقائق قراءة',
+    'Interviews': 'المقابلات',
+    'The 20 Most Common Interview Questions Asked in Egyptian Companies': 'أكثر ٢٠ سؤالاً شيوعاً في مقابلات الشركات المصرية',
+    'From multinational corporations in Cairo to fast-growing startups, these are the questions that appear most frequently — with proven frameworks to answer each one confidently.': 'من الشركات متعددة الجنسيات في القاهرة إلى الشركات الناشئة سريعة النمو، هذه هي الأسئلة الأكثر تكراراً — مع أطر مجربة للإجابة على كل منها بثقة.',
+    '11 min read': '١١ دقيقة قراءة',
+    'Salary': 'الراتب',
+    'How to Negotiate Your Salary Without Losing the Offer': 'كيفية التفاوض على راتبك دون خسارة العرض',
+    'Salary negotiation remains one of the most underutilized career skills. Discover when to bring it up, how to anchor your number, and the exact phrases that open conversations without creating conflict.': 'يظل التفاوض على الراتب أحد أكثر المهارات المهنية استخداماً. اكتشف متى تطرحه، وكيف ترسخ رقمك، والعبارات الدقيقة التي تفتح المحادثات دون خلق صراع.',
+    '9 min read': '٩ دقائق قراءة',
+    'LinkedIn': 'لينكد إن',
+    'Building a LinkedIn Profile That Attracts Recruiters in Egypt': 'بناء ملف لينكد إن يجذب المجندين في مصر',
+    'LinkedIn has become the primary sourcing tool for Egyptian recruiters. This guide breaks down every section — headline, summary, experience — and shows you how to rank for the right searches.': 'أصبح لينكد إن الأداة الأساسية للمصادر للمجندين المصريين. يفصل هذا الدليل كل قسم — العنوان والملخص والخبرة — ويوضح كيفية الظهور في البحثات المناسبة.',
+    '7 min read': '٧ دقائق قراءة',
+    'Remote Work': 'العمل عن بُعد',
+    'How Egyptian Professionals Can Land Remote Jobs With International Companies': 'كيف يمكن للمهنيين المصريين الحصول على وظائف عن بُعد مع شركات دولية',
+    'The global remote market is open to Egyptian talent like never before. We cover the platforms, the positioning strategies, and the profile adjustments that lead to international offers.': 'السوق العالمي للعمل عن بُعد مفتوح للمواهب المصرية كما لم يكن من قبل. نتناول المنصات واستراتيجيات التموضع وتعديلات الملف التي تؤدي إلى عروض دولية.',
+    '10 min read': '١٠ دقائق قراءة',
+    'Career Change': 'تغيير المهنة',
+    'Making a Career Pivot at 30: A Practical Roadmap for Egyptian Professionals': 'تغيير مسارك المهني في سن الثلاثين: خارطة طريق عملية للمهنيين المصريين',
+    "Changing careers mid-way doesn't mean starting from zero. Learn how to transfer existing skills, identify adjacent roles, and build credibility in a new field within 6–12 months.": 'تغيير المهنة في منتصف الطريق لا يعني البدء من الصفر. تعلم كيفية نقل المهارات الموجودة وتحديد الأدوار المجاورة وبناء المصداقية في مجال جديد خلال ٦-١٢ شهراً.',
+    '13 min read': '١٣ دقيقة قراءة',
+    'Networking': 'التواصل المهني',
+    "Professional Networking in Egypt: Building Relationships That Open Doors": 'التواصل المهني في مصر: بناء علاقات تفتح الأبواب',
+    "In Egypt's relationship-driven market, who you know matters as much as what you know. Discover authentic networking strategies for Cairo, Alexandria, and online communities.": 'في السوق المصري القائم على العلاقات، من تعرفه مهم بقدر ما تعرفه. اكتشف استراتيجيات التواصل الأصيلة للقاهرة والإسكندرية والمجتمعات عبر الإنترنت.',
+    'Cover Letter': 'خطاب التقديم',
+    'Writing a Cover Letter That Hiring Managers Actually Read': 'كتابة خطاب تقديم يقرأه مديرو التوظيف فعلاً',
+    "Most cover letters say the same things. This guide shows you how to write an opening paragraph that creates genuine curiosity, and a body that reinforces your candidacy without repeating your resume.": 'معظم خطابات التقديم تقول نفس الأشياء. يوضح هذا الدليل كيفية كتابة فقرة افتتاحية تثير فضولاً حقيقياً، وجسم يعزز ترشحك دون تكرار سيرتك الذاتية.',
+    '6 min read': '٦ دقائق قراءة',
+    'Productivity': 'الإنتاجية',
+    'Time Management Strategies for the Ambitious Egyptian Professional': 'استراتيجيات إدارة الوقت للمهني المصري الطموح',
+    'Between long commutes, family obligations, and a demanding job market, managing your time effectively is a competitive advantage. These evidence-based strategies are tailored to the Egyptian work context.': 'بين التنقلات الطويلة والالتزامات الأسرية وسوق العمل المتطلب، إدارة وقتك بفعالية هي ميزة تنافسية. هذه الاستراتيجيات القائمة على الأدلة مصممة للسياق العملي المصري.',
+    'First Job': 'أول وظيفة',
+    "Fresh Graduate Survival Guide: Your First 90 Days at a New Job in Egypt": 'دليل نجاة الخريج الجديد: أول ٩٠ يوماً في وظيفة جديدة في مصر',
+    'The first three months define how colleagues and managers perceive you for the rest of your tenure. Learn the unwritten rules, the relationship-building strategies, and the performance signals that matter most.': 'الأشهر الثلاثة الأولى تحدد كيف يراك زملاؤك ومديروك لبقية فترة عملك. تعلم القواعد غير المكتوبة واستراتيجيات بناء العلاقات وإشارات الأداء الأكثر أهمية.',
+    'Leadership': 'القيادة',
+    'From Individual Contributor to Manager: Making the Transition Successfully': 'من مساهم فردي إلى مدير: إجراء الانتقال بنجاح',
+    "The skills that made you a great performer won't automatically make you a great manager. This guide addresses the mindset shift, the delegation challenges, and the communication changes required to lead effectively.": 'المهارات التي جعلتك مؤدياً رائعاً لن تجعلك تلقائياً مديراً رائعاً. يتناول هذا الدليل تحول العقلية وتحديات التفويض والتغييرات التواصلية المطلوبة للقيادة الفعالة.',
+    '12 min read': '١٢ دقيقة قراءة',
+    'Personal Brand': 'العلامة الشخصية',
+    'Building a Professional Personal Brand That Drives Inbound Opportunities': 'بناء علامة شخصية مهنية تجذب الفرص',
+    'In a crowded market, professionals who actively shape how they\'re perceived online receive more unsolicited opportunities than those who don\'t. A step-by-step personal branding framework for Egyptian professionals.': 'في سوق مكتظ، المهنيون الذين يشكلون بنشاط كيف يُرون عبر الإنترنت يحصلون على فرص أكثر. إطار عمل للعلامة الشخصية خطوة بخطوة للمهنيين المصريين.',
+
+    // SECTION 4
+    'Resource Hub': 'مركز الموارد',
+    'Tools & Templates to Advance Your Career': 'أدوات وقوالب لتطوير مسيرتك المهنية',
+    'Professional-grade resources designed to give you a practical edge in the Egyptian job market.': 'موارد على مستوى احترافي مصممة لمنحك ميزة عملية في سوق العمل المصري.',
+    'CV Templates': 'قوالب السيرة الذاتية',
+    'ATS-optimized, professionally designed templates tailored for the Egyptian and regional market.': 'قوالب محسّنة لأنظمة ATS ومصممة باحترافية مخصصة للسوق المصري والإقليمي.',
+    'Download Free': 'تنزيل مجاناً',
+    'Cover Letter Guide': 'دليل خطاب التقديم',
+    'A complete framework for writing cover letters that distinguish you from the competition.': 'إطار عمل كامل لكتابة خطابات تقديم تميزك عن المنافسين.',
+    'Read Guide': 'قراءة الدليل',
+    'Interview Checklist': 'قائمة تحضير المقابلة',
+    'A step-by-step preparation checklist from 48 hours before the interview to the follow-up message.': 'قائمة تحضير خطوة بخطوة من ٤٨ ساعة قبل المقابلة إلى رسالة المتابعة.',
+    'Get Checklist': 'الحصول على القائمة',
+    'Career Planning': 'التخطيط المهني',
+    'A structured 5-year career planning worksheet with milestone tracking and skills gap analysis.': 'ورقة عمل منظمة للتخطيط المهني لمدة ٥ سنوات مع تتبع المعالم وتحليل فجوات المهارات.',
+    'Start Planning': 'ابدأ التخطيط',
+    'Networking Guide': 'دليل التواصل المهني',
+    'Build meaningful professional relationships through strategic networking in Egypt\'s business community.': 'بناء علاقات مهنية ذات مغزى من خلال التواصل الاستراتيجي في مجتمع الأعمال المصري.',
+    'LinkedIn Optimization': 'تحسين لينكد إن',
+    'A comprehensive guide to building a LinkedIn profile that consistently attracts recruiter outreach.': 'دليل شامل لبناء ملف لينكد إن يجذب باستمرار تواصل المجندين.',
+    'Optimize Now': 'حسّن الآن',
+    'Professional Branding': 'العلامة المهنية',
+    'Define and communicate your professional identity to position yourself as a go-to expert in your field.': 'حدد وأوصل هويتك المهنية لتضع نفسك كخبير مرجعي في مجالك.',
+    'Build Brand': 'بناء العلامة',
+    'Professional Development': 'التطوير المهني',
+    'Curated learning paths and certification recommendations for key careers in the Egyptian market.': 'مسارات تعلم مختارة وتوصيات شهادات للمهن الرئيسية في السوق المصري.',
+    'Explore Paths': 'استكشف المسارات',
+
+    // SECTION 5
+    'Market Intelligence': 'استخبارات السوق',
+    'Egypt Job Market Insights': 'رؤى سوق العمل المصري',
+    "Sector-by-sector analysis of Egypt's most dynamic industries, updated quarterly.": 'تحليل قطاع بقطاع لأكثر الصناعات المصرية ديناميكية، محدّث فصلياً.',
+    'Technology': 'التكنولوجيا',
+    'High Growth': 'نمو عالٍ',
+    "Egypt's tech sector is experiencing exceptional growth, driven by a thriving startup ecosystem in Cairo and Alexandria. Software developers, data engineers, and cybersecurity professionals are in sustained high demand.": 'يشهد قطاع التكنولوجيا في مصر نمواً استثنائياً، مدفوعاً بمنظومة شركات ناشئة مزدهرة في القاهرة والإسكندرية. مطورو البرمجيات ومهندسو البيانات ومتخصصو الأمن السيبراني في طلب مرتفع مستدام.',
+    'Demand Level': 'مستوى الطلب',
+    'Finance & Banking': 'المالية والمصرفية',
+    'Growing': 'متنامٍ',
+    "Financial services remain one of Egypt's most stable employment sectors. Digital banking transformation is creating new roles in fintech, risk management, and financial analysis.": 'تظل الخدمات المالية أحد أكثر قطاعات التوظيف استقراراً في مصر. يخلق التحول المصرفي الرقمي أدواراً جديدة في التكنولوجيا المالية وإدارة المخاطر والتحليل المالي.',
+    'Healthcare': 'الرعاية الصحية',
+    'Strong': 'قوي',
+    'Healthcare professionals continue to experience strong demand across public and private sectors. Expansion of private hospital networks and pharmaceutical companies is generating consistent opportunities.': 'يواصل المهنيون الصحيون تجربة طلب قوي عبر القطاعين العام والخاص. يولد توسع شبكات المستشفيات الخاصة وشركات الأدوية فرصاً متسقة.',
+    'Sales & Business Dev': 'المبيعات وتطوير الأعمال',
+    'Stable': 'مستقر',
+    'Sales roles remain highly abundant across industries, with particularly strong demand in B2B technology sales, pharmaceutical sales, and real estate.': 'تظل أدوار المبيعات وفيرة للغاية عبر الصناعات، مع طلب قوي بشكل خاص في مبيعات التكنولوجيا B2B ومبيعات الأدوية والعقارات.',
+    'Customer Service': 'خدمة العملاء',
+    'High Volume': 'حجم عالٍ',
+    "Egypt's BPO and customer service industry is among the largest in the region. English-speaking agents enjoy strong bargaining power and competitive compensation.": 'تُعد صناعة خدمة العملاء في مصر من بين الأكبر في المنطقة. يتمتع الوكلاء الناطقون بالإنجليزية بقوة تفاوضية قوية وتعويض تنافسي.',
+    'Expanding': 'متوسع',
+    'Remote-first opportunities for Egyptian professionals are growing significantly, especially in software development, digital marketing, and creative roles.': 'تتنامى بشكل ملحوظ فرص العمل عن بُعد للمهنيين المصريين، خاصة في تطوير البرمجيات والتسويق الرقمي والأدوار الإبداعية.',
+
+    // SECTION 6
+    'Salary Data': 'بيانات الرواتب',
+    'Egypt Salary Benchmarks': 'معايير الرواتب في مصر',
+    'Monthly salary ranges for key roles in the Egyptian market, across entry, mid, and senior levels.': 'نطاقات الرواتب الشهرية للأدوار الرئيسية في السوق المصري، عبر المستويات المبتدئة والمتوسطة والعليا.',
+    'Software Engineer': 'مهندس برمجيات',
+    'EGP / month': 'جنيه / شهر',
+    'Junior (0–2 yrs)': 'مبتدئ (٠-٢ سنة)',
+    'Mid-level (3–5 yrs)': 'متوسط (٣-٥ سنوات)',
+    'Senior (6+ yrs)': 'عالي (٦+ سنوات)',
+    'High Demand': 'طلب عالٍ',
+    'Accountant': 'محاسب',
+    'Stable Sector': 'قطاع مستقر',
+    'Sales Executive': 'مدير مبيعات',
+    'Commission Upside': 'عمولة إضافية',
+    'Digital Marketer': 'مسوق رقمي',
+    'Growing Demand': 'طلب متنامٍ',
+    'Customer Support': 'دعم العملاء',
+    'Entry Level': 'مستوى مبتدئ',
+    'Specialist': 'متخصص',
+    'Team Lead': 'قائد فريق',
+    'High Availability': 'توفر عالٍ',
+    'Graphic Designer': 'مصمم جرافيك',
+    'Portfolio Critical': 'المعرض ضروري',
+
+    // SECTION 7
+    'Resume Center': 'مركز السيرة الذاتية',
+    'The Complete Resume Writing Hub': 'المركز الشامل لكتابة السيرة الذاتية',
+    'From structure to formatting, every dimension of a compelling, market-ready resume.': 'من الهيكل إلى التنسيق، كل جانب من جوانب سيرة ذاتية مقنعة وجاهزة للسوق.',
+    'Resume Structure & Layout': 'هيكل وتخطيط السيرة الذاتية',
+    'ATS Optimization': 'تحسين أنظمة ATS',
+    'Professional Summary': 'الملخص المهني',
+    'Skills Section Mastery': 'إتقان قسم المهارات',
+    'Work Experience Section': 'قسم الخبرة العملية',
+    'Common Resume Mistakes': 'أخطاء السيرة الذاتية الشائعة',
+    'Showcasing Achievements': 'إبراز الإنجازات',
+    'Formatting & Design': 'التنسيق والتصميم',
+    'Read Guide': 'قراءة الدليل',
+
+    // SECTION 8
+    'Interview Preparation': 'التحضير للمقابلة',
+    'Master Every Interview Format': 'أتقن كل تنسيقات المقابلة',
+    "Comprehensive preparation guides for every interview type you'll encounter in Egypt's job market.": 'أدلة تحضير شاملة لكل أنواع المقابلات التي ستواجهها في سوق العمل المصري.',
+    'HR Interviews': 'مقابلات الموارد البشرية',
+    'Behavioral Interviews': 'المقابلات السلوكية',
+    'Technical Interviews': 'المقابلات التقنية',
+    'Case Interviews': 'مقابلات الحالات',
+    'Virtual Interviews': 'المقابلات الافتراضية',
+    'Follow-Up Strategy': 'استراتيجية المتابعة',
+    'Salary Discussions': 'مناقشات الراتب',
+    'Interview Mistakes': 'أخطاء المقابلة',
+
+    // SECTION 9
+    'Remote Work': 'العمل عن بُعد',
+    'The Egyptian Remote Work Guide': 'دليل العمل عن بُعد المصري',
+    'Everything you need to build a thriving remote career as an Egyptian professional — locally or internationally.': 'كل ما تحتاجه لبناء مسيرة مهنية عن بُعد ناجحة كمهني مصري — محلياً أو دولياً.',
+    'Finding Remote Jobs': 'إيجاد وظائف عن بُعد',
+    'Freelancing': 'العمل الحر',
+    'Portfolio Building': 'بناء المعرض',
+    'International Clients': 'العملاء الدوليون',
+    'Communication Skills': 'مهارات التواصل',
+    'Productivity Systems': 'أنظمة الإنتاجية',
+    'Time Management': 'إدارة الوقت',
+    'Remote Interviews': 'مقابلات العمل عن بُعد',
+
+    // SECTION 10
+    'Career Roadmaps': 'خرائط الطريق المهنية',
+    'Your Path to Professional Success': 'طريقك نحو النجاح المهني',
+    "Step-by-step career progression maps for Egypt's most in-demand professional fields.": 'خرائط تطور مهني خطوة بخطوة لأكثر المجالات المهنية طلباً في مصر.',
+    'Software Engineering': 'هندسة البرمجيات',
+    "A full career progression in Egypt's fastest-growing sector": 'تطور مهني كامل في أسرع القطاعات نمواً في مصر',
+    'Entry': 'مبتدئ',
+    'Junior Developer': 'مطور مبتدئ',
+    'Mid-Level': 'متوسط المستوى',
+    'Senior': 'عالي المستوى',
+    'Software Engineer': 'مهندس برمجيات',
+    'Senior / Tech Lead': 'كبير / قائد تقني',
+    'Digital Marketing': 'التسويق الرقمي',
+    'From content execution to full-stack marketing leadership': 'من تنفيذ المحتوى إلى قيادة التسويق الشاملة',
+    'Marketing Coordinator': 'منسق تسويق',
+    'Digital Marketing Specialist': 'أخصائي تسويق رقمي',
+    'Marketing Manager': 'مدير تسويق',
+    'Accounting & Finance': 'المحاسبة والمالية',
+    'Building towards financial controller or CFO': 'البناء نحو مراقب مالي أو مدير مالي',
+    'Junior Accountant': 'محاسب مبتدئ',
+    'Financial Analyst': 'محلل مالي',
+    'Finance Manager / Controller': 'مدير مالي / مراقب',
+    'Data Analytics': 'تحليلات البيانات',
+    'From data analyst to Chief Data Officer': 'من محلل بيانات إلى كبير مسؤولي البيانات',
+    'Data Analyst': 'محلل بيانات',
+    'Data Scientist': 'عالم بيانات',
+    'Analytics Lead / CDO': 'قائد تحليلات / CDO',
+    'UI/UX Design': 'تصميم UI/UX',
+    'From visual design to product design leadership': 'من التصميم البصري إلى قيادة تصميم المنتج',
+    'Junior UI Designer': 'مصمم UI مبتدئ',
+    'UX Designer': 'مصمم UX',
+    'Product Designer / Lead': 'مصمم منتج / قائد',
+    'Project Management': 'إدارة المشاريع',
+    'From coordinator to program director': 'من منسق إلى مدير برنامج',
+    'Project Coordinator': 'منسق مشاريع',
+    'Project Manager (PMP)': 'مدير مشروع (PMP)',
+    'Program / Portfolio Director': 'مدير برنامج / محفظة',
+
+    // SECTION 11
+    'Popular Reads': 'الأكثر قراءة',
+    'Most-Read Career Articles': 'أكثر المقالات المهنية قراءة',
+    "The guides and articles Egyptian professionals return to most, ranked by reader engagement.": 'الأدلة والمقالات التي يعود إليها المهنيون المصريون أكثر، مرتبة حسب تفاعل القراء.',
+    'How to Write a Resume That Gets You an Interview in Egypt': 'كيفية كتابة سيرة ذاتية تحصل لك على مقابلة في مصر',
+    'Salary Negotiation Scripts That Actually Work in the Egyptian Market': 'نصوص التفاوض على الراتب التي تنجح فعلاً في السوق المصري',
+    'Top 15 Questions Asked in Every Egyptian HR Interview (With Answers)': 'أفضل ١٥ سؤالاً في كل مقابلة HR مصرية (مع الإجابات)',
+    'How to Get a Remote Job as an Egyptian Professional in 2025': 'كيفية الحصول على وظيفة عن بُعد كمهني مصري في ٢٠٢٥',
+    'LinkedIn Profile Checklist for Egyptian Professionals: 25 Optimizations': 'قائمة تحقق لملف لينكد إن للمهنيين المصريين: ٢٥ تحسيناً',
+    'What Hiring Managers in Egypt Actually Look For (We Asked 50 of Them)': 'ما يبحث عنه مديرو التوظيف في مصر فعلاً (سألنا ٥٠ منهم)',
+    'Career Change at Any Age: A Complete Guide to Pivoting in Egypt': 'تغيير المهنة في أي سن: دليل كامل للتحول في مصر',
+    'Average Salaries in Egypt by Industry and Level (2025 Report)': 'متوسط الرواتب في مصر حسب الصناعة والمستوى (تقرير ٢٠٢٥)',
+    'How to Handle Being Overqualified in Your Job Search': 'كيفية التعامل مع المؤهل الزائد في بحثك عن عمل',
+    'The Definitive Guide to Building a Professional Network in Cairo': 'الدليل الشامل لبناء شبكة مهنية في القاهرة',
+    'Hiring Insights': 'رؤى التوظيف',
+    'Job Search': 'البحث عن عمل',
+
+    // SECTION 12
+    'FAQ': 'أسئلة شائعة',
+    'Frequently Asked Questions': 'الأسئلة المتكررة',
+    'Answers to the most common career questions from Egyptian professionals.': 'إجابات على أكثر الأسئلة المهنية شيوعاً من المهنيين المصريين.',
+    'How long should my CV be for jobs in Egypt?': 'كم يجب أن يكون طول سيرتي الذاتية للوظائف في مصر؟',
+    'For most roles in Egypt, a one-to-two-page CV is standard. Fresh graduates and those with under five years of experience should aim for one page. Candidates with ten or more years of progressive experience may extend to two pages.': 'لمعظم الأدوار في مصر، السيرة الذاتية من صفحة إلى صفحتين هي المعيار. يجب أن يستهدف الخريجون الجدد ومن لديهم أقل من خمس سنوات من الخبرة صفحة واحدة.',
+    'Should I include a photo on my CV when applying for jobs in Egypt?': 'هل يجب أن أضع صورة في سيرتي الذاتية عند التقدم لوظائف في مصر؟',
+    'In Egypt, including a professional photo is common and generally expected for local companies, particularly in sales, customer-facing, and corporate roles. For international companies or technical roles, a photo is optional.': 'في مصر، تضمين صورة احترافية أمر شائع ومتوقع عموماً من الشركات المحلية، لا سيما في أدوار المبيعات والعملاء والشركات. بالنسبة للشركات الدولية أو الأدوار التقنية، الصورة اختيارية.',
+    'What is the best way to answer "What is your expected salary?" in an interview?': 'ما هي أفضل طريقة للإجابة على "ما هو راتبك المتوقع؟" في مقابلة؟',
+    'Early in the process, try to redirect: "I\'d like to learn more about the full scope of responsibilities before settling on a number — what is the budgeted range for this role?" If pressed, provide a researched range anchored slightly above your target.': 'في وقت مبكر من العملية، حاول إعادة التوجيه: "أود معرفة المزيد عن النطاق الكامل للمسؤوليات قبل تحديد رقم - ما هو النطاق المخصص لهذا الدور؟"',
+    'How do I explain a gap in my employment history?': 'كيف أشرح فجوة في تاريخ توظيفي؟',
+    'Address gaps directly and briefly, then pivot to what you did during that time. Employers respect honesty far more than evasion. A confident, matter-of-fact explanation almost always satisfies recruiters.': 'تناول الفجوات مباشرة وبإيجاز، ثم انتقل إلى ما فعلته خلال تلك الفترة. أصحاب العمل يحترمون الصدق أكثر بكثير من التهرب.',
+    'Is it worth getting international certifications like PMP, CPA, or AWS in Egypt?': 'هل يستحق الحصول على شهادات دولية مثل PMP أو CPA أو AWS في مصر؟',
+    'Yes, significantly so. PMP holders command a measurable salary premium. CPA and CMA certifications are highly regarded in finance. AWS, Google Cloud, and Azure certifications open doors to both local tech companies and international remote opportunities.': 'نعم، بشكل ملحوظ. يحظى حاملو PMP بعلاوة راتب قابلة للقياس. شهادات CPA وCMA محل تقدير عالٍ في المالية.',
+
+    // SECTION 13
+    'Weekly Career Digest': 'ملخص مهني أسبوعي',
+    "Stay Ahead in Egypt's Job Market": 'كن متقدماً في سوق العمل المصري',
+    'Every week, receive curated career advice, fresh salary data, new guides, and job market insights delivered directly to your inbox. No spam. Unsubscribe anytime.': 'كل أسبوع، احصل على نصائح مهنية مختارة وبيانات رواتب جديدة وأدلة جديدة ورؤى سوق العمل مباشرة في صندوق بريدك. بدون بريد مزعج. إلغاء الاشتراك في أي وقت.',
+    'Your professional email address': 'بريدك الإلكتروني المهني',
+    'Subscribe': 'اشترك',
+    'Joined by 10,000+ Egyptian professionals. Privacy guaranteed.': 'انضم إليه أكثر من ١٠٠٠٠ مهني مصري. الخصوصية مضمونة.',
+
+    // SECTION 14
+    'Ready For Your Next Opportunity?': 'مستعد لفرصتك القادمة؟',
+    'Browse thousands of jobs across Egypt and discover your next career move.': 'تصفح آلاف الوظائف في جميع أنحاء مصر واكتشف خطوتك المهنية القادمة.',
+    'Browse All Jobs': 'تصفح كل الوظائف',
+    'Search By Category': 'البحث حسب التصنيف',
+  };
+
+  // Walk all text nodes and replace
+  function translateNode(node) {
+    if (node.nodeType === 3) { // text node
+      const original = node.textContent.trim();
+      if (translations[original]) {
+        node.textContent = node.textContent.replace(original, translations[original]);
+      }
+    } else if (node.nodeType === 1 && node.tagName !== 'SCRIPT' && node.tagName !== 'STYLE') {
+      node.childNodes.forEach(translateNode);
+      // Also translate placeholders
+      if (node.placeholder && translations[node.placeholder]) {
+        node.placeholder = translations[node.placeholder];
+      }
+    }
+  }
+
+  document.querySelectorAll('.ca-page').forEach(translateNode);
+
+  // Fix RTL-specific layout tweaks
+  const style = document.createElement('style');
+  style.textContent = `
+    [dir="rtl"] .ca-section-label { border-left: none; border-right: 3px solid var(--gold); padding-left: 0; padding-right: 10px; }
+    [dir="rtl"] .ca-section-header--center .ca-section-label { border-right: none; border-bottom: 2px solid var(--gold); padding-right: 0; }
+    [dir="rtl"] .ca-hero__eyebrow-line { transform: scaleX(-1); }
+    [dir="rtl"] .ca-popular-item:hover { padding-left: 0; padding-right: 8px; }
+    [dir="rtl"] .ca-popular-item:hover .ca-popular-item__arrow { transform: translateX(-4px); }
+    [dir="rtl"] .ca-article-card:hover .ca-article-card__arrow { transform: translateX(-2px); }
+    [dir="rtl"] .ca-newsletter { direction: rtl; }
+    [dir="rtl"] .ca-hub-card__link, [dir="rtl"] .ca-resource-card__cta { flex-direction: row-reverse; }
+    [dir="rtl"] .ca-roadmap-milestone::after { left: auto; right: 7px; }
+    [dir="rtl"] .ca-faq-question { flex-direction: row-reverse; }
+    [dir="rtl"] .ca-market-card__bar-fill { background: linear-gradient(270deg, var(--gold), var(--gold-h)); }
+  `;
+  document.head.appendChild(style);
+})();
+</script>
 {% endblock %}
