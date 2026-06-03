@@ -4,7 +4,13 @@ import sqlite3
 import logging
 from functools import wraps
 from flask import Flask, render_template, request, redirect, g, session, jsonify
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_wtf.csrf import CSRFProtect
 
+csrf = CSRFProtect(app)
+
+limiter = Limiter(app=app, key_func=get_remote_address)
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -192,6 +198,7 @@ def index():
     return render_template('index.html', jobs=latest, hot_jobs=hot, top_paying=top_paying, categories=categories, total=total, overall_total=overall_total, selected_category=category)
 
 @app.route('/search')
+@limiter.limit("30 per minute")
 def search():
     try:
         q = request.args.get('q', '').strip()
