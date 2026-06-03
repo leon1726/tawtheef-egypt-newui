@@ -323,8 +323,8 @@
 
 
 [dir="rtl"] body { font-family: var(--font-ar); }
-[dir="rtl"] .nav-wrap { flex-direction: row-reverse; }
-[dir="rtl"] .nav-links { flex-direction: row; }
+[dir="rtl"] .nav-wrap { flex-direction: row; }
+[dir="rtl"] .nav-links { flex-direction: row-reverse; }
 [dir="rtl"] .nav-right { flex-direction: row; margin-left: auto; margin-right: 0; }
 [dir="rtl"] .cat-link { border-left: none; border-right: 3px solid transparent; }
 [dir="rtl"] .cat-link:hover, [dir="rtl"] .cat-link.on { border-right-color: var(--gold); }
@@ -381,7 +381,7 @@
 
 </a>
             <div id="authState">
-<button class="nav-login" onclick="openAuth('login')" style="margin-right:8px;">{{ t.login }}</button>
+<button class="nav-login" onclick="openAuth('login')">{{ t.login }}</button>
 <button class="nav-signup" onclick="openAuth('signup')">{{ t.signup }}</button>
             </div>
         </div>
@@ -512,7 +512,7 @@ onAuthStateChanged(auth, (user) => {
             </div>`;
 } else {
     authState.innerHTML = `
-        <button class="nav-login" onclick="openAuth('login')" style="margin-right:8px;">{{ t.login }}</button>
+        <button class="nav-login" onclick="openAuth('login')">{{ t.login }}</button>
         <button class="nav-signup" onclick="openAuth('signup')">{{ t.signup }}</button>`;
 }
 });
