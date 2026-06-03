@@ -551,191 +551,225 @@
 </style>
 
 <script>
-    (function () {
-        let wallShown = false;
-        let checkInterval = null;
+(function () {
+    let wallShown = false;
+    let checkInterval = null;
 
-        const isEnglish = document.documentElement.lang === 'en' ||
-                         (navigator.language || '').startsWith('en');
+    const isEnglish =
+        document.documentElement.lang === 'en' ||
+        (navigator.language || '').startsWith('en');
 
-        const isMobile = /Android|iPhone|iPad|iPod|Samsung|Mobile/i.test(navigator.userAgent);
+    const isMobile = /Android|iPhone|iPad|iPod|Samsung|Mobile/i.test(navigator.userAgent);
 
-const txt = isEnglish ? {
-    tag:    'Tawtheef Egypt',
-    title:  'Ad Blocker Detected',
-    desc:   'Ads help us keep this site <strong>completely free</strong> for everyone. Please disable your ad blocker to continue.',
-    label:  'How to disable',
-    steps: isMobile ? [
-        'Open your browser menu (three dots ⋮)',
-        'Go to <em>Settings → Site settings</em> or <em>Extensions</em>',
-        'Disable your ad blocker for this site',
-        'Tap the button below to refresh and continue'
-    ] : [
-        'Click the extension icon (AdBlock, uBlock Origin, etc.) in your browser toolbar',
-        'Select <em>"Disable on this site"</em> or <em>"Pause on this site"</em>',
-        'Click the button below to refresh and continue'
-    ],
-    btn:    '🔄 Refresh Page',
-    notice: '✓ Ad blocker disabled — reloading...',
-    footer: 'Your support keeps this site free for everyone.'
-} : {
-    tag:    'توظيف مصر',
-    title:  'تم اكتشاف مانع إعلانات',
-    desc:   'الإعلانات تساعدنا في إبقاء الموقع <strong>مجانيًا للجميع</strong>. يرجى تعطيل مانع الإعلانات للمتابعة.',
-    label:  'كيفية التعطيل',
-    steps: isMobile ? [
-        'افتح قائمة المتصفح (النقاط الثلاث ⋮)',
-        'اذهب إلى <em>الإعدادات ← إعدادات الموقع</em> أو <em>الإضافات</em>',
-        'قم بتعطيل مانع الإعلانات لهذا الموقع',
-        'اضغط على الزر أدناه لتحديث الصفحة والمتابعة'
-    ] : [
-        'انقر على أيقونة الإضافة (AdBlock أو uBlock Origin ...) في شريط المتصفح',
-        'اختر <em>"تعطيل على هذا الموقع"</em> أو <em>"إيقاف مؤقت على هذا الموقع"</em>',
-        'انقر على الزر أدناه لتحديث الصفحة والمتابعة'
-    ],
-    btn:    '🔄 تحديث الصفحة',
-    notice: '✓ تم تعطيل مانع الإعلانات — جارٍ إعادة التحميل...',
-    footer: 'دعمك يساعدنا في الاستمرار.'
-};
+    const txt = isEnglish ? {
+        tag: 'Tawtheef Egypt',
+        title: 'Ad Blocker Detected',
+        desc: 'Ads help us keep this site <strong>completely free</strong> for everyone. Please disable your ad blocker to continue.',
+        label: 'How to disable',
+        steps: isMobile ? [
+            'Open your browser menu (three dots ⋮)',
+            'Go to Settings → Site settings or Extensions',
+            'Disable your ad blocker for this site',
+            'Tap refresh to continue'
+        ] : [
+            'Click your adblock extension icon',
+            'Choose “Disable on this site” or “Pause on this site”',
+            'Refresh the page'
+        ],
+        btn: '🔄 Refresh Page',
+        notice: '✓ Ad blocker disabled — reloading...',
+        footer: 'Your support keeps this site free for everyone.'
+    } : {
+        tag: 'توظيف مصر',
+        title: 'تم اكتشاف مانع إعلانات',
+        desc: 'الإعلانات تساعدنا في إبقاء الموقع <strong>مجانيًا للجميع</strong>. يرجى تعطيل مانع الإعلانات للمتابعة.',
+        label: 'كيفية التعطيل',
+        steps: isMobile ? [
+            'افتح قائمة المتصفح (⋮)',
+            'اذهب إلى الإعدادات أو الإضافات',
+            'قم بتعطيل مانع الإعلانات لهذا الموقع',
+            'أعد تحميل الصفحة'
+        ] : [
+            'اضغط على إضافة منع الإعلانات',
+            'اختر إيقاف لهذا الموقع',
+            'أعد تحميل الصفحة'
+        ],
+        btn: '🔄 تحديث الصفحة',
+        notice: '✓ تم تعطيل مانع الإعلانات — جارٍ إعادة التحميل...',
+        footer: 'دعمك يساعدنا في الاستمرار.'
+    };
 
-async function checkAdBlocker() {
-    let score = 0;
+    // ─────────────────────────────────────────────
+    // FIXED DETECTION (stable + no false positives)
+    // ─────────────────────────────────────────────
+    async function checkAdBlockerRaw() {
+        let score = 0;
 
-    // ─────────────────────────────
-    // METHOD 1: DOM bait detection (improved)
-    // ─────────────────────────────
-    const bait = document.createElement('div');
-    bait.className = 'adsbox ad-banner advertisement ad-container adsbygoogle';
-    bait.style.cssText =
-        'position:absolute;left:-9999px;top:-9999px;width:10px;height:10px;';
-    bait.innerHTML = '&nbsp;';
-    document.body.appendChild(bait);
+        // METHOD 1: DOM bait (safe version)
+        const bait = document.createElement('div');
+        bait.className = 'adsbox ad-banner advertisement adsbygoogle';
+        bait.style.cssText =
+            'position:absolute;left:-9999px;top:-9999px;width:10px;height:10px;';
+        bait.innerHTML = '&nbsp;';
 
-    await new Promise(r => setTimeout(r, 50));
+        document.body.appendChild(bait);
+        await new Promise(r => setTimeout(r, 80));
 
-    const style = window.getComputedStyle(bait);
-    const isHidden =
-        bait.offsetParent === null ||
-        bait.offsetHeight === 0 ||
-        bait.offsetWidth === 0 ||
-        style.display === 'none' ||
-        style.visibility === 'hidden';
+        const style = window.getComputedStyle(bait);
 
-    document.body.removeChild(bait);
+        const hidden =
+            bait.offsetParent === null ||
+            bait.offsetHeight === 0 ||
+            bait.offsetWidth === 0 ||
+            style.display === 'none' ||
+            style.visibility === 'hidden';
 
-    if (isHidden) score++;
+        document.body.removeChild(bait);
 
-    // ─────────────────────────────
-    // METHOD 2: Script bait (reliable if you control server)
-    // IMPORTANT: must exist on your server
-    // ─────────────────────────────
-    const scriptBlocked = await new Promise(resolve => {
-        const s = document.createElement('script');
-        s.src = '/static/ads/ad-banner.js?_=' + Date.now();
+        if (hidden) score++;
 
-        const timeout = setTimeout(() => {
-            s.remove();
-            resolve(true);
-        }, 1500);
+        // METHOD 2: script bait
+        const scriptBlocked = await new Promise(resolve => {
+            const s = document.createElement('script');
+            s.src = '/static/ads/ad-banner.js?_=' + Date.now();
 
-        s.onload = () => {
-            clearTimeout(timeout);
-            s.remove();
-            resolve(false);
-        };
+            const timeout = setTimeout(() => {
+                s.remove();
+                resolve(true);
+            }, 1500);
 
-        s.onerror = () => {
-            clearTimeout(timeout);
-            s.remove();
-            resolve(true);
-        };
+            s.onload = () => {
+                clearTimeout(timeout);
+                s.remove();
+                resolve(false);
+            };
 
-        document.head.appendChild(s);
-    });
+            s.onerror = () => {
+                clearTimeout(timeout);
+                s.remove();
+                resolve(true);
+            };
 
-    if (scriptBlocked) score++;
+            document.head.appendChild(s);
+        });
 
-    // ─────────────────────────────
-    // METHOD 3: Image bait (simple + stable)
-    // ─────────────────────────────
-    const imageBlocked = await new Promise(resolve => {
-        const img = new Image();
-        img.src = '/static/ads/banner.gif?_=' + Date.now();
+        if (scriptBlocked) score++;
 
-        const timeout = setTimeout(() => resolve(true), 1500);
+        // METHOD 3: image bait
+        const imageBlocked = await new Promise(resolve => {
+            const img = new Image();
+            img.src = '/static/ads/banner.gif?_=' + Date.now();
 
-        img.onload = () => {
-            clearTimeout(timeout);
-            resolve(false);
-        };
+            const timeout = setTimeout(() => resolve(true), 1500);
 
-        img.onerror = () => {
-            clearTimeout(timeout);
-            resolve(true);
-        };
-    });
+            img.onload = () => {
+                clearTimeout(timeout);
+                resolve(false);
+            };
 
-    if (imageBlocked) score++;
+            img.onerror = () => {
+                clearTimeout(timeout);
+                resolve(true);
+            };
+        });
 
-    // ─────────────────────────────
-    // FINAL DECISION (threshold-based)
-    // ─────────────────────────────
-    return score >= 2;
-}
-        
+        if (imageBlocked) score++;
 
-        function showWall() {
-            if (wallShown || document.getElementById('adblock-wall')) return;
-            wallShown = true;
-            document.body.classList.add('wall-active');
+        // ─────────────────────────────
+        // FINAL RAW RULE (IMPORTANT FIX)
+        // ─────────────────────────────
+        return score >= 2;
+    }
 
-            const wall = document.createElement('div');
-            wall.id = 'adblock-wall';
-            wall.innerHTML = `
-                <div class="wall-card" dir="${isEnglish ? 'ltr' : 'rtl'}">
-                    <div class="wall-icon-wrap">🛡️</div>
-                    <div class="wall-tag">${txt.tag}</div>
-                    <h2 class="wall-title">${txt.title}</h2>
-                    <p class="wall-desc">${txt.desc}</p>
-                    <div class="wall-steps">
-                        <div class="wall-steps-label">${txt.label}</div>
-                        ${txt.steps.map((s, i) => `
+    // ─────────────────────────────────────────────
+    // STABILITY LAYER (THIS FIXES YOUR POPUP ISSUE)
+    // ─────────────────────────────────────────────
+    async function checkAdBlocker() {
+        let hits = 0;
+
+        for (let i = 0; i < 3; i++) {
+            const res = await checkAdBlockerRaw();
+            if (res) hits++;
+            await new Promise(r => setTimeout(r, 300));
+        }
+
+        // MUST be consistent (prevents random popup)
+        return hits >= 2;
+    }
+
+    // ─────────────────────────────────────────────
+    function showWall() {
+        if (wallShown || document.getElementById('adblock-wall')) return;
+
+        wallShown = true;
+        document.body.classList.add('wall-active');
+
+        const wall = document.createElement('div');
+        wall.id = 'adblock-wall';
+
+        wall.innerHTML = `
+            <div class="wall-card" dir="${isEnglish ? 'ltr' : 'rtl'}">
+                <div class="wall-icon-wrap">🛡️</div>
+                <div class="wall-tag">${txt.tag}</div>
+                <h2 class="wall-title">${txt.title}</h2>
+                <p class="wall-desc">${txt.desc}</p>
+
+                <div class="wall-steps">
+                    <div class="wall-steps-label">${txt.label}</div>
+                    ${txt.steps.map((s, i) => `
                         <div class="wall-step">
                             <div class="step-num">${i + 1}</div>
                             <div class="step-text">${s}</div>
-                        </div>`).join('')}
-                    </div>
-                    <button class="wall-btn-primary" onclick="location.reload()">${txt.btn}</button>
-                    <div id="wall-notice" class="wall-notice">${txt.notice}</div>
-                    <div class="wall-footer">${txt.footer}</div>
+                        </div>
+                    `).join('')}
                 </div>
-            `;
-            document.body.appendChild(wall);
 
-            clearInterval(checkInterval);
-            checkInterval = setInterval(async () => {
-                const blocked = await checkAdBlocker();
-                if (!blocked) {
-                    const notice = document.getElementById('wall-notice');
-                    if (notice) notice.style.display = 'block';
-                    clearInterval(checkInterval);
-                    setTimeout(() => location.reload(), 1400);
-                }
-            }, 3000);
-        }
+                <button class="wall-btn-primary" onclick="location.reload()">
+                    ${txt.btn}
+                </button>
 
-        async function init() {
-            let blocked = false;
-            for (let i = 0; i < 3; i++) {
-                blocked = await checkAdBlocker();
-                if (!blocked) break;
-                if (i < 2) await new Promise(r => setTimeout(r, 800));
+                <div id="wall-notice" class="wall-notice" style="display:none">
+                    ${txt.notice}
+                </div>
+
+                <div class="wall-footer">${txt.footer}</div>
+            </div>
+        `;
+
+        document.body.appendChild(wall);
+
+        // periodic recheck
+        clearInterval(checkInterval);
+        checkInterval = setInterval(async () => {
+            const blocked = await checkAdBlocker();
+
+            if (!blocked) {
+                const notice = document.getElementById('wall-notice');
+                if (notice) notice.style.display = 'block';
+
+                clearInterval(checkInterval);
+
+                setTimeout(() => location.reload(), 1200);
             }
-            if (blocked) showWall();
+        }, 3000);
+    }
+
+    // ─────────────────────────────────────────────
+    async function init() {
+        let blocked = false;
+
+        for (let i = 0; i < 3; i++) {
+            blocked = await checkAdBlocker();
+            if (!blocked) break;
+            await new Promise(r => setTimeout(r, 600));
         }
 
-        window.addEventListener('DOMContentLoaded', init);
-    })();
+        if (blocked) showWall();
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+
+})();
 </script>
 
 <script async src="https://pl29543683.effectivecpmnetwork.com/6c/ab/73/6cab73af5eaa34dde04da1d3b6fca514.js"></script>
