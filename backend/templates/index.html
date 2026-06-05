@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+{% block extra_css %}
+<style>
+.hero {
+    background: linear-gradient(135deg, #0b1724 0%, #0f1f38 60%, #0d1a2e 100%);
+    padding: 40px 24px 32px;
+    text-align: left;
+    overflow: hidden;
+    position: relative;
+    min-height: 400px;
+}
+
+</style>
+{% endblock %}
+{% block title %}Tawtheef Egypt | توظيف مصر — Latest Jobs{% endblock %}
+{% block hero %}
+<div class="hero">
+    <picture>
+    <source media="(max-width: 640px)" srcset="{{ url_for('static', filename='cairo-skyline-mobile.png') }}">
+    <img src="{{ url_for('static', filename='cairo-skyline.png') }}" class="hero-skyline" alt="" fetchpriority="high" loading="eager">
+</picture>
+    <div class="hero-inner">
+        <div class="hero-badge">{% if is_ar %}موقع التوظيف الأول في مصر{% else %}Egypt's #1 Job Board{% endif %} · لوحة وظائف مصر</div>
+        <h1>{% if is_ar %}اعثر على وظيفتك<br>القادمة في <em>مصر</em>{% else %}Find Your Next<br>Job in <em>Egypt</em>{% endif %}</h1>
+        <p class="hero-ar">ابحث عن فرصتك القادمة في مصر</p>
+        <p class="hero-sub">{% if is_ar %}آلاف الفرص. اعثر على الوظيفة المناسبة لمسيرتك المهنية.{% else %}Thousands of opportunities. Find the right fit for your career.{% endif %}</p>
+        <div class="hero-feature-badges">
+            <div class="hero-feature-badge"><span>●</span> {% if is_ar %}٢٠٠٠+ وظيفة نشطة{% else %}2,000+ Active Jobs{% endif %}</div>
+            <div class="hero-feature-badge"><span>●</span> {% if is_ar %}٥٠٠+ شركة{% else %}500+ Companies{% endif %}</div>
+            <div class="hero-feature-badge"><span>●</span> {% if is_ar %}بحث بالذكاء الاصطناعي{% else %}AI Powered Search{% endif %}</div>
+        </div>
+        <form action="/search" method="get">
+            <input type="hidden" name="lang" value="{{ lang }}">
+            <div class="hero-search-wrap">
+                <div class="hero-search-field">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                    <input type="text" name="q" placeholder="{% if is_ar %}المسمى الوظيفي، المهارة، أو الشركة...{% else %}Job title, skill, or company...{% endif %}">
+                </div>
+                <div class="hero-search-divider"></div>
+                <div class="hero-search-field">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                    <select name="location">
+                          <option value="">{% if is_ar %}كل مصر{% else %}All Egypt{% endif %}</option>
+                          {% for loc in locations %}
+                        <option value="{{ loc.location }}">{{ loc.location }}</option>
+                       {% endfor %}
+                 </select>
+                </div>
+                <div class="hero-search-divider"></div>
+                <div class="hero-search-field">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+                    <select name="category">
+                        <option value="">{% if is_ar %}كل التصنيفات{% else %}All Categories{% endif %}</option>
+                        <option value="IT / Software / Development">IT / Software</option>
+                        <option value="Accounting / Finance">Accounting / Finance</option>
+                        <option value="Marketing / PR / Advertising">Marketing</option>
+                        <option value="Medical / Healthcare">Medical</option>
+                        <option value="Engineering">Engineering</option>
+                        <option value="Sales / Retail">Sales</option>
+                    </select>
+                </div>
+                <button type="submit" class="hero-search-btn">{% if is_ar %}ابحث عن وظائف ←{% else %}Search Jobs →{% endif %}</button>
+            </div>
+        </form>
+        <div class="hero-chips">
+            <span class="hero-chips-label">{% if is_ar %}الأكثر بحثاً:{% else %}Popular:{% endif %}</span>
+            <a href="/search?q=Software+Engineer" class="hero-chip">Software Engineer</a>
+            <a href="/search?q=Marketing" class="hero-chip">Marketing</a>
+            <a href="/search?q=Data+Analyst" class="hero-chip">Data Analyst</a>
+            <a href="/search?q=Design" class="hero-chip">Design</a>
+            <a href="/search?q=Financial+Analyst" class="hero-chip">Financial Analyst</a>
+            <a href="/search?q=Civil+Engineer" class="hero-chip">Civil Engineer</a>
+        </div>
+        <div class="hero-stats-bar">
+            <div class="hstat">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+                <strong>{{ overall_total }}</strong>
+                <span>{% if is_ar %}وظيفة متاحة{% else %}Jobs Listed{% endif %}</span>
+            </div>
+            <div class="hstat">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                <strong>26</strong>
+                <span>{% if is_ar %}تصنيف{% else %}Categories{% endif %}</span>
+            </div>
+            <div class="hstat">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a15 15 0 010 20"/><path d="M2 12h20"/></svg>
+                <strong>{% if is_ar %}مصر{% else %}Egypt Wide{% endif %}</strong>
+                <span>{% if is_ar %}فرص عمل{% else %}Opportunities{% endif %}</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="grid-full">
+    <div class="stats-subtitle">{{ total }}+ jobs · 500+ companies · {% if is_ar %}تحديث يومي{% else %}updated daily{% endif %}</div>
+
+<div class="section-header">
+    <h2>{{ t.featured_positions }}</h2>
+    <div class="cat-scroll-wrap">
+        <button class="cat-scroll-btn left" onclick="scrollPills(-200)">‹</button>
+        <div class="cat-pills-wrap" id="catPillsWrap">
+            <a href="/" class="cat-pill {% if not selected_category %}active{% endif %}">{% if is_ar %}الكل{% else %}All{% endif %}</a>
+    <a href="/?category=IT / Software / Development" class="cat-pill {% if selected_category == 'IT / Software / Development' %}active{% endif %}">IT / Software</a>
+    <a href="/?category=Engineering / Construction / Civil / Architecture" class="cat-pill {% if selected_category == 'Engineering / Construction / Civil / Architecture' %}active{% endif %}">Engineering</a>
+    <a href="/?category=Marketing / PR / Advertising" class="cat-pill {% if selected_category == 'Marketing / PR / Advertising' %}active{% endif %}">Marketing</a>
+    <a href="/?category=Medical / Healthcare" class="cat-pill {% if selected_category == 'Medical / Healthcare' %}active{% endif %}">Healthcare</a>
+    <a href="/?category=Sales / Retail" class="cat-pill {% if selected_category == 'Sales / Retail' %}active{% endif %}">Sales</a>
+    <a href="/?category=Accounting / Finance" class="cat-pill {% if selected_category == 'Accounting / Finance' %}active{% endif %}">Finance</a>
+    <a href="/?category=Administration" class="cat-pill {% if selected_category == 'Administration' %}active{% endif %}">Admin</a>
+    <a href="/?category=Hospitality / Hotels / Food / Services" class="cat-pill {% if selected_category == 'Hospitality / Hotels / Food / Services' %}active{% endif %}">Hospitality</a>
+    <a href="/?category=Customer / Service" class="cat-pill {% if selected_category == 'Customer / Service' %}active{% endif %}">Customer Svc</a>
+    <a href="/?category=Human / Resources" class="cat-pill {% if selected_category == 'Human / Resources' %}active{% endif %}">HR</a>
+    <a href="/?category=Banking" class="cat-pill {% if selected_category == 'Banking' %}active{% endif %}">Banking</a>
+    <a href="/?category=Business / Development" class="cat-pill {% if selected_category == 'Business / Development' %}active{% endif %}">Business Dev</a>
+    <a href="/?category=Creative / Design / Art" class="cat-pill {% if selected_category == 'Creative / Design / Art' %}active{% endif %}">Design</a>
+    <a href="/?category=Legal" class="cat-pill {% if selected_category == 'Legal' %}active{% endif %}">Legal</a>
+    <a href="/?category=Logistics / Supply / Chain" class="cat-pill {% if selected_category == 'Logistics / Supply / Chain' %}active{% endif %}">Logistics</a>
+    <a href="/?category=Manufacturing / Production" class="cat-pill {% if selected_category == 'Manufacturing / Production' %}active{% endif %}">Manufacturing</a>
+    <a href="/?category=Pharmaceutical" class="cat-pill {% if selected_category == 'Pharmaceutical' %}active{% endif %}">Pharma</a>
+    <a href="/?category=Project / Program / Management" class="cat-pill {% if selected_category == 'Project / Program / Management' %}active{% endif %}">Project Mgmt</a>
+    <a href="/?category=Quality" class="cat-pill {% if selected_category == 'Quality' %}active{% endif %}">Quality</a>
+    <a href="/?category=Analyst / Research" class="cat-pill {% if selected_category == 'Analyst / Research' %}active{% endif %}">Research</a>
+    <a href="/?category=Media / Journalism / Publishing" class="cat-pill {% if selected_category == 'Media / Journalism / Publishing' %}active{% endif %}">Media</a>
+    <a href="/?category=Writing / Editorial" class="cat-pill {% if selected_category == 'Writing / Editorial' %}active{% endif %}">Writing</a>
+    <a href="/?category=Installation / Maintenance / Repair" class="cat-pill {% if selected_category == 'Installation / Maintenance / Repair' %}active{% endif %}">Maintenance</a>
+    <a href="/?category=Fashion" class="cat-pill {% if selected_category == 'Fashion' %}active{% endif %}">Fashion</a>
+    <a href="/?category=R%26D / Science" class="cat-pill {% if selected_category == 'R&D / Science' %}active{% endif %}">R&D</a>
+    <a href="/?category=Sports / and / Leisure" class="cat-pill {% if selected_category == 'Sports / and / Leisure' %}active{% endif %}">Sports</a>
+        </div>
+        <button class="cat-scroll-btn right" onclick="scrollPills(200)">›</button>
+    </div>
+</div>
+{% if selected_category %}
+<p style="color:#94A3B8;font-size:13px;margin-bottom:20px;">{{ total }} {% if is_ar %}وظيفة في{% else %}jobs found in{% endif %} <strong style="color:#F8FAFC;">{{ selected_category }}</strong></p>
+{% else %}
+<p style="color:#94A3B8;font-size:13px;margin-bottom:20px;">{% if is_ar %}أكثر الوظائف طلباً مع متطلبات شاملة{% else %}Most in-demand roles with comprehensive requirements{% endif %}</p>
+{% endif %}
+
+    {% if hot_jobs %}
+    <div class="jobs-grid">
+        {% for job in hot_jobs %}
+        <div class="job-card">
+            <div class="jc-top">
+                <div class="jc-logo">
+                    {% if job.logo_url %}<img src="{{ job.logo_url }}" alt="{{ job.company }}" style="width:100%;height:100%;object-fit:contain;">
+                    {% else %}{{ job.company[0]|upper if job.company else '?' }}{% endif %}
+                </div>
+                <div class="jc-info">
+                    <div class="jc-title"><a href="/job/{{ job.id }}">{{ job.title_ar if is_ar and job.title_ar else job.title }}</a></div>
+                    <div class="jc-company">{{ job.company }}</div>
+                </div>
+                <a href="/apply/{{ job.id }}" class="apply-pill" target="_blank">{% if is_ar %}قدم الأن ↗{% else %}Apply Now ↗{% endif %}</a>
+            </div>
+            <div class="jc-meta">
+                <span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>{{ job.location_ar if is_ar and job.location_ar else job.location }}</span>
+                {% if job.experience and job.experience != '' and job.experience != 'N/A' %}<span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>{{ job.experience }}</span>{% endif %}
+            </div>
+            <div class="jc-tags">
+                <span class="tag t-cat">{{ job.category }}</span>
+                {% if job.salary and job.salary|trim != '' and 'kpi' not in job.salary.lower() %}<span class="tag t-sal">{{ job.salary }}</span>{% endif %}
+                <span class="tag t-date">{{ job.posted_date }}</span>
+            </div>
+        </div>
+        {% if loop.index == 5 %}<div class="ad"><script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script></div>{% endif %}
+        {% endfor %}
+
+        <!-- Promo Card -->
+        <div class="promo-card">
+            <div>
+                <h3>{% if is_ar %}احصل على بونص ٦٠٠٪{% else %}GET A 180% BONUS{% endif %}</h3>
+                <p>{% if is_ar %}احصل على أفضل مجتمعات الوظائف المرغوبة{% else %}Get your best communities of desired jobs{% endif %}</p>
+            </div>
+            <div class="promo-icon">🚀</div>
+        </div>
+    </div>
+    {% else %}<div class="empty"><p>No featured positions right now.</p></div>{% endif %}
+
+    <div class="section-header" style="margin-top:32px;">
+        <h2>{{ t.top_compensation }}</h2>
+    </div>
+    <p style="color:#94A3B8;font-size:13px;margin-bottom:20px;">{% if is_ar %}وظائف مع نطاق رواتب معلن{% else %}Positions with disclosed salary ranges{% endif %}</p>
+    {% if top_paying %}
+    <div class="jobs-grid">
+        {% for job in top_paying %}
+        <div class="job-card">
+            <div class="jc-top">
+                <div class="jc-logo">
+                    {% if job.logo_url %}<img src="{{ job.logo_url }}" alt="{{ job.company }}" style="width:100%;height:100%;object-fit:contain;">
+                    {% else %}{{ job.company[0]|upper if job.company else '?' }}{% endif %}
+                </div>
+                <div class="jc-info"><div class="jc-title"><a href="/job/{{ job.id }}">{{ job.title_ar if is_ar and job.title_ar else job.title }}</a></div><div class="jc-company">{{ job.company }}</div></div>
+                <a href="/apply/{{ job.id }}" class="apply-pill" target="_blank">{% if is_ar %}قدم الأن ↗{% else %}Apply Now ↗{% endif %}</a>
+            </div>
+            <div class="jc-meta">
+                <span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>{{ job.location_ar if is_ar and job.location_ar else job.location }}</span>
+                {% if job.salary and job.salary|trim != '' and 'kpi' not in job.salary.lower() %}<span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>{{ job.salary }}</span>{% endif %}
+            </div>
+            <div class="jc-tags">
+                <span class="tag t-cat">{{ job.category }}</span>
+                {% if job.salary and job.salary|trim != '' and 'kpi' not in job.salary.lower() %}<span class="tag t-sal">{{ job.salary }}</span>{% endif %}
+                <span class="tag t-date">{{ job.posted_date }}</span>
+            </div>
+        </div>
+        {% if loop.index == 5 %}<div class="ad"><script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script></div>{% endif %}
+        {% endfor %}
+    </div>
+    {% else %}<div class="empty"><p>No salary data available yet.</p></div>{% endif %}
+
+    <div class="ad" style="margin-top:8px;"><script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script></div>
+
+    <div class="section-header" style="margin-top:32px;">
+        <h2>{{ t.latest_jobs }}</h2>
+    </div>
+    <p style="color:#94A3B8;font-size:13px;margin-bottom:20px;">{{ total }}+ {% if is_ar %}وظيفة من أفضل الشركات في مصر — تحديث يومي{% else %}jobs from top companies across Egypt — updated daily{% endif %}</p>
+    <div class="jobs-grid">
+    {% for job in jobs %}
+    <div class="job-card">
+        <div class="jc-top">
+            <div class="jc-logo">
+                {% if job.logo_url %}<img src="{{ job.logo_url }}" alt="{{ job.company }}" style="width:100%;height:100%;object-fit:contain;">
+                {% else %}{{ job.company[0]|upper if job.company else '?' }}{% endif %}
+            </div>
+            <div class="jc-info"><div class="jc-title"><a href="/job/{{ job.id }}">{{ job.title_ar if is_ar and job.title_ar else job.title }}</a></div><div class="jc-company">{{ job.company }}</div></div>
+            <a href="/apply/{{ job.id }}" class="apply-pill" target="_blank">{% if is_ar %}قدم الأن ↗{% else %}Apply Now ↗{% endif %}</a>
+        </div>
+        <div class="jc-meta">
+            <span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>{{ job.location_ar if is_ar and job.location_ar else job.location }}</span>
+            {% if job.experience and job.experience != '' and job.experience != 'N/A' %}<span class="jc-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>{{ job.experience }}</span>{% endif %}
+        </div>
+        <div class="jc-tags">
+            <span class="tag t-cat">{{ job.category }}</span>
+            {% if job.salary and job.salary|trim != '' and 'kpi' not in job.salary.lower() %}<span class="tag t-sal">{{ job.salary }}</span>{% endif %}
+            {% if job.posted_date %}<span class="tag t-date">{{ job.posted_date }}</span>{% endif %}
+        </div>
+    </div>
+    {% if loop.index == 5 or loop.index == 10 or loop.index == 15 %}<div class="ad"><script>atOptions={'key':'cc432909594119547953a02597dab708','format':'iframe','height':90,'width':728,'params':{}};</script><script src="https://www.highperformanceformat.com/cc432909594119547953a02597dab708/invoke.js"></script></div>{% endif %}
+    {% endfor %}
+    </div>
+</div>
+<script>
+function scrollPills(amount) {
+    document.getElementById('catPillsWrap').scrollBy({ left: amount, behavior: 'smooth' });
+}
+</script>
+{% endblock %}

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://tawtheef-egypt-production.up.railway.app/sitemap.xml

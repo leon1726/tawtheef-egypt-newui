@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --primary: #000a1e;
+    --primary-container: #002147;
+    --on-primary: #ffffff;
+    --on-primary-container: #708ab5;
+    --primary-fixed: #d6e3ff;
+    --primary-fixed-dim: #aec7f6;
+    --inverse-primary: #aec7f6;
+    --secondary: #5d5f5f;
+    --secondary-container: #dfe0e0;
+    --on-secondary: #ffffff;
+    --on-secondary-container: #616363;
+    --tertiary: #110a00;
+    --tertiary-container: #2e1f00;
+    --on-tertiary: #ffffff;
+    --on-tertiary-container: #a68440;
+    --tertiary-fixed: #ffdea5;
+    --tertiary-fixed-dim: #e9c176;
+    --on-tertiary-fixed: #261900;
+    --on-tertiary-fixed-variant: #5d4201;
+    --background: #f7f9fc;
+    --on-background: #191c1e;
+    --surface: #f7f9fc;
+    --surface-dim: #d8dadd;
+    --surface-bright: #f7f9fc;
+    --surface-container-lowest: #ffffff;
+    --surface-container-low: #f2f4f7;
+    --surface-container: #eceef1;
+    --surface-container-high: #e6e8eb;
+    --surface-container-highest: #e0e3e6;
+    --on-surface: #191c1e;
+    --on-surface-variant: #44474e;
+    --outline: #74777f;
+    --outline-variant: #c4c6cf;
+    --error: #ba1a1a;
+    --on-error: #ffffff;
+    --surface-tint: #465f88;
+    --gold-accent: #a68440;
+    --gold-accent-light: rgba(166, 132, 64, 0.12);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--on-surface);
+    font-family: var(--font-inter, 'Inter', system-ui, sans-serif);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer utilities {
+  .job-card {
+    background: var(--surface-container-lowest);
+    border: 1px solid var(--outline-variant);
+    border-radius: 16px;
+    padding: 24px;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+  .job-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 33, 71, 0.08);
+    border-color: var(--primary-container);
+    transform: translateY(-1px);
+  }
+  .btn-primary {
+    background: var(--primary-container);
+    color: var(--on-primary);
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.15s ease;
+  }
+  .btn-primary:hover {
+    background: var(--primary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 33, 71, 0.2);
+  }
+  .btn-primary:active {
+    transform: scale(0.98);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--primary-container);
+    border: 2px solid var(--primary-container);
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.15s ease;
+  }
+  .btn-secondary:hover {
+    background: var(--primary-container);
+    color: white;
+  }
+  .glass-nav {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.88);
+    border-bottom: 1px solid var(--outline-variant);
+  }
+  .badge-type {
+    background: var(--gold-accent-light);
+    color: var(--on-tertiary-fixed-variant);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 10px;
+  }
+  .badge-location {
+    background: var(--surface-container-low);
+    color: var(--on-surface-variant);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 2px 10px;
+  }
+  .filter-section {
+    border-bottom: 1px solid var(--outline-variant);
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+  }
+  .filter-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+}
+
+/* Custom range slider */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--surface-container-high);
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary-container);
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+  accent-color: var(--primary-container);
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--primary-container);
+  outline-offset: 2px;
+}
