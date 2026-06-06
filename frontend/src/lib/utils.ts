@@ -1,17 +1,15 @@
 import type { FilterState, SortOption } from "@/types";
 
-type SearchParamValue = string | string[] | undefined;
+type SPValue = string | string[] | undefined;
 
-function getString(v: SearchParamValue): string {
+function getString(v: SPValue): string {
   if (typeof v === "string") return v;
   if (Array.isArray(v))      return v[0] ?? "";
   return "";
 }
 
-/** Parse Next.js searchParams object → FilterState */
-export function parseSearchParams(
-  sp: Record<string, SearchParamValue>
-): Partial<FilterState> {
+/** Parse Next.js searchParams → FilterState */
+export function parseSearchParams(sp: Record<string, SPValue>): Partial<FilterState> {
   return {
     q:          getString(sp.q),
     category:   getString(sp.category),
@@ -22,7 +20,7 @@ export function parseSearchParams(
   };
 }
 
-/** Serialise FilterState → URLSearchParams for <Link> hrefs */
+/** Serialise FilterState → URLSearchParams */
 export function toSearchParams(f: Partial<FilterState>): URLSearchParams {
   const p = new URLSearchParams();
   if (f.q)          p.set("q",          f.q);
@@ -34,48 +32,30 @@ export function toSearchParams(f: Partial<FilterState>): URLSearchParams {
   return p;
 }
 
-/** Category slug → display label (shorten long Wuzzuf category names) */
+/** Wuzzuf long category slug → short display label */
 export const CATEGORY_LABELS: Record<string, string> = {
-  "IT / Software / Development":                               "IT / Software",
+  "IT / Software / Development":                               "IT & Software",
   "Engineering / Construction / Civil / Architecture":         "Engineering",
   "Marketing / PR / Advertising":                              "Marketing",
   "Medical / Healthcare":                                      "Healthcare",
   "Sales / Retail":                                            "Sales",
   "Accounting / Finance":                                      "Finance",
-  "Human / Resources":                                         "HR",
+  "Human / Resources":                                         "Human Resources",
   "Business / Development":                                    "Business Dev",
   "Creative / Design / Art":                                   "Design",
   "Hospitality / Hotels / Food / Services":                    "Hospitality",
-  "Customer / Service":                                        "Customer Svc",
+  "Customer / Service":                                        "Customer Service",
   "Logistics / Supply / Chain":                                "Logistics",
   "Manufacturing / Production":                                "Manufacturing",
   "Project / Program / Management":                            "Project Mgmt",
-  "R&D / Science":                                             "R&D / Science",
+  "R&D / Science":                                             "R&D & Science",
+  "Administration":                                            "Administration",
+  "Banking":                                                   "Banking",
+  "Legal":                                                     "Legal",
+  "Pharmaceutical":                                            "Pharmaceutical",
+  "Quality":                                                   "Quality",
 };
 
 export function categoryLabel(cat: string): string {
   return CATEGORY_LABELS[cat] ?? cat;
-}
-
-/** Category → emoji for visual flair */
-const CATEGORY_ICONS: Record<string, string> = {
-  "IT / Software / Development":                       "💻",
-  "Engineering / Construction / Civil / Architecture": "⚙️",
-  "Marketing / PR / Advertising":                      "📢",
-  "Medical / Healthcare":                              "🏥",
-  "Sales / Retail":                                    "🏆",
-  "Accounting / Finance":                              "📊",
-  "Human / Resources":                                 "👥",
-  "Creative / Design / Art":                           "🎨",
-  "Hospitality / Hotels / Food / Services":            "🍽️",
-  "Banking":                                           "🏦",
-  "Legal":                                             "⚖️",
-  "Pharmaceutical":                                    "💊",
-  "Administration":                                    "🗂️",
-  "Logistics / Supply / Chain":                        "🚚",
-  "R&D / Science":                                     "🔬",
-};
-
-export function categoryIcon(cat: string): string {
-  return CATEGORY_ICONS[cat] ?? "💼";
 }
