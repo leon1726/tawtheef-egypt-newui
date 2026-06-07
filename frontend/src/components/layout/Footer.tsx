@@ -1,10 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const footerLinks = {
   Platform: [
     { label: "Browse Jobs", href: "/jobs" },
+    { label: "Career Advice", href: "/career-advice" },
     { label: "Post a Job", href: "/post-job" },
-    { label: "Companies", href: "/companies" },
     { label: "Saved Jobs", href: "/saved" },
   ],
   Company: [
@@ -23,8 +24,8 @@ export default function Footer() {
     <footer
       className="border-t py-16 px-4 md:px-10"
       style={{
-        background: "var(--surface-container-high)",
-        borderColor: "var(--outline-variant)",
+        background: "var(--primary)",
+        borderColor: "rgba(255,255,255,0.08)",
       }}
       aria-label="Site footer"
     >
@@ -32,20 +33,24 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-start gap-12">
           {/* Brand */}
           <div className="space-y-4 max-w-sm">
-            <Link href="/" className="flex items-center gap-2" aria-label="Tawtheef Egypt home">
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold"
-                style={{ background: "var(--primary-container)" }}
-                aria-hidden="true"
-              >
-                T
-              </div>
-              <span className="font-bold text-lg" style={{ color: "var(--primary)" }}>
-                Tawtheef Egypt
+            <Link href="/" className="flex items-center gap-2.5" aria-label="Tawtheef Egypt home">
+              <Image
+                src="/logo.png"
+                alt="Tawtheef Egypt"
+                width={36}
+                height={36}
+                className="rounded-lg"
+              />
+              <span className="font-bold text-lg text-white">
+                Tawtheef <span style={{ color: "var(--tertiary-fixed-dim)" }}>Egypt</span>
               </span>
             </Link>
-            <p className="text-sm leading-relaxed" style={{ color: "var(--on-surface-variant)" }}>
-              Egypt&apos;s leading job board. Find your next opportunity or hire qualified professionals across Cairo, Giza, Alexandria and all of Egypt.
+            <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>
+              Egypt&apos;s leading job board. Find your next opportunity or hire qualified
+              professionals across Cairo, Giza, Alexandria and all of Egypt.
+            </p>
+            <p className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.35)" }}>
+              توظيف مصر — وظائف مصر
             </p>
           </div>
 
@@ -56,7 +61,7 @@ export default function Footer() {
                 <div key={section} className="space-y-4">
                   <h2
                     className="text-xs font-bold uppercase tracking-widest"
-                    style={{ color: "var(--primary)" }}
+                    style={{ color: "rgba(255,255,255,0.40)" }}
                   >
                     {section}
                   </h2>
@@ -65,8 +70,8 @@ export default function Footer() {
                       <li key={link.href}>
                         <Link
                           href={link.href}
-                          className="text-sm transition-colors hover:underline"
-                          style={{ color: "var(--on-surface-variant)" }}
+                          className="text-sm transition-colors hover:text-white"
+                          style={{ color: "rgba(255,255,255,0.62)" }}
                         >
                           {link.label}
                         </Link>
@@ -81,12 +86,12 @@ export default function Footer() {
 
         <div
           className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4"
-          style={{ borderColor: "var(--outline-variant)" }}
+          style={{ borderColor: "rgba(255,255,255,0.10)" }}
         >
-          <p className="text-xs" style={{ color: "var(--on-surface-variant)" }}>
+          <p className="text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>
             © {new Date().getFullYear()} Tawtheef Egypt. All rights reserved.
           </p>
-          <p className="text-xs" style={{ color: "var(--outline)" }}>
+          <p className="text-xs" style={{ color: "rgba(255,255,255,0.25)" }}>
             Jobs sourced from Wuzzuf.net
           </p>
         </div>

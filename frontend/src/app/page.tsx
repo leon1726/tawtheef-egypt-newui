@@ -53,48 +53,61 @@ export default async function HomePage() {
 
         {/* ── Hero ──────────────────────────────────────────────────────── */}
         <section
-          className="relative min-h-[540px] flex items-center overflow-hidden"
+          className="relative min-h-[580px] flex items-center overflow-hidden"
           aria-labelledby="hero-heading"
         >
-          {/* Background photo */}
+          {/* Background photo — uploaded hero image */}
           <Image
-            src="/cairo-skyline.png"
+            src="/hero-bg.jpg"
             alt=""
             fill
-            className="object-cover object-center"
+            className="object-cover object-top"
             priority
             sizes="100vw"
             aria-hidden="true"
           />
-          {/* Dark overlay — ensures text contrast regardless of image brightness */}
+          {/* Dark gradient overlay */}
           <div
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(100deg, rgba(0,15,40,0.88) 0%, rgba(0,15,40,0.70) 55%, rgba(0,15,40,0.40) 100%)",
+                "linear-gradient(105deg, rgba(0,10,30,0.92) 0%, rgba(0,15,45,0.78) 50%, rgba(0,10,30,0.55) 100%)",
             }}
             aria-hidden="true"
           />
 
           <div className="relative z-10 w-full max-w-[1280px] mx-auto px-4 md:px-10 py-20 md:py-28">
-            <div className="max-w-[600px] flex flex-col gap-7">
-              <div className="space-y-4">
-                <p
+            <div className="max-w-[620px] flex flex-col gap-7">
+              {/* Logo badge */}
+              <div className="flex items-center gap-3">
+                <Image
+                  src="/logo.png"
+                  alt="Tawtheef Egypt"
+                  width={44}
+                  height={44}
+                  className="rounded-xl"
+                />
+                <span
                   className="text-xs font-semibold uppercase tracking-[0.15em]"
-                  style={{ color: "rgba(255,255,255,0.55)" }}
+                  style={{ color: "rgba(255,255,255,0.60)" }}
                 >
                   Egypt&apos;s Professional Job Board
-                </p>
+                </span>
+              </div>
+
+              <div className="space-y-4">
                 <h1
                   id="hero-heading"
-                  className="text-4xl md:text-5xl lg:text-[3.25rem] font-bold leading-[1.12] tracking-tight text-white"
+                  className="text-4xl md:text-5xl lg:text-[3.4rem] font-bold leading-[1.1] tracking-tight text-white"
                 >
                   Find Your Next<br />
-                  Job in Egypt
+                  <span style={{ color: "var(--tertiary-fixed-dim)" }}>
+                    Job in Egypt
+                  </span>
                 </h1>
                 <p
-                  className="text-base md:text-[1.0625rem] leading-relaxed"
-                  style={{ color: "rgba(255,255,255,0.72)", maxWidth: "460px" }}
+                  className="text-base md:text-[1.075rem] leading-relaxed"
+                  style={{ color: "rgba(255,255,255,0.72)", maxWidth: "480px" }}
                 >
                   Thousands of opportunities across all industries, updated daily
                   from Egypt&apos;s top employers.
@@ -146,7 +159,7 @@ export default async function HomePage() {
               <div key={s.label} className="flex flex-col items-center text-center gap-1">
                 <span
                   className="text-2xl md:text-3xl font-bold tabular-nums tracking-tight"
-                  style={{ color: "var(--primary)" }}
+                  style={{ color: "var(--primary-container)" }}
                 >
                   {s.value}
                 </span>
@@ -200,7 +213,6 @@ export default async function HomePage() {
                   }}
                   aria-label={`Browse ${CATEGORY_LABELS[cat] ?? cat} jobs`}
                 >
-                  {/* Letter avatar — no emoji */}
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold flex-shrink-0 select-none"
                     style={{ background: bg, color: fg }}
@@ -237,7 +249,7 @@ export default async function HomePage() {
                   Latest Opportunities
                 </h2>
                 <p className="text-sm" style={{ color: "var(--on-surface-variant)" }}>
-                  Recent roles updated daily from Wuzzuf.
+                  Recent roles updated daily from top Egyptian employers.
                 </p>
               </div>
               <Link
@@ -263,6 +275,73 @@ export default async function HomePage() {
                 Browse all {stats.total_jobs.toLocaleString()}+ listings
                 <ArrowRight size={15} />
               </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Career Advice CTA ──────────────────────────────────────────── */}
+        <section
+          className="py-16 px-4"
+          style={{ background: "var(--surface-container-lowest)" }}
+          aria-label="Career advice"
+        >
+          <div className="max-w-[1280px] mx-auto">
+            <div className="rounded-2xl overflow-hidden border grid md:grid-cols-2"
+              style={{ borderColor: "var(--outline-variant)" }}>
+              <div className="p-10 flex flex-col justify-center gap-5"
+                style={{ background: "var(--surface-container-lowest)" }}>
+                <div>
+                  <span className="text-xs font-semibold uppercase tracking-wider"
+                    style={{ color: "var(--gold-accent)" }}>
+                    Career Resource Center
+                  </span>
+                  <h2 className="text-2xl font-bold mt-2 leading-tight"
+                    style={{ color: "var(--primary)" }}>
+                    Expert Advice for Egyptian Professionals
+                  </h2>
+                  <p className="text-sm mt-3 leading-relaxed"
+                    style={{ color: "var(--on-surface-variant)" }}>
+                    Resume guides, interview tips, salary benchmarks, and career strategies
+                    tailored for Egypt&apos;s job market.
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {["Resume Writing", "Interview Prep", "Salary Insights", "Career Change"].map(tag => (
+                    <span key={tag}
+                      className="text-xs px-3 py-1.5 rounded-full font-medium"
+                      style={{ background: "var(--gold-accent-light)", color: "var(--gold-accent)" }}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <Link href="/career-advice"
+                  className="btn-primary px-6 py-3 text-sm font-semibold self-start inline-flex items-center gap-2">
+                  Explore Career Guides <ArrowRight size={15} />
+                </Link>
+              </div>
+              <div className="grid grid-cols-2 gap-3 p-6"
+                style={{ background: "var(--surface-container-low)" }}>
+                {[
+                  { icon: "📄", label: "ATS-optimized resume tips", category: "Resume" },
+                  { icon: "🎯", label: "20 most common interview questions", category: "Interview" },
+                  { icon: "💰", label: "Egypt salary benchmarks 2025", category: "Salary" },
+                  { icon: "🌐", label: "Land remote jobs internationally", category: "Remote" },
+                ].map((item) => (
+                  <Link key={item.label} href="/career-advice"
+                    className="rounded-xl p-4 flex flex-col gap-2 border transition-all hover:shadow-sm hover:-translate-y-0.5"
+                    style={{ background: "var(--surface-container-lowest)", borderColor: "var(--outline-variant)" }}>
+                    <span className="text-2xl">{item.icon}</span>
+                    <span className="text-xs font-semibold uppercase tracking-wide"
+                      style={{ color: "var(--gold-accent)" }}>
+                      {item.category}
+                    </span>
+                    <p className="text-xs leading-snug font-medium"
+                      style={{ color: "var(--on-surface)" }}>
+                      {item.label}
+                    </p>
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </section>
